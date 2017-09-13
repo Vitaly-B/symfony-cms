@@ -1,0 +1,36 @@
+AppBundle\Entity\PageTranslation:
+      type: entity
+      repositoryClass: AppBundle\Repository\PageTranslationRepository
+      table: page_translation
+      indexes:
+          title:
+              columns: [ title ]
+      id:
+          id:
+              type: integer
+              id: true
+              generator:
+                  strategy: AUTO
+      fields:
+          title:
+              type: string
+              length: 255
+          seoTitle:
+              type: string
+              length: 255
+              nullable: true
+          seoKeywords:
+              type: string
+              length: 255
+              nullable: true
+          seoDescription:
+              type: string
+              length: 512
+              nullable: true
+          description:
+              type: string
+              length: 1024
+              nullable: true
+          content:
+              type: text
+              nullable: true

@@ -1,0 +1,16 @@
+{% extends 'SonataAdminBundle:Core:user_block.html.twig' %}
+{% block user_block %}
+    <li class="user-header bg-light-blue">
+        {% if  app.user.image is not null %}
+            <img src="{{ media(app.user.image) | imagine_filter('thumbnail_quality_100_128x128_outbound') }}" alt="{{ app.user.username }}" class="img-circle"/>
+        {% endif %}
+        <p>{{ app.user.username }}</p>
+    </li>
+
+    <li class="user-footer">
+        <div class="pull-right">
+            <a href="{{ path('fos_user_security_logout') }}" class="btn btn-default btn-flat"><i
+                        class="fa fa-sign-out fa-fw"></i> {{ 'button.admin_logout' | trans({}, 'AppAdmin') }}</a>
+        </div>
+    </li>
+{% endblock %}

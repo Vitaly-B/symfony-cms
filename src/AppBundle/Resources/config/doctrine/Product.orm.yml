@@ -1,0 +1,60 @@
+AppBundle\Entity\Product:
+      type: entity
+      repositoryClass: AppBundle\Repository\ProductRepository
+      table: product
+      indexes:
+          title:
+              columns: [ title ]
+      id:
+          id:
+              type: integer
+              id: true
+              generator:
+                  strategy: AUTO
+      fields:
+          title:
+              type: string
+              length: 255
+          seoTitle:
+              type: string
+              length: 255
+              nullable: true
+          seoKeywords:
+              type: string
+              length: 255
+              nullable: true
+          seoDescription:
+              type: string
+              length: 512
+              nullable: true
+          description:
+              type: string
+              length: 1024
+              nullable: true
+          content:
+              type: text
+              nullable: true
+          enabled:
+              type: boolean
+              nullable: false
+              options:
+                  default: true
+          price:
+              type: decimal
+              scale: 2
+              nullable: false
+              options:
+                  default: 0.00
+      manyToMany:
+          categories:
+              targetEntity: AppBundle\Entity\ProductCategory
+              inversedBy: products
+              orderBy:
+                  lft: ASC
+      oneToOne:
+          image:
+              targetEntity: Application\Sonata\MediaBundle\Entity\Media
+              cascade: ["persist","remove"]
+          gallery:
+              targetEntity: Application\Sonata\MediaBundle\Entity\Gallery
+              cascade: ["persist","remove"]

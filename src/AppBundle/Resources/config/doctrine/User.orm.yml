@@ -1,0 +1,21 @@
+AppBundle\Entity\User:
+      type: entity
+      repositoryClass: AppBundle\Repository\UserRepository
+      table: user
+      id:
+          id:
+              type: integer
+              id: true
+              generator:
+                  strategy: AUTO
+      constraints:
+              - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: username
+              - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email
+      fields:
+      oneToOne:
+          image:
+              targetEntity: Application\Sonata\MediaBundle\Entity\Media
+              cascade: ["persist","remove"]
+      lifecycleCallbacks:
+                preFlush: []
+                preRemove: []

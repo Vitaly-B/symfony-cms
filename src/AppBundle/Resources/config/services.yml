@@ -1,0 +1,9 @@
+parameters:
+
+services:
+     app.twig_extension:
+        class: AppBundle\Twig\TwigExtension
+        public: false
+        arguments:
+            $container: '@service_container'
+        tags: [{ name: twig.extension }]
