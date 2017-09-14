@@ -154,6 +154,30 @@ class Product implements ProductInterface,
     }
 
     /**
+     * @param ProductCategory $category
+     *
+     * @return bool
+     */
+    public function addCategory(ProductCategory $category): bool
+    {
+        if($this->categories->contains($category)) {
+            return $this->categories->add($category);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param ProductCategory $category
+     *
+     * @return bool
+     */
+    public function removeCategory(ProductCategory $category): bool
+    {
+        return $this->categories->removeElement($category);
+    }
+
+    /**
      * @return float|null
      */
     public function getPrice(): ?float

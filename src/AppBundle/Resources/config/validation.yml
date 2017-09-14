@@ -56,3 +56,10 @@ AppBundle\Entity\Product:
                 max: 1024
         price:
             - NotBlank:
+#
+AppBundle\Entity\ProductAtt:
+    properties:
+        title:
+            - NotBlank:
+            - Length:
+                max: 255

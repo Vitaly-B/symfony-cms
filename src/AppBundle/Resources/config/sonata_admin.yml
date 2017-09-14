@@ -36,3 +36,10 @@ services:
         tags:
             - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: Products}
         public: true
+
+    sonata.admin.product_attr:
+        class: AppBundle\Admin\ProductAttAdmin
+        arguments: [~, AppBundle\Entity\ProductAttr, ~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: 'Product Attributes'}
+        public: true

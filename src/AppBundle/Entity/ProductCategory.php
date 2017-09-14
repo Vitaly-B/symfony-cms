@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Interfaces\NestedSetInterface;
+use AppBundle\Entity\Interfaces\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -94,6 +95,29 @@ class ProductCategory implements NestedSetInterface
         return $this;
     }
 
+    /**
+     * @param ProductInterface $product
+     *
+     * @return bool
+     */
+    public function addProduct(ProductInterface $product): bool
+    {
+        if($this->products->contains($product)) {
+            return $this->products->add($product);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param ProductInterface $product
+     *
+     * @return bool
+     */
+    public function removeProduct(ProductInterface $product): bool
+    {
+        return $this->products->removeElement($product);
+    }
 
     /**
      * @return string

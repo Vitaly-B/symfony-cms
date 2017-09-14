@@ -1,0 +1,21 @@
+AppBundle\Entity\ProductAttr:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\ProductAttrRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 255
+    manyToMany:
+        categories:
+            targetEntity: AppBundle\Entity\ProductCategory
+            inversedBy: products
+            orderBy:
+                lft: ASC
+    lifecycleCallbacks: {  }
