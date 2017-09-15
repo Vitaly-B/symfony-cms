@@ -8,11 +8,16 @@
 
 namespace AppBundle\Admin;
 
+use AppBundle\Entity\Interfaces\ProductInterface;
+use AppBundle\Entity\Product;
+use AppBundle\Entity\ProductAttrValue;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\CoreBundle\Validator\ErrorElement;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ProductAdmin extends AbstractAdmin
 {
@@ -26,23 +31,47 @@ class ProductAdmin extends AbstractAdmin
                     ->add('description','textarea', ['label' => 'Description', 'required' => false])
                     ->add('content','ckeditor', ['label'    => 'Content', 'required' => false])
                     ->add('enabled', null, ['label' => 'Enabled'])
-                    ->add('price','number', ['label' => 'Price','help'  => 'Format: 1,00'])
+                    ->add('price','money', ['label' => 'Price','help'  => 'Format: 1,00', 'currency' => 'USD'])
                     ->add('categories',null, [
                         'label'        => 'Categories',
                         'expanded'     => true,
                         'multiple'     => true,
                         'choice_label' => 'titleLeveling',
                     ])
+                    ->add('attrValues','sonata_type_collection',
+                        [
+                            'label'        => 'Attributes',
+                            'by_reference' => false,
+                            'required' => false,
+                            'type_options' => [
+                                'delete' => true,
+                                'delete_options' => [
+                                    // You may otherwise choose to put the field but hide it
+                                    'type'         => 'checkbox',
+                                    // In that case, you need to fill in the options as well
+                                    'type_options' => [
+                                        'mapped'   => false,
+                                        'required' => false,
+                                    ]
+                                ]
+                            ],
+                        ],
+                        [
+                            'edit'   => 'inline',
+                            'inline' => 'table',
+                        ]
+                    )
                 ->end()
             ->end()
             ->tab('Media')
                 ->with('Media')
                     ->add('image','sonata_media_type',[
                         'label'    => 'Image',
+                        'required' => false,
                         'context'  => 'product',
                         'provider' => 'sonata.media.provider.image'
                     ])
-                    ->add('gallery', 'sonata_type_model_list', ['label' => 'Gallery'],  ['link_parameters' => ['context' => 'product']])
+                    ->add('gallery', 'sonata_type_model_list', ['label' => 'Gallery', 'required' => false],  ['link_parameters' => ['context' => 'product']])
                 ->end()
             ->end()
                 ->tab('Seo')
@@ -104,4 +133,26 @@ class ProductAdmin extends AbstractAdmin
         $filter->add('id')
             ->add('title', null, ['label' => 'Title']);
     }
+
+
+    /**
+     * @param ErrorElement $errorElement
+     * @param ProductInterface $product
+     */
+    public function validate(ErrorElement $errorElement, $product)
+    {
+        if(!$product->getAttrValues()->isEmpty()) {
+            $product->getAttrValues()->forAll(function ($key, ProductAttrValue $attrValue) use($errorElement, $product) {
+                if ($attrValue->getAttribute() !== null) {
+                    if ($attrValue->getAttribute()->getType() !== $attrValue->getAttribute()::TYPE_STRING) {
+                       $errorElement->with('attrValues['.$key.']')
+                           ->addConstraint(new Assert\Callback('validateValue'))
+                       ;
+
+                    }
+                }
+            });
+        }
+    }
+
 }

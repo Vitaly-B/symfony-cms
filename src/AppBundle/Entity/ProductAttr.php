@@ -4,12 +4,16 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CatalogAttr
  */
 class ProductAttr
 {
+    const TYPE_STRING = 1;
+    const TYPE_NUMBER = 2;
+
     /**
      * @var int
      */
@@ -20,15 +24,23 @@ class ProductAttr
      */
     private $title;
 
+    /*@var int*/
+    private $type;
+
     /**
      * @var Collection
      */
     private $categories;
 
+    /**
+     * @var Collection
+     */
+    private $values;
 
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->values     = new ArrayCollection();
     }
 
     /**
@@ -36,13 +48,14 @@ class ProductAttr
      *
      * @return int
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @return string
+     * @return string|null
+     *
      */
     public function getTitle(): ?string
     {
@@ -50,7 +63,7 @@ class ProductAttr
     }
 
     /**
-     * @param string $title
+     * @param string|null $title
      *
      * @return CatalogAttr
      */
@@ -60,6 +73,27 @@ class ProductAttr
 
         return $this;
     }
+
+    /**
+     * @return int|null
+     */
+    public function getType(): ?int
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param int|null $type
+     *
+     * @return ProductAttr
+     */
+    public function setType(int $type = self::TYPE_STRING): ProductAttr
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
 
     /**
      * @return Collection
@@ -72,7 +106,7 @@ class ProductAttr
     /**
      * @param Collection $categories
      *
-     * @return CatalogAttr
+     * @return ProductAttr
      */
     public function setCategories(Collection $categories): ProductAttr
     {
@@ -106,11 +140,67 @@ class ProductAttr
     }
 
     /**
+     * get values
+     *
+     * @return Collection
+     */
+    public function getValues(): Collection
+    {
+        return $this->values;
+    }
+
+    /**
+     * @param Collection $values
+     *
+     * @return ProductAttr
+     */
+    public function setValues(Collection $values): ProductAttr
+    {
+        $this->values = $values;
+
+        return $this;
+    }
+
+    /**
+     * @param ProductAttrValue $value
+     *
+     * @return bool
+     */
+    public function addValue(ProductAttrValue $value): bool
+    {
+        if (!$this->values->contains($value)) {
+            return $this->values->add($value);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param ProductAttrValue $value
+     *
+     * @return bool
+     */
+    public function removeValue(ProductAttrValue $value): bool
+    {
+        return $this->values->removeElement($value);
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
        return (string) $this->getTitle();
+    }
+
+    /**
+     * get supported types
+     *
+     * @return array
+     */
+    public static function getTypes(): array
+    {
+        return ['String' => static::TYPE_STRING, 'Number' => static::TYPE_NUMBER];
     }
 }
 

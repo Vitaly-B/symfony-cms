@@ -1,0 +1,34 @@
+AppBundle\Entity\ProductAttrValue:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\ProductAttrValueRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    indexes:
+        value:
+            columns: [ value ]
+        numberValue:
+            columns: [ number_value ]
+    fields:
+        value:
+            type: string
+            length: 255
+            nullable: true
+        numberValue:
+            type: float
+            nullable: true
+    manyToOne:
+        attribute:
+            targetEntity: AppBundle\Entity\ProductAttr
+            inversedBy: values
+        product:
+            targetEntity: AppBundle\Entity\Product
+            inversedBy: attrValues
+    lifecycleCallbacks:
+        preUpdate: [ 'updateValues' ]
+        prePersist: [ 'updateValues' ]
+

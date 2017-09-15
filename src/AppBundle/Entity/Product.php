@@ -46,9 +46,13 @@ class Product implements ProductInterface,
     /* @var Collection */
     private $categories;
 
+    /* @var Collection */
+    private $attrValues;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->attrValues = new ArrayCollection();
     }
 
     /**
@@ -136,7 +140,7 @@ class Product implements ProductInterface,
     /**
      * @param Collection $categories
      *
-     * @return Product
+     * @return ProductInterface
      */
     public function setCategories(Collection $categories): ProductInterface
     {
@@ -160,7 +164,7 @@ class Product implements ProductInterface,
      */
     public function addCategory(ProductCategory $category): bool
     {
-        if($this->categories->contains($category)) {
+        if(!$this->categories->contains($category)) {
             return $this->categories->add($category);
         }
 
@@ -193,6 +197,50 @@ class Product implements ProductInterface,
     public function setPrice(?float $price): ProductInterface
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @param Collection $attrValues
+     *
+     * @return ProductInterface
+     */
+    public function setAttrValues(Collection $attrValues): ProductInterface
+    {
+        $this->attrValues = $attrValues;
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAttrValues(): Collection
+    {
+        return $this->attrValues;
+    }
+
+    /**
+     * @param ProductAttrValue $attrValue
+     *
+     * @return bool
+     */
+    public function addAttrValue(ProductAttrValue $attrValue): bool
+    {
+        if (!$this->attrValues->contains($attrValue)) {
+            return $this->attrValues->add($attrValue);
+        }
+        return false;
+    }
+
+    /**
+     * @param ProductAttrValue $attrValue
+     *
+     * @return bool
+     */
+    public function removeAttrValue(ProductAttrValue $attrValue): bool
+    {
+        return $this->attrValues->removeElement($attrValue);
     }
 
     /**
@@ -200,6 +248,6 @@ class Product implements ProductInterface,
      */
     function __toString(): string
     {
-        return (string) $this->getTitle();
+        return (string)$this->getId().':'.$this->getTitle();
     }
 }

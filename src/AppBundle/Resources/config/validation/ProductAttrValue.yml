@@ -1,0 +1,10 @@
+AppBundle\Entity\ProductAttrValue:
+    constraints:
+        - Callback: validateValue
+    properties:
+        product:
+            - NotNull:
+            - NotBlank:
+        attribute:
+            - NotNull:
+            - NotBlank:

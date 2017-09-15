@@ -1,0 +1,11 @@
+AppBundle\Entity\User:
+    properties:
+        username:
+            - NotBlank:
+            - Length:
+                max: 180
+        email:
+            - Email:
+            - NotBlank:
+            - Length:
+                max: 180

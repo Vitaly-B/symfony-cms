@@ -23,12 +23,6 @@ services:
             - { name: sonata.admin, manager_type: orm, group: Content, label: Pages, icon: '<i class="fa fa-th"></i>'}
         public: true
 
-    sonata.admin.product_category:
-        class: AppBundle\Admin\ProductCategoryAdmin
-        arguments: [~, AppBundle\Entity\ProductCategory, AppBundle\Controller\Admin\ProductCategoryCRUDController, 'title']
-        tags:
-            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: Category, icon: '<i class="fa fa-dollar"></i>'}
-        public: true
 
     sonata.admin.product:
         class: AppBundle\Admin\ProductAdmin
@@ -37,9 +31,23 @@ services:
             - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: Products}
         public: true
 
+    sonata.admin.product_category:
+        class: AppBundle\Admin\ProductCategoryAdmin
+        arguments: [~, AppBundle\Entity\ProductCategory, AppBundle\Controller\Admin\ProductCategoryCRUDController, 'title']
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: Category, icon: '<i class="fa fa-dollar"></i>'}
+        public: true
+
     sonata.admin.product_attr:
-        class: AppBundle\Admin\ProductAttAdmin
+        class: AppBundle\Admin\ProductAttrAdmin
         arguments: [~, AppBundle\Entity\ProductAttr, ~]
         tags:
             - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: 'Product Attributes'}
+        public: true
+
+    sonata.admin.product_attr_value:
+        class: AppBundle\Admin\ProductAttrValueAdmin
+        arguments: [~, AppBundle\Entity\ProductAttrValue, ~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: 'Product Attribute Values'}
         public: true

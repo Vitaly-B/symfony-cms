@@ -58,3 +58,9 @@ AppBundle\Entity\Product:
           gallery:
               targetEntity: Application\Sonata\MediaBundle\Entity\Gallery
               cascade: ["persist","remove"]
+      oneToMany:
+          attrValues:
+              targetEntity: AppBundle\Entity\ProductAttrValue
+              mappedBy: product
+              cascade: ["persist","remove"]
+              orphanRemoval: true

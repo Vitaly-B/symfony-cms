@@ -9,16 +9,25 @@
 namespace AppBundle\Admin;
 
 
+use AppBundle\Entity\ProductAttr;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class ProductAttAdmin extends AbstractAdmin
+
+class ProductAttrAdmin extends AbstractAdmin
 {
+    protected $translationDomain = 'AppAdmin';
+
     protected function configureFormFields(FormMapper $form)
     {
-        $form->add('title', null, ['label' => 'Title'])
+        $form->add('title', null, ['label' => 'Title'])->add('type')
+            ->add('type','choice',[
+                'choices'            => ProductAttr::getTypes(),
+                'multiple'           => false,
+                'label'              => 'Type',
+            ])
             ->add('categories',null, [
                 'required'     => true,
                 'label'        => 'Categories',
@@ -46,5 +55,4 @@ class ProductAttAdmin extends AbstractAdmin
     {
         $filter->add('id')->add('title', null, ['Label' => 'Title']);
     }
-
 }

@@ -12,10 +12,18 @@ AppBundle\Entity\ProductAttr:
         title:
             type: string
             length: 255
+        type:
+            type: smallint
+            options:
+                default: 1
     manyToMany:
         categories:
             targetEntity: AppBundle\Entity\ProductCategory
             inversedBy: products
             orderBy:
                 lft: ASC
+    oneToMany:
+        values:
+            targetEntity: AppBundle\Entity\ProductAttrValue
+            mappedBy: attribute
     lifecycleCallbacks: {  }
