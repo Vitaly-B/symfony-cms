@@ -18,6 +18,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProductAdmin extends AbstractAdmin
 {
@@ -142,16 +144,25 @@ class ProductAdmin extends AbstractAdmin
     public function validate(ErrorElement $errorElement, $product)
     {
         if(!$product->getAttrValues()->isEmpty()) {
-            $product->getAttrValues()->forAll(function ($key, ProductAttrValue $attrValue) use($errorElement, $product) {
+
+            /* @var ValidatorInterface $validator */
+            $validator = $this->getConfigurationPool()->getContainer()->get('validator');
+
+            /* @var ProductAttrValue $attrValue*/
+            foreach ($product->getAttrValues() as $key => $attrValue){
+
                 if ($attrValue->getAttribute() !== null) {
                     if ($attrValue->getAttribute()->getType() !== $attrValue->getAttribute()::TYPE_STRING) {
-                       $errorElement->with('attrValues['.$key.']')
-                           ->addConstraint(new Assert\Callback('validateValue'))
-                       ;
-
+                        $errors = $validator->validate($attrValue);
+                        foreach($errors as $error) {
+                            /* @var \Symfony\Component\Validator\ConstraintViolation $error */
+                            $errorElement->with('attrValues['.$key.']')->with($error->getPropertyPath())->addViolation($error->getMessage());
+                            //TODO bug on display error message from collection
+                        }
                     }
                 }
-            });
+
+            }
         }
     }
 

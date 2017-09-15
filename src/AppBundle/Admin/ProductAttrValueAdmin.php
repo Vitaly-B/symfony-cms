@@ -18,7 +18,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 
 class ProductAttrValueAdmin extends AbstractAdmin
 {
@@ -55,6 +55,7 @@ class ProductAttrValueAdmin extends AbstractAdmin
     {
         $list->add('id')
             ->add('attribute', null, ['label' => 'Attribute'])
+            ->add('product', null, ['label' => 'Product'])
             ->add('value', null, ['label' => 'Value', 'editable' => true])
             ->add('_action',null,[
                 'actions' => [
@@ -68,7 +69,7 @@ class ProductAttrValueAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $filter->add('id')
-            ->add('value', null, ['label' => 'String Value'])
+            ->add('value', null, ['label' => 'Value'])
             ->add('attribute', null, ['label' => 'Attribute'])
             ->add('product', null, ['label' => 'Product'])
         ;

@@ -1,6 +1,8 @@
 AppBundle\Entity\ProductAttrValue:
     constraints:
         - Callback: validateValue
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+             fields: [attribute, product]
     properties:
         product:
             - NotNull:

@@ -28,7 +28,7 @@ services:
         class: AppBundle\Admin\ProductAdmin
         arguments: [~, AppBundle\Entity\Product, ~]
         tags:
-            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: Products}
+            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: Products, icon: '<i class="fa fa-dollar"></i>'}
         public: true
 
     sonata.admin.product_category:
@@ -42,12 +42,12 @@ services:
         class: AppBundle\Admin\ProductAttrAdmin
         arguments: [~, AppBundle\Entity\ProductAttr, ~]
         tags:
-            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: 'Product Attributes'}
+            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: 'Product Attributes', icon: '<i class="fa fa-dollar"></i>'}
         public: true
 
     sonata.admin.product_attr_value:
         class: AppBundle\Admin\ProductAttrValueAdmin
         arguments: [~, AppBundle\Entity\ProductAttrValue, ~]
         tags:
-            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: 'Product Attribute Values'}
+            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: 'Product Attribute Values', icon: '<i class="fa fa-dollar"></i>'}
         public: true

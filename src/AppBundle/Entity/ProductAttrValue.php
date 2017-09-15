@@ -156,14 +156,12 @@ class ProductAttrValue
 
     /**
      * validate value
-     * @param $object
      * @param ExecutionContextInterface $context
      * @param mixed $payload
      */
     public function validateValue(ExecutionContextInterface $context, $payload)
     {
         if($this->getAttribute() && $this->getAttribute()->getType() !== $this->getAttribute()::TYPE_STRING) {
-
             if(!is_numeric(str_replace(',','.',$this->getValue()))) {
                 $context->buildViolation(
                     'This value must be {{ type }}',
@@ -192,6 +190,7 @@ class ProductAttrValue
             switch ($this->getAttribute()->getType()) {
                 case $this->getAttribute()::TYPE_NUMBER:
                     $this->setNumberValue(floatval(str_replace(',', '.',$this->getValue())));
+                    $this->setValue($this->getNumberValue());
                 break;
             }
 
