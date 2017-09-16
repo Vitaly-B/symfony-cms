@@ -8,8 +8,8 @@
 
 namespace AppBundle\Admin;
 
-use AppBundle\Entity\Product;
-use AppBundle\Entity\ProductAttrValue;
+use AppBundle\Entity\Interfaces\ProductAttrValueInterface;
+use AppBundle\Entity\Interfaces\ProductInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -23,7 +23,7 @@ class ProductAttrValueAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form)
     {
 
-        /* @var ProductAttrValue $productAttrVale*/
+        /* @var ProductAttrValueInterface $productAttrVale*/
         $productAttrVale = $this->getSubject();
 
         /* @var Request $request */
@@ -33,10 +33,8 @@ class ProductAttrValueAdmin extends AbstractAdmin
 
         if($productAttrVale) {
             if (($productId = $request->get('objectId')) !== null) {
-                /* @var  Product $product */
-                $product = $this->getConfigurationPool()->getContainer()->get(
-                    'doctrine.orm.entity_manager'
-                )->getRepository(Product::class)->find((int)$productId);
+                /* @var  ProductInterface $product */
+                $product = $this->getModelManager()->getEntityManger()->getRepository(Product::class)->find((int)$productId);
 
                 $productAttrVale->setProduct($product);
             }

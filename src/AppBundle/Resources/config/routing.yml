@@ -7,5 +7,5 @@ page:
     defaults: { _controller: AppBundle:Page:index }
 
 catalog:
-    path:     /catalog/{id}
-    defaults: { _controller: AppBundle:Catalog:index, id: 0  }
+    path:     /catalog/{categoryId}/{page}
+    defaults: { _controller: AppBundle:Catalog:index, categoryId: 0, page: 1 }

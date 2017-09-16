@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class CatalogController extends Controller
 {
-    public function indexAction($id = 0)
+    public function indexAction($categoryId, $page)
     {
         return $this->render('AppBundle:Catalog:index.html.twig', []);
     }

@@ -17,10 +17,25 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sonata\AdminBundle\Route\RouteCollection;
 
+/**
+ * ProductAdmin
+ */
 class ProductAdmin extends AbstractAdmin
 {
     protected $translationDomain = 'AppAdmin';
+
+    protected $datagridValues = array(
+        '_page' => 1,
+        '_sort_order' => 'ASC',
+        '_sort_by' => 'position',
+    );
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('move', $this->getRouterIdParameter().'/move/{position}');
+    }
 
     protected function configureFormFields(FormMapper $form)
     {
@@ -85,16 +100,18 @@ class ProductAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list)
     {
         $list->add('id')
+                    ->add('position', null, ['label' => 'Position', 'editable' => true])
                     ->add('title', null, ['label' => 'Title', 'editable' => true])
                     ->add('createdAt', null, ['label' => 'Created at'])
                     ->add('updatedAt', null, ['label' => 'Updated at'])
                     ->add('enabled',null, ['label' => 'Enabled', 'editable' => true])
-                    ->add('price', null, ['label' => 'Price'])
+            ->add('price','money', ['label' => 'Price','help'  => 'Format: 1,00', 'currency' => 'USD', 'editable' => true])
                     ->add('_action',null,[
                         'actions' => [
                             'show'   => [],
                             'edit'   => [],
-                            'delete' => []
+                            'delete' => [],
+                            'move' => [],
                         ]
                     ]);
     }

@@ -25,6 +25,17 @@ interface ProductInterface extends PageInterface,
     public function getPrice(): ?float;
 
     /**
+     * @return int|null
+     */
+    public function getPosition(): ?int;
+
+    /**
+     * @param int|null $position
+     * @return ProductInterface
+     */
+    public function setPosition(?int $position): ProductInterface;
+
+    /**
      * @param float $price
      *
      * @return ProductInterface

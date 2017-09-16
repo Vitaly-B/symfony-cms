@@ -2,6 +2,7 @@ parameters:
    sonata.media.admin.groupname: Content
 
 services:
+
     gedmo.listener.tree:
         class: Gedmo\Tree\TreeListener
         tags:
@@ -9,9 +10,16 @@ services:
         calls:
             - [ setAnnotationReader, [ '@annotation_reader' ] ]
 
+    gedmo.listener.sortable:
+        class: Gedmo\Sortable\SortableListener
+        tags:
+            - { name: doctrine.event_subscriber }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
     sonata.admin.user:
         class: AppBundle\Admin\UserAdmin
-        arguments: [~, AppBundle\Entity\User, AppBundle\Controller\Admin\UserCRUDController]
+        arguments: [~, AppBundle\Entity\User, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: 'Administration', label: 'Users', icon: '<i class="fa fa-cogs"></i>'}
         public: true
@@ -26,7 +34,7 @@ services:
 
     sonata.admin.product:
         class: AppBundle\Admin\ProductAdmin
-        arguments: [~, AppBundle\Entity\Product, ~]
+        arguments: [~, AppBundle\Entity\Product, AppBundle\Controller\Admin\ProductCRUDController]
         tags:
             - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: Products, icon: '<i class="fa fa-dollar"></i>'}
         public: true

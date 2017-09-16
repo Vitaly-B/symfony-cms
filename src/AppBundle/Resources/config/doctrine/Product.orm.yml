@@ -45,6 +45,11 @@ AppBundle\Entity\Product:
               nullable: false
               options:
                   default: 0.00
+          position:
+              type: integer
+              nullable: false;
+              gedmo:
+                - sortablePosition
       manyToMany:
           categories:
               targetEntity: AppBundle\Entity\ProductCategory

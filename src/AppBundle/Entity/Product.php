@@ -46,6 +46,10 @@ class Product implements ProductInterface
     /* @var Collection */
     private $attrValues;
 
+    /* @var int */
+    private $position;
+
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -238,6 +242,25 @@ class Product implements ProductInterface
     public function removeAttrValue(ProductAttrValue $attrValue): bool
     {
         return $this->attrValues->removeElement($attrValue);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param int|null $position
+     * @return ProductInterface
+     */
+    public function setPosition(?int $position): ProductInterface
+    {
+        $this->position = $position;
+
+        return $this;
     }
 
     /**

@@ -8,12 +8,14 @@
 
 namespace AppBundle\Admin;
 
-use AppBundle\Entity\ProductCategory;
+use AppBundle\Entity\Interfaces\ProductCategoryInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use RedCode\TreeBundle\Admin\AbstractTreeAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Doctrine\ORM\EntityManager;
+use Sonata\DoctrineORMAdminBundle\Model\ModelManager;
+
 
 class ProductCategoryAdmin extends AbstractTreeAdmin
 {
@@ -21,16 +23,14 @@ class ProductCategoryAdmin extends AbstractTreeAdmin
 
     protected function configureFormFields(FormMapper $form)
     {
-        /* @var EntityManager $em */
-        $em = $this->getConfigurationPool()->getContainer()->get(
-            'doctrine.orm.default_entity_manager'
-        );
+        /* @var EntityManagerInterface $em */
+        $em = $this->getModelManager()->getEntityManager($this->getClass());
 
-        /* @var ProductCategory $productCategory */
+        /* @var ProductCategoryInterface $productCategory */
         $productCategory = $this->getSubject();
 
         /* @var \Doctrine\ORM\QueryBuilder $qb */
-        $qb = $em->getRepository('AppBundle:ProductCategory')
+        $qb = $em->getRepository($this->getClass())
             ->getNodesHierarchyQueryBuilder()
             ->andWhere('node.id != :id')
             ->setParameter(
@@ -75,6 +75,7 @@ class ProductCategoryAdmin extends AbstractTreeAdmin
 
     public function createQuery($context = 'list')
     {
+        //TODO this method corrected sorting problem
         /* @var \Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery $proxyQuery */
         $proxyQuery = parent::createQuery($context);
 
