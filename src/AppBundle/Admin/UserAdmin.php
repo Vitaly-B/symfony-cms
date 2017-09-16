@@ -14,9 +14,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
 use AppBundle\Entity\User;
-use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 class UserAdmin extends AbstractAdmin
 {
@@ -25,7 +23,7 @@ class UserAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form)
     {
-        /* @var User $user */
+        /* @var UserInterface $user */
         $user = $this->getSubject();
 
         $form->with('General')
@@ -39,12 +37,6 @@ class UserAdmin extends AbstractAdmin
                         'required'           => false
                 ])
             ->add('enabled', null, ['label' => 'Enabled'])
-//            ->add('roles','choice',[
-//                    'choices'            => $this->getRoles(),
-//                    'multiple'           => true,
-//                    'label'              => 'label.roles',
-//                    'translation_domain' => $this->translationDomain
-//            ])
             ->add('image','sonata_media_type', [
                     'label'    => 'Image',
                     'context'  => 'user',
@@ -95,17 +87,7 @@ class UserAdmin extends AbstractAdmin
     }
 
     /**
-     * This method return supported roles
-     *
-     * @return array
-     */
-    protected function getRoles(): array
-    {
-        return [User::ROLE_DEFAULT => User::ROLE_DEFAULT];
-    }
-
-    /**
-     * @param User $user
+     * @param UserInterface $user
      *
      * @throws \Sonata\AdminBundle\Exception\ModelManagerException
      */
@@ -127,20 +109,4 @@ class UserAdmin extends AbstractAdmin
             );
         }
     }
-
-//    /** @param User $user */
-//    public function postPersist($user)
-//    {
-//        //$this->getModelManager()->update($user);
-//    }
-
-//    /** @param User $user */
-//    public function postUpdate($user)
-//    {
-//    }
-
-//    /** @param User $user */
-//    public function preRemove($user)
-//    {
-//    }
 }

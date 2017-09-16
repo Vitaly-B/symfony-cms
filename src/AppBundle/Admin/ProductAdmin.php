@@ -8,17 +8,14 @@
 
 namespace AppBundle\Admin;
 
+use AppBundle\Entity\Interfaces\ProductAttrValueInterface;
 use AppBundle\Entity\Interfaces\ProductInterface;
-use AppBundle\Entity\Product;
-use AppBundle\Entity\ProductAttrValue;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProductAdmin extends AbstractAdmin
@@ -148,7 +145,7 @@ class ProductAdmin extends AbstractAdmin
             /* @var ValidatorInterface $validator */
             $validator = $this->getConfigurationPool()->getContainer()->get('validator');
 
-            /* @var ProductAttrValue $attrValue*/
+            /* @var ProductAttrValueInterface $attrValue*/
             foreach ($product->getAttrValues() as $key => $attrValue){
 
                 if ($attrValue->getAttribute() !== null) {

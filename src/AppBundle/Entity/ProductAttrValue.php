@@ -151,11 +151,6 @@ class ProductAttrValue implements Interfaces\ProductAttrValueInterface
         return $this->product;
     }
 
-    public function __toString()
-    {
-        return $this->getId() . ':' . $this->getValue();
-    }
-
     /**
      * validate value
      * @param ExecutionContextInterface $context
@@ -197,6 +192,14 @@ class ProductAttrValue implements Interfaces\ProductAttrValueInterface
             }
 
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getId().':'.$this->getValue();
     }
 }
 

@@ -8,17 +8,13 @@
 
 namespace AppBundle\Admin;
 
-
 use AppBundle\Entity\Product;
 use AppBundle\Entity\ProductAttrValue;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 class ProductAttrValueAdmin extends AbstractAdmin
 {
@@ -33,21 +29,29 @@ class ProductAttrValueAdmin extends AbstractAdmin
         /* @var Request $request */
         $request = $this->getRequest();
 
-        $product        = null;
+        $valueFieldHelp   = null;
 
+        if($productAttrVale) {
+            if (($productId = $request->get('objectId')) !== null) {
+                /* @var  Product $product */
+                $product = $this->getConfigurationPool()->getContainer()->get(
+                    'doctrine.orm.entity_manager'
+                )->getRepository(Product::class)->find((int)$productId);
 
-        if($productAttrVale !== null && ($productId = $request->get('objectId')) !== null) {
-            /* @var  Product $product */
-            $product = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.entity_manager')->getRepository(Product::class)->find((int)$productId);
-
-            $productAttrVale->setProduct($product);
-
+                $productAttrVale->setProduct($product);
+            }
         }
 
 
+        if ($productAttrVale && $productAttrVale->getAttribute()) {
+            $valueFieldHelp = 'Type: '.array_flip(
+                    $productAttrVale->getAttribute()::getTypes()
+                )[$productAttrVale->getAttribute()->getType()];
+        }
+
         $form->add('attribute', null, ['label' => 'Attribute'])
-            ->add('product', null , ['label' => 'Product'])
-            ->add('value', null, ['label' => 'Value'])
+            ->add('product', null, ['label' => 'Product'])
+            ->add('value', null, ['label' => 'Value', 'sonata_help' => $valueFieldHelp])
         ;
     }
 

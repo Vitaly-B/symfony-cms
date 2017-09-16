@@ -192,7 +192,7 @@ class ProductAttr implements ProductAttrInterface
      */
     public function __toString()
     {
-       return (string) $this->getTitle();
+        return $this->getId().':'.$this->getTitle();
     }
 
     /**

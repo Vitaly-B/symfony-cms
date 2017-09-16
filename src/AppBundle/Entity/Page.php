@@ -141,6 +141,6 @@ class Page implements PageInterface, TranslatableInterface
      */
     function __toString(): string
     {
-        return (string) $this->getTitle();
+        return $this->getId().':'.$this->getTitle();
     }
 }
