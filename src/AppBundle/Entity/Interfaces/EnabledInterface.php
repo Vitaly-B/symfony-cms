@@ -10,6 +10,7 @@ namespace AppBundle\Entity\Interfaces;
 
 /**
  * EnabledInterface
+ * default implementation AppBundle\Entity\Traits\EnabledTrait
  */
 interface EnabledInterface
 {

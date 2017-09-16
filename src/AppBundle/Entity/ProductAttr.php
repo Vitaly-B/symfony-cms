@@ -2,14 +2,16 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Interfaces\ProductAttrInterface;
+use AppBundle\Entity\Interfaces\ProductAttrValueInterface;
+use AppBundle\Entity\Interfaces\ProductCategoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CatalogAttr
  */
-class ProductAttr
+class ProductAttr implements ProductAttrInterface
 {
     const TYPE_STRING = 1;
     const TYPE_NUMBER = 2;
@@ -65,9 +67,9 @@ class ProductAttr
     /**
      * @param string|null $title
      *
-     * @return CatalogAttr
+     * @return ProductAttrInterface
      */
-    public function setTitle(?string $title): ProductAttr
+    public function setTitle(?string $title): ProductAttrInterface
     {
         $this->title = $title;
 
@@ -85,9 +87,9 @@ class ProductAttr
     /**
      * @param int|null $type
      *
-     * @return ProductAttr
+     * @return ProductAttrInterface
      */
-    public function setType(int $type = self::TYPE_STRING): ProductAttr
+    public function setType(?int $type = self::TYPE_STRING): ProductAttrInterface
     {
         $this->type = $type;
 
@@ -106,9 +108,9 @@ class ProductAttr
     /**
      * @param Collection $categories
      *
-     * @return ProductAttr
+     * @return ProductAttrInterface
      */
-    public function setCategories(Collection $categories): ProductAttr
+    public function setCategories(Collection $categories): ProductAttrInterface
     {
         $this->categories = $categories;
 
@@ -116,11 +118,11 @@ class ProductAttr
     }
 
     /**
-     * @param ProductCategory $category
+     * @param ProductCategoryInterface $category
      *
      * @return bool
      */
-    public function addCategory(ProductCategory $category): bool
+    public function addCategory(ProductCategoryInterface $category): bool
     {
         if ($this->categories->contains($category)) {
             return $this->categories->add($category);
@@ -130,11 +132,11 @@ class ProductAttr
     }
 
     /**
-     * @param ProductCategory $category
+     * @param ProductCategoryInterface $category
      *
      * @return bool
      */
-    public function removeCategory(ProductCategory $category): bool
+    public function removeCategory(ProductCategoryInterface $category): bool
     {
         return $this->categories->removeElement($category);
     }
@@ -152,9 +154,9 @@ class ProductAttr
     /**
      * @param Collection $values
      *
-     * @return ProductAttr
+     * @return ProductAttrInterface
      */
-    public function setValues(Collection $values): ProductAttr
+    public function setValues(Collection $values): ProductAttrInterface
     {
         $this->values = $values;
 
@@ -162,11 +164,11 @@ class ProductAttr
     }
 
     /**
-     * @param ProductAttrValue $value
+     * @param ProductAttrValueInterface $value
      *
      * @return bool
      */
-    public function addValue(ProductAttrValue $value): bool
+    public function addValue(ProductAttrValueInterface $value): bool
     {
         if (!$this->values->contains($value)) {
             return $this->values->add($value);
@@ -176,11 +178,11 @@ class ProductAttr
     }
 
     /**
-     * @param ProductAttrValue $value
+     * @param ProductAttrValueInterface $value
      *
      * @return bool
      */
-    public function removeValue(ProductAttrValue $value): bool
+    public function removeValue(ProductAttrValueInterface $value): bool
     {
         return $this->values->removeElement($value);
     }

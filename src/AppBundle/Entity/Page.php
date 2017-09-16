@@ -10,10 +10,7 @@ use AppBundle\Entity\Interfaces\EnabledInterface;
 /**
  * Page
  */
-class Page implements PageInterface,
-    TimestampableInterface,
-    TranslatableInterface,
-    EnabledInterface
+class Page implements PageInterface, TranslatableInterface
 {
     use Traits\SeoTranslatableTrait;
     use Traits\TimestampableTrait;

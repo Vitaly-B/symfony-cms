@@ -15,7 +15,9 @@ use Doctrine\Common\Collections\Collection;
 /**
  * ProductInterface
  */
-interface ProductInterface extends PageInterface
+interface ProductInterface extends PageInterface,
+    PreviewableInterface,
+    GalleryInterface
 {
     /**
      * @return float|null
@@ -46,14 +48,14 @@ interface ProductInterface extends PageInterface
      *
      * @return bool
      */
-    public function addCategory(ProductCategory $category): bool;
+    public function addCategory(ProductCategoryInterface $category): bool;
 
     /**
      * @param ProductCategory $category
      *
      * @return bool
      */
-    public function removeCategory(ProductCategory $category): bool;
+    public function removeCategory(ProductCategoryInterface $category): bool;
 
     /**
      * @param Collection $attrValues
@@ -81,8 +83,4 @@ interface ProductInterface extends PageInterface
      */
     public function removeAttrValue(ProductAttrValue $attrValue): bool;
 
-    /**
-     * @return string
-     */
-    function __toString(): string;
 }

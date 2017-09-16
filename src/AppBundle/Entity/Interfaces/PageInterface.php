@@ -11,7 +11,9 @@ namespace AppBundle\Entity\Interfaces;
 /**
  * PageInterface
  */
-interface PageInterface extends SeoInterface
+interface PageInterface extends SeoInterface,
+    TimestampableInterface,
+    EnabledInterface
 {
     /**
      * Get id

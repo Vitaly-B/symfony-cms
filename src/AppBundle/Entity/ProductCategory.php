@@ -2,14 +2,16 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Interfaces\NestedSetInterface;
+use AppBundle\Entity\Interfaces\CategoryInterface;
+use AppBundle\Entity\Interfaces\ProductCategoryInterface;
+use AppBundle\Entity\Interfaces\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
  * ProductCategory
  */
-class ProductCategory implements NestedSetInterface
+class ProductCategory implements ProductCategoryInterface
 {
     use Traits\NestedSetTrait;
 
@@ -45,9 +47,9 @@ class ProductCategory implements NestedSetInterface
      *
      * @param string $title
      *
-     * @return ProductCategory
+     * @return CategoryInterface
      */
-    public function setTitle(?string $title): ProductCategory
+    public function setTitle(?string $title): CategoryInterface
     {
         $this->title = $title;
 
@@ -83,11 +85,11 @@ class ProductCategory implements NestedSetInterface
     }
 
     /**
-     * @param ArrayCollection $products
+     * @param Collection $products
      *
      * @return ProductCategory;
      */
-    public function setProducts(ArrayCollection $products): ProductCategory
+    public function setProducts(Collection $products): ProductCategoryInterface
     {
         $this->products = $products;
 
@@ -95,11 +97,11 @@ class ProductCategory implements NestedSetInterface
     }
 
     /**
-     * @param Product $product
+     * @param ProductInterface $product
      *
      * @return bool
      */
-    public function addProduct(Product $product): bool
+    public function addProduct(ProductInterface $product): bool
     {
         if(!$this->products->contains($product)) {
             return $this->products->add($product);
@@ -109,11 +111,11 @@ class ProductCategory implements NestedSetInterface
     }
 
     /**
-     * @param Product $product
+     * @param ProductInterface $product
      *
      * @return bool
      */
-    public function removeProduct(Product $product): bool
+    public function removeProduct(ProductInterface $product): bool
     {
         return $this->products->removeElement($product);
     }

@@ -3,12 +3,13 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Interfaces\PageInterface;
+use AppBundle\Entity\Interfaces\SeoInterface;
 use AppBundle\Entity\Interfaces\TranslationInterface;
 
 /**
  * PageTranslation
  */
-class PageTranslation implements PageInterface, TranslationInterface
+class PageTranslation implements SeoInterface, TranslationInterface
 {
     use Traits\SeoTrait;
     use Traits\TranslationTrait;

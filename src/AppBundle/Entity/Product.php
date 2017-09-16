@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Interfaces\ProductCategoryInterface;
 use AppBundle\Entity\Interfaces\ProductInterface;
 use AppBundle\Entity\Interfaces\PageInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,11 +17,7 @@ use Doctrine\Common\Collections\Collection;
 /**
  * Product
  */
-class Product implements ProductInterface,
-    Interfaces\TimestampableInterface,
-    Interfaces\EnabledInterface,
-    Interfaces\PreviewableInterface,
-    Interfaces\GalleryInterface
+class Product implements ProductInterface
 {
     use Traits\SeoTrait;
     use Traits\TimestampableTrait;
@@ -158,11 +155,11 @@ class Product implements ProductInterface,
     }
 
     /**
-     * @param ProductCategory $category
+     * @param ProductCategoryInterface $category
      *
      * @return bool
      */
-    public function addCategory(ProductCategory $category): bool
+    public function addCategory(ProductCategoryInterface $category): bool
     {
         if(!$this->categories->contains($category)) {
             return $this->categories->add($category);
@@ -176,7 +173,7 @@ class Product implements ProductInterface,
      *
      * @return bool
      */
-    public function removeCategory(ProductCategory $category): bool
+    public function removeCategory(ProductCategoryInterface $category): bool
     {
         return $this->categories->removeElement($category);
     }

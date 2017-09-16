@@ -13,7 +13,6 @@ use RedCode\TreeBundle\Admin\AbstractTreeAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
 use Doctrine\ORM\EntityManager;
 
 class ProductCategoryAdmin extends AbstractTreeAdmin
