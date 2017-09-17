@@ -48,7 +48,7 @@ services:
 
     sonata.admin.product_attr:
         class: AppBundle\Admin\ProductAttrAdmin
-        arguments: [~, AppBundle\Entity\ProductAttr, ~]
+        arguments: [~, AppBundle\Entity\ProductAttr, AppBundle\Controller\Admin\ProductAttrCRUDController]
         tags:
             - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: 'Product Attributes', icon: '<i class="fa fa-dollar"></i>'}
         public: true

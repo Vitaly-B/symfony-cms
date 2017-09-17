@@ -16,6 +16,11 @@ AppBundle\Entity\ProductAttr:
             type: smallint
             options:
                 default: 1
+        position:
+            type: integer
+            nullable: false;
+            gedmo:
+                - sortablePosition
     manyToMany:
         categories:
             targetEntity: AppBundle\Entity\ProductCategory

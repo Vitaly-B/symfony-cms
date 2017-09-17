@@ -16,6 +16,9 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * ProductAttrValueAdmin
+ */
 class ProductAttrValueAdmin extends AbstractAdmin
 {
     protected $translationDomain = 'AppAdmin';

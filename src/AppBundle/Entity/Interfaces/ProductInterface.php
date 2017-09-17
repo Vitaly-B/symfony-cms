@@ -17,23 +17,13 @@ use Doctrine\Common\Collections\Collection;
  */
 interface ProductInterface extends PageInterface,
     PreviewableInterface,
-    GalleryInterface
+    GalleryInterface,
+    SortableInterface
 {
     /**
      * @return float|null
      */
     public function getPrice(): ?float;
-
-    /**
-     * @return int|null
-     */
-    public function getPosition(): ?int;
-
-    /**
-     * @param int|null $position
-     * @return ProductInterface
-     */
-    public function setPosition(?int $position): ProductInterface;
 
     /**
      * @param float $price

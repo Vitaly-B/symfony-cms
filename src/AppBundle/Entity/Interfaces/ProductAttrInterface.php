@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\Collection;
 /**
  * ProductAttrInterface
  */
-interface ProductAttrInterface
+interface ProductAttrInterface extends SortableInterface
 {
     /**
      * Get id

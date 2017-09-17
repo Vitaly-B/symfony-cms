@@ -28,7 +28,7 @@ class ProductAdmin extends AbstractAdmin
 
     protected $datagridValues = array(
         '_page' => 1,
-        '_sort_order' => 'ASC',
+        '_sort_order' => 'DESC',
         '_sort_by' => 'position',
     );
 
@@ -45,7 +45,7 @@ class ProductAdmin extends AbstractAdmin
                     ->add('description','textarea', ['label' => 'Description', 'required' => false])
                     ->add('content','ckeditor', ['label'    => 'Content', 'required' => false])
                     ->add('enabled', null, ['label' => 'Enabled'])
-                    ->add('price','money', ['label' => 'Price','help'  => 'Format: 1,00', 'currency' => 'USD'])
+                    ->add('price','money', ['label' => 'Price','help'  => 'Format: 1,00', 'currency' => $this->getConfigurationPool()->getContainer()->getParameter('default_currency')])
                     ->add('categories',null, [
                         'label'        => 'Categories',
                         'expanded'     => true,
@@ -100,12 +100,12 @@ class ProductAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list)
     {
         $list->add('id')
-                    ->add('position', null, ['label' => 'Position', 'editable' => true])
+                    ->add('position', null, ['label' => 'Position', 'editable' => false])
                     ->add('title', null, ['label' => 'Title', 'editable' => true])
                     ->add('createdAt', null, ['label' => 'Created at'])
                     ->add('updatedAt', null, ['label' => 'Updated at'])
                     ->add('enabled',null, ['label' => 'Enabled', 'editable' => true])
-            ->add('price','money', ['label' => 'Price','help'  => 'Format: 1,00', 'currency' => 'USD', 'editable' => true])
+                    ->add('price','currency', ['label' => 'Price', 'editable' => true, 'currency' => $this->getConfigurationPool()->getContainer()->getParameter('default_currency')])
                     ->add('_action',null,[
                         'actions' => [
                             'show'   => [],

@@ -13,10 +13,25 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 
+/**
+ * ProductAttrAdmin
+ */
 class ProductAttrAdmin extends AbstractAdmin
 {
     protected $translationDomain = 'AppAdmin';
+
+    protected $datagridValues = array(
+        '_page' => 1,
+        '_sort_order' => 'DESC',
+        '_sort_by' => 'position',
+    );
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('move', $this->getRouterIdParameter().'/move/{position}');
+    }
 
     protected function configureFormFields(FormMapper $form)
     {
@@ -39,11 +54,13 @@ class ProductAttrAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list)
     {
         $list->add('id')
+            ->add('position', null, ['label' => 'Position'])
             ->add('title', null, ['label' => 'Tile', 'editable' => true])
             ->add('_action',null,[
                 'actions' => [
                     'edit'   => [],
-                    'delete' => []
+                    'delete' => [],
+                    'move' => [],
                 ]
             ]);
 

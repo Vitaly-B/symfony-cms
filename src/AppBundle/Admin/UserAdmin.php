@@ -14,8 +14,10 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use AppBundle\Entity\User;
 
+/**
+ * UserAdmin
+ */
 class UserAdmin extends AbstractAdmin
 {
 

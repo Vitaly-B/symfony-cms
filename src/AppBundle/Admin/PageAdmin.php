@@ -15,6 +15,9 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\TranslationBundle\Filter\TranslationFieldFilter;
 
+/**
+ * PageAdmin
+ */
 class PageAdmin extends AbstractAdmin
 {
     protected $translationDomain = 'AppAdmin';

@@ -14,9 +14,11 @@ use RedCode\TreeBundle\Admin\AbstractTreeAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\DoctrineORMAdminBundle\Model\ModelManager;
 
 
+/**
+ * ProductCategoryAdmin
+ */
 class ProductCategoryAdmin extends AbstractTreeAdmin
 {
     protected $translationDomain = 'AppAdmin';

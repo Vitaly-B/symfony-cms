@@ -13,6 +13,8 @@ use Doctrine\Common\Collections\Collection;
  */
 class ProductAttr implements ProductAttrInterface
 {
+    use Traits\SortableTrait;
+
     const TYPE_STRING = 1;
     const TYPE_NUMBER = 2;
 
