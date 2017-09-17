@@ -15,10 +15,7 @@ use Doctrine\Common\Collections\Collection;
 /**
  * ProductInterface
  */
-interface ProductInterface extends PageInterface,
-    PreviewableInterface,
-    GalleryInterface,
-    SortableInterface
+interface ProductInterface extends PageInterface
 {
     /**
      * @return float|null
@@ -45,14 +42,14 @@ interface ProductInterface extends PageInterface,
     public function getCategories(): Collection;
 
     /**
-     * @param ProductCategory $category
+     * @param ProductCategoryInterface $category
      *
      * @return bool
      */
     public function addCategory(ProductCategoryInterface $category): bool;
 
     /**
-     * @param ProductCategory $category
+     * @param ProductCategoryInterface $category
      *
      * @return bool
      */
@@ -71,17 +68,17 @@ interface ProductInterface extends PageInterface,
     public function getAttrValues(): Collection;
 
     /**
-     * @param ProductAttrValue $attrValue
+     * @param ProductAttrValueInterface $attrValue
      *
      * @return bool
      */
-    public function addAttrValue(ProductAttrValue $attrValue): bool;
+    public function addAttrValue(ProductAttrValueInterface $attrValue): bool;
 
     /**
-     * @param ProductAttrValue $attrValue
+     * @param ProductAttrValueInterface $attrValue
      *
      * @return bool
      */
-    public function removeAttrValue(ProductAttrValue $attrValue): bool;
+    public function removeAttrValue(ProductAttrValueInterface $attrValue): bool;
 
 }

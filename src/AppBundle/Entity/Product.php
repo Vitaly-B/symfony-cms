@@ -8,16 +8,25 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Interfaces\GalleryInterface;
+use AppBundle\Entity\Interfaces\PreviewableInterface;
+use AppBundle\Entity\Interfaces\ProductAttrValueInterface;
 use AppBundle\Entity\Interfaces\ProductCategoryInterface;
 use AppBundle\Entity\Interfaces\ProductInterface;
 use AppBundle\Entity\Interfaces\PageInterface;
+use AppBundle\Entity\Interfaces\SeoInterface;
+use AppBundle\Entity\Interfaces\SortableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
  * Product
  */
-class Product implements ProductInterface
+class Product implements ProductInterface,
+    SeoInterface,
+    PreviewableInterface,
+    GalleryInterface,
+    SortableInterface
 {
     use Traits\SeoTrait;
     use Traits\TimestampableTrait;
@@ -170,7 +179,7 @@ class Product implements ProductInterface
     }
 
     /**
-     * @param ProductCategory $category
+     * @param ProductCategoryInterface $category
      *
      * @return bool
      */
@@ -219,11 +228,11 @@ class Product implements ProductInterface
     }
 
     /**
-     * @param ProductAttrValue $attrValue
+     * @param ProductAttrValueInterface $attrValue
      *
      * @return bool
      */
-    public function addAttrValue(ProductAttrValue $attrValue): bool
+    public function addAttrValue(ProductAttrValueInterface $attrValue): bool
     {
         if (!$this->attrValues->contains($attrValue)) {
             return $this->attrValues->add($attrValue);
@@ -232,11 +241,11 @@ class Product implements ProductInterface
     }
 
     /**
-     * @param ProductAttrValue $attrValue
+     * @param ProductAttrValueInterface $attrValue
      *
      * @return bool
      */
-    public function removeAttrValue(ProductAttrValue $attrValue): bool
+    public function removeAttrValue(ProductAttrValueInterface $attrValue): bool
     {
         return $this->attrValues->removeElement($attrValue);
     }

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Interfaces\PageInterface;
+use AppBundle\Entity\Interfaces\SeoInterface;
 use AppBundle\Entity\Interfaces\TimestampableInterface;
 use AppBundle\Entity\Interfaces\TranslatableInterface;
 use AppBundle\Entity\Interfaces\EnabledInterface;
@@ -10,7 +11,11 @@ use AppBundle\Entity\Interfaces\EnabledInterface;
 /**
  * Page
  */
-class Page implements PageInterface, TranslatableInterface
+class Page implements PageInterface,
+    SeoInterface,
+    TimestampableInterface,
+    EnabledInterface,
+    TranslatableInterface
 {
     use Traits\SeoTranslatableTrait;
     use Traits\TimestampableTrait;

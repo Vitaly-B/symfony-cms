@@ -9,7 +9,9 @@ use AppBundle\Entity\Interfaces\TranslationInterface;
 /**
  * PageTranslation
  */
-class PageTranslation implements SeoInterface, TranslationInterface
+class PageTranslation implements PageInterface,
+    SeoInterface,
+    TranslationInterface
 {
     use Traits\SeoTrait;
     use Traits\TranslationTrait;
