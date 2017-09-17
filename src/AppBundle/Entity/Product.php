@@ -8,44 +8,22 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Interfaces\GalleryInterface;
-use AppBundle\Entity\Interfaces\PreviewableInterface;
-use AppBundle\Entity\Interfaces\ProductAttrValueInterface;
-use AppBundle\Entity\Interfaces\ProductCategoryInterface;
-use AppBundle\Entity\Interfaces\ProductInterface;
-use AppBundle\Entity\Interfaces\PageInterface;
-use AppBundle\Entity\Interfaces\SeoInterface;
-use AppBundle\Entity\Interfaces\SortableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
  * Product
  */
-class Product implements ProductInterface,
-    SeoInterface,
-    PreviewableInterface,
-    GalleryInterface,
-    SortableInterface
+class Product
 {
+    use Traits\IdentifierTrait;
+    use Traits\PageTrait;
     use Traits\SeoTrait;
     use Traits\TimestampableTrait;
     use Traits\EnabledTrait;
     use Traits\PreviewableTrait;
     use Traits\GalleryTrait;
     use Traits\SortableTrait;
-
-    /* @var int */
-    private $id;
-
-    /* @var string */
-    private $title;
-
-    /* @var string */
-    private $description;
-
-    /* @var string */
-    private $content;
 
     /* @var float */
     private $price;
@@ -63,93 +41,11 @@ class Product implements ProductInterface,
     }
 
     /**
-     * Get id
+     * @param Collection|ProductCategory[] $categories
      *
-     * @return int
+     * @return Product
      */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return PageInterface
-     */
-    public function setTitle(?string $title): PageInterface
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string|null
-     */
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return PageInterface
-     */
-    public function setDescription(?string $description): PageInterface
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string|null
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set content
-     *
-     * @param string $content
-     *
-     * @return PageInterface
-     */
-    public function setContent(?string $content): PageInterface
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return string|null
-     */
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    /**
-     * @param Collection $categories
-     *
-     * @return ProductInterface
-     */
-    public function setCategories(Collection $categories): ProductInterface
+    public function setCategories(Collection $categories): Product
     {
         $this->categories = $categories;
 
@@ -157,7 +53,7 @@ class Product implements ProductInterface,
     }
 
     /**
-     * @return Collection|ProductCategoryInterface[]
+     * @return Collection|ProductCategory[]
      */
     public function getCategories(): Collection
     {
@@ -165,11 +61,11 @@ class Product implements ProductInterface,
     }
 
     /**
-     * @param ProductCategoryInterface $category
+     * @param ProductCategory $category
      *
      * @return bool
      */
-    public function addCategory(ProductCategoryInterface $category): bool
+    public function addCategory(ProductCategory $category): bool
     {
         if(!$this->categories->contains($category)) {
             return $this->categories->add($category);
@@ -179,11 +75,11 @@ class Product implements ProductInterface,
     }
 
     /**
-     * @param ProductCategoryInterface $category
+     * @param ProductCategory $category
      *
      * @return bool
      */
-    public function removeCategory(ProductCategoryInterface $category): bool
+    public function removeCategory(ProductCategory $category): bool
     {
         return $this->categories->removeElement($category);
     }
@@ -199,9 +95,9 @@ class Product implements ProductInterface,
     /**
      * @param float|null $price
      *
-     * @return ProductInterface
+     * @return Product
      */
-    public function setPrice(?float $price): ProductInterface
+    public function setPrice(?float $price): Product
     {
         $this->price = $price;
 
@@ -209,18 +105,18 @@ class Product implements ProductInterface,
     }
 
     /**
-     * @param Collection $attrValues
+     * @param Collection|ProductAttrValue[] $attrValues
      *
-     * @return ProductInterface
+     * @return Product
      */
-    public function setAttrValues(Collection $attrValues): ProductInterface
+    public function setAttrValues(Collection $attrValues): Product
     {
         $this->attrValues = $attrValues;
         return $this;
     }
 
     /**
-     * @return Collection|ProductAttrValueInterface[]
+     * @return Collection|ProductAttrValue[]
      */
     public function getAttrValues(): Collection
     {
@@ -228,11 +124,11 @@ class Product implements ProductInterface,
     }
 
     /**
-     * @param ProductAttrValueInterface $attrValue
+     * @param ProductAttrValue $attrValue
      *
      * @return bool
      */
-    public function addAttrValue(ProductAttrValueInterface $attrValue): bool
+    public function addAttrValue(ProductAttrValue $attrValue): bool
     {
         if (!$this->attrValues->contains($attrValue)) {
             return $this->attrValues->add($attrValue);
@@ -241,11 +137,11 @@ class Product implements ProductInterface,
     }
 
     /**
-     * @param ProductAttrValueInterface $attrValue
+     * @param ProductAttrValue $attrValue
      *
      * @return bool
      */
-    public function removeAttrValue(ProductAttrValueInterface $attrValue): bool
+    public function removeAttrValue(ProductAttrValue $attrValue): bool
     {
         return $this->attrValues->removeElement($attrValue);
     }

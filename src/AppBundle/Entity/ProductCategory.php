@@ -2,16 +2,13 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Interfaces\CategoryInterface;
-use AppBundle\Entity\Interfaces\ProductCategoryInterface;
-use AppBundle\Entity\Interfaces\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
  * ProductCategory
  */
-class ProductCategory implements ProductCategoryInterface
+class ProductCategory
 {
     use Traits\NestedSetTrait;
 
@@ -21,7 +18,7 @@ class ProductCategory implements ProductCategoryInterface
     /* @var string */
     private $title;
 
-    /* @var Collection */
+    /* @var Collection|Product[] */
     private $products;
 
     /**
@@ -47,9 +44,9 @@ class ProductCategory implements ProductCategoryInterface
      *
      * @param string $title
      *
-     * @return CategoryInterface
+     * @return ProductCategory
      */
-    public function setTitle(?string $title): CategoryInterface
+    public function setTitle(?string $title): ProductCategory
     {
         $this->title = $title;
 
@@ -77,7 +74,7 @@ class ProductCategory implements ProductCategoryInterface
     }
 
     /**
-     * @return Collection;
+     * @return Collection|Product[]
      */
     public function getProducts(): Collection
     {
@@ -85,11 +82,11 @@ class ProductCategory implements ProductCategoryInterface
     }
 
     /**
-     * @param Collection $products
+     * @param Collection|Product[] $products
      *
-     * @return ProductCategoryInterface;
+     * @return ProductCategory
      */
-    public function setProducts(Collection $products): ProductCategoryInterface
+    public function setProducts(Collection $products): ProductCategory
     {
         $this->products = $products;
 
@@ -97,11 +94,11 @@ class ProductCategory implements ProductCategoryInterface
     }
 
     /**
-     * @param ProductInterface $product
+     * @param Product $product
      *
      * @return bool
      */
-    public function addProduct(ProductInterface $product): bool
+    public function addProduct(Product $product): bool
     {
         if(!$this->products->contains($product)) {
             return $this->products->add($product);
@@ -111,11 +108,11 @@ class ProductCategory implements ProductCategoryInterface
     }
 
     /**
-     * @param ProductInterface $product
+     * @param Product $product
      *
      * @return bool
      */
-    public function removeProduct(ProductInterface $product): bool
+    public function removeProduct(Product $product): bool
     {
         return $this->products->removeElement($product);
     }

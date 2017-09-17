@@ -2,9 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Interfaces\ProductAttrInterface;
-use AppBundle\Entity\Interfaces\ProductAttrValueInterface;
-use AppBundle\Entity\Interfaces\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -12,7 +9,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 /**
  * ProductAttrValue
  */
-class ProductAttrValue implements Interfaces\ProductAttrValueInterface
+class ProductAttrValue
 {
     /**
      * @var int
@@ -20,7 +17,7 @@ class ProductAttrValue implements Interfaces\ProductAttrValueInterface
     private $id;
 
     /**
-     * @var mixed
+     * @var string|int|float
      */
     private $value;
 
@@ -35,7 +32,7 @@ class ProductAttrValue implements Interfaces\ProductAttrValueInterface
     private $attribute;
 
     /**
-     * @var Product
+     * @var Collection|Product[]
      */
     private $product;
 
@@ -57,11 +54,11 @@ class ProductAttrValue implements Interfaces\ProductAttrValueInterface
     /**
      * Set value
      *
-     * @param string $value|null
+     * @param string|null $value
      *
-     * @return ProductAttrValueInterface
+     * @return ProductAttrValue
      */
-    public function setValue(?string $value): ProductAttrValueInterface
+    public function setValue(?string $value): ProductAttrValue
     {
         $this->value = $value;
 
@@ -83,9 +80,9 @@ class ProductAttrValue implements Interfaces\ProductAttrValueInterface
      *
      * @param float|null $numberValue
      *
-     * @return ProductAttrValueInterface
+     * @return ProductAttr
      */
-    public function setNumberValue(?float $numberValue): ProductAttrValueInterface
+    public function setNumberValue(?float $numberValue): ProductAttr
     {
         $this->numberValue = $numberValue;
 
@@ -106,9 +103,9 @@ class ProductAttrValue implements Interfaces\ProductAttrValueInterface
     /**
      * get attribute
      *
-     * @return ProductAttrInterface
+     * @return ProductAttr
      */
-    public function getAttribute(): ?ProductAttrInterface
+    public function getAttribute(): ?ProductAttr
     {
         return $this->attribute;
     }
@@ -116,11 +113,11 @@ class ProductAttrValue implements Interfaces\ProductAttrValueInterface
     /**
      * get attribute
      *
-     * @param ProductAttrInterface|null $attribute
+     * @param ProductAttr|null $attribute
      *
-     * @return ProductAttrValueInterface
+     * @return ProductAttrValue
      */
-    public function setAttribute(?ProductAttrInterface $attribute): ProductAttrValueInterface
+    public function setAttribute(?ProductAttr $attribute): ProductAttrValue
     {
         $this->attribute = $attribute;
 
@@ -130,11 +127,11 @@ class ProductAttrValue implements Interfaces\ProductAttrValueInterface
     /**
      * set product
      *
-     * @param ProductInterface|null $product
+     * @param Product|null $product
      *
-     * @return ProductAttrValueInterface
+     * @return ProductAttrValue
      */
-    public function setProduct(?ProductInterface $product): ProductAttrValueInterface
+    public function setProduct(?Product $product): ProductAttrValue
     {
         $this->product = $product;
 
@@ -144,9 +141,9 @@ class ProductAttrValue implements Interfaces\ProductAttrValueInterface
     /**
      * get product
      *
-     * @return ProductInterface|null
+     * @return Product|null
      */
-    public function getProduct(): ?ProductInterface
+    public function getProduct(): ?Product
     {
         return $this->product;
     }

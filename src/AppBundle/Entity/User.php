@@ -13,8 +13,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 /**
  * User
  */
-class User extends BaseUser implements Interfaces\PreviewableInterface,
-    Interfaces\TimestampableInterface
+class User extends BaseUser
 {
     use Traits\PreviewableTrait;
     use Traits\TimestampableTrait;

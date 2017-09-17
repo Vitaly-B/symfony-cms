@@ -2,16 +2,13 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Interfaces\ProductAttrInterface;
-use AppBundle\Entity\Interfaces\ProductAttrValueInterface;
-use AppBundle\Entity\Interfaces\ProductCategoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
  * CatalogAttr
  */
-class ProductAttr implements ProductAttrInterface
+class ProductAttr
 {
     use Traits\SortableTrait;
 
@@ -32,7 +29,7 @@ class ProductAttr implements ProductAttrInterface
     private $type;
 
     /**
-     * @var Collection
+     * @var Collection|ProductCategory[]
      */
     private $categories;
 
@@ -69,9 +66,9 @@ class ProductAttr implements ProductAttrInterface
     /**
      * @param string|null $title
      *
-     * @return ProductAttrInterface
+     * @return ProductAttr
      */
-    public function setTitle(?string $title): ProductAttrInterface
+    public function setTitle(?string $title): ProductAttr
     {
         $this->title = $title;
 
@@ -87,11 +84,11 @@ class ProductAttr implements ProductAttrInterface
     }
 
     /**
-     * @param int|null $type
+     * @param int $type
      *
-     * @return ProductAttrInterface
+     * @return ProductAttr
      */
-    public function setType(?int $type = self::TYPE_STRING): ProductAttrInterface
+    public function setType(int $type = self::TYPE_STRING): ProductAttr
     {
         $this->type = $type;
 
@@ -100,7 +97,7 @@ class ProductAttr implements ProductAttrInterface
 
 
     /**
-     * @return Collection
+     * @return Collection|ProductCategory[]
      */
     public function getCategories(): Collection
     {
@@ -110,9 +107,9 @@ class ProductAttr implements ProductAttrInterface
     /**
      * @param Collection $categories
      *
-     * @return ProductAttrInterface
+     * @return ProductAttr
      */
-    public function setCategories(Collection $categories): ProductAttrInterface
+    public function setCategories(Collection $categories): ProductAttr
     {
         $this->categories = $categories;
 
@@ -120,11 +117,11 @@ class ProductAttr implements ProductAttrInterface
     }
 
     /**
-     * @param ProductCategoryInterface $category
+     * @param ProductCategory $category
      *
      * @return bool
      */
-    public function addCategory(ProductCategoryInterface $category): bool
+    public function addCategory(ProductCategory $category): bool
     {
         if ($this->categories->contains($category)) {
             return $this->categories->add($category);
@@ -134,11 +131,11 @@ class ProductAttr implements ProductAttrInterface
     }
 
     /**
-     * @param ProductCategoryInterface $category
+     * @param ProductCategory $category
      *
      * @return bool
      */
-    public function removeCategory(ProductCategoryInterface $category): bool
+    public function removeCategory(ProductCategory $category): bool
     {
         return $this->categories->removeElement($category);
     }
@@ -146,7 +143,7 @@ class ProductAttr implements ProductAttrInterface
     /**
      * get values
      *
-     * @return Collection
+     * @return Collection|ProductAttrValue[]
      */
     public function getValues(): Collection
     {
@@ -154,11 +151,11 @@ class ProductAttr implements ProductAttrInterface
     }
 
     /**
-     * @param Collection $values
+     * @param Collection|ProductAttrValue[] $values
      *
-     * @return ProductAttrInterface
+     * @return ProductAttr
      */
-    public function setValues(Collection $values): ProductAttrInterface
+    public function setValues(Collection $values): ProductAttr
     {
         $this->values = $values;
 
@@ -166,11 +163,11 @@ class ProductAttr implements ProductAttrInterface
     }
 
     /**
-     * @param ProductAttrValueInterface $value
+     * @param ProductAttrValue $value
      *
      * @return bool
      */
-    public function addValue(ProductAttrValueInterface $value): bool
+    public function addValue(ProductAttrValue $value): bool
     {
         if (!$this->values->contains($value)) {
             return $this->values->add($value);
@@ -180,21 +177,13 @@ class ProductAttr implements ProductAttrInterface
     }
 
     /**
-     * @param ProductAttrValueInterface $value
+     * @param ProductAttrValue $value
      *
      * @return bool
      */
-    public function removeValue(ProductAttrValueInterface $value): bool
+    public function removeValue(ProductAttrValue $value): bool
     {
         return $this->values->removeElement($value);
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getId().':'.$this->getTitle();
     }
 
     /**
@@ -205,6 +194,14 @@ class ProductAttr implements ProductAttrInterface
     public static function getTypes(): array
     {
         return ['String' => static::TYPE_STRING, 'Number' => static::TYPE_NUMBER];
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getId().':'.$this->getTitle();
     }
 }
 

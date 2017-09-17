@@ -25,9 +25,9 @@ trait SortableTrait
 
     /**
      * @param int|null $position
-     * @return SortableInterface
+     * @return SortableTrait
      */
-    public function setPosition(?int $position): SortableInterface
+    public function setPosition(?int $position)
     {
         $this->position = $position;
 
