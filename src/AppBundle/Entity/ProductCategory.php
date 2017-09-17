@@ -87,7 +87,7 @@ class ProductCategory implements ProductCategoryInterface
     /**
      * @param Collection $products
      *
-     * @return ProductCategory;
+     * @return ProductCategoryInterface;
      */
     public function setProducts(Collection $products): ProductCategoryInterface
     {
