@@ -5,5 +5,18 @@ services:
         class: AppBundle\Twig\TwigExtension
         public: false
         arguments:
-            $container: '@service_container'
+            - '@service_container'
         tags: [{ name: twig.extension }]
+
+     app.product_manager:
+        class: 'AppBundle\Managers\ProductManager'
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - AppBundle\Entity\Product
+            - 10
+
+     app.pagerfanta.template_default:
+        class: AppBundle\Pagerfanta\DefaultView
+        public: false
+        tags: [{ name: 'pagerfanta.view', alias: 'app_pagerfanta_template_default'}]

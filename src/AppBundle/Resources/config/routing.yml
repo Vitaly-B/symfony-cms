@@ -6,6 +6,6 @@ page:
     path:     /page/{id}
     defaults: { _controller: AppBundle:Page:index }
 
-catalog:
-    path:     /catalog/{categoryId}/{page}
-    defaults: { _controller: AppBundle:Catalog:index, categoryId: 0, page: 1 }
+products_list:
+    path:     /products/{page}/{categoryId}
+    defaults: { _controller: AppBundle:Catalog:index, page: 1, categoryId: null }

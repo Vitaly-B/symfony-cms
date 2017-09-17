@@ -16,16 +16,34 @@ use Doctrine\ORM\QueryBuilder;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getQueryByCategories(array $productCategoryIds): Query
-    {
-    }
 
+    /**
+     * @param array|int[] $productCategoryIds
+     * @return QueryBuilder
+     */
     public function getQueryBuilderByCategories(array $productCategoryIds): QueryBuilder
     {
+        /* @var QueryBuilder $queryBuilder */
+        $queryBuilder = $this->createQueryBuilder('p');
+        $queryBuilder->select('p');
+
+        if(!empty($productCategoryIds)) {
+            $queryBuilder->join('p.categories', 'categories')
+                ->andWhere(
+                    $queryBuilder->expr()->in('categories.id', $productCategoryIds)
+                );
+        }
+
+        return $queryBuilder;
     }
 
-    public function getFindByCategories(array $productCategoryIds): array
+    /**
+     * @param array|int[] $productCategoryIds
+     * @return Query
+     */
+    public function getQueryByCategories(array $productCategoryIds): Query
     {
+        return $this->getQueryBuilderByCategories($productCategoryIds)->getQuery();
     }
 
 }

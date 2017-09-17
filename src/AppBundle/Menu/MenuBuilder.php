@@ -45,7 +45,7 @@ class MenuBuilder implements ContainerAwareInterface
         ;
 
         $menu->addChild('app.layout.top_menu.page_catalog', [
-            'route'           => 'catalog'
+            'route'           => 'products_list'
         ])
              ->setAttribute('class', 'nav-item')
              ->setLinkAttribute('class', 'nav-link')

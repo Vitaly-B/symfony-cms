@@ -9,7 +9,10 @@
 namespace AppBundle\Managers;
 
 use AppBundle\Managers\Traits\PagerfantaBuilderTrait;
+use AppBundle\Repository\ProductRepository;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query;
 use Pagerfanta\Pagerfanta;
 
 /**
@@ -34,26 +37,19 @@ class ProductManager
      */
     private $maxPerPage;
 
+    /* @var ProductRepository */
+    private $repository;
+
     /**
      * @param EntityManagerInterface $entityManager
      * @param string                 $class
      * @param int                    $maxPerPage
      */
-    public function __construct(EntityManagerInterface $entityManager,
-        string $class,
-        int $maxPerPage = 10)
+    public function __construct(EntityManagerInterface $entityManager, string $class, int $maxPerPage = 10)
     {
         $this->entityManager = $entityManager;
         $this->class         = $class;
         $this->maxPerPage    = $maxPerPage;
-    }
-
-    /**
-     * @return string
-     */
-    public function getClass(): string
-    {
-        return $this->class;
     }
 
     /**
@@ -69,7 +65,7 @@ class ProductManager
      */
     public function getMaxPerPage(): int
     {
-       return $this->maxPerPage;
+        return $this->maxPerPage;
     }
 
     /**
@@ -82,5 +78,43 @@ class ProductManager
 
         return $this;
     }
+    /**
+     * @return string
+     */
+    public function getClass(): string
+    {
+        return $this->class;
+    }
+
+    /**
+     * @return ObjectRepository
+     */
+    public function getRepository()
+    {
+        if($this->repository === null) {
+            $this->repository = $this->getEntityManager()->getRepository($this->getClass());
+        }
+
+        return $this->repository;
+    }
+
+    /**
+     * @param int $page
+     * @param int[] $productCategoryIds
+     *
+     * @return Pagerfanta
+     */
+    public function getPage(int $page = 1, array $productCategoryIds): Pagerfanta
+    {
+        /* @var ProductRepository $repository */
+        $repository = $this->getRepository();
+
+        /* @var Query */
+        $query = $repository->getQueryByCategories($productCategoryIds);
+
+        return $this->getPaginator($query, $page, $this->getMaxPerPage());
+    }
+
+
 
 }
