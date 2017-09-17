@@ -8,14 +8,13 @@
 
 namespace AppBundle\Controller\Admin;
 
-use AppBundle\Controller\Admin\Interfaces\SortableControllerInterface;
 use AppBundle\Controller\Admin\Traits\SortableControllerTrait;
 use Sonata\AdminBundle\Controller\CRUDController;
 
 /**
  * ProductAttrCRUDController
  */
-class ProductAttrCRUDController extends CRUDController implements SortableControllerInterface
+class ProductAttrCRUDController extends CRUDController
 {
     use SortableControllerTrait;
 }

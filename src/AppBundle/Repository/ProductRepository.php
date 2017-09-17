@@ -8,12 +8,24 @@
 
 namespace AppBundle\Repository;
 
-use AppBundle\Entity\Product;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * ProductRepository
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getQueryByCategories(array $productCategoryIds): Query
+    {
+    }
+
+    public function getQueryBuilderByCategories(array $productCategoryIds): QueryBuilder
+    {
+    }
+
+    public function getFindByCategories(array $productCategoryIds): array
+    {
+    }
 
 }

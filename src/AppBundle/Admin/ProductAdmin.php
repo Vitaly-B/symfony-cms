@@ -124,7 +124,7 @@ class ProductAdmin extends AbstractAdmin
                     ->add('description',null, ['label' => 'Description', 'required' => false])
                     ->add('content', null, ['label' => 'Content', 'safe' => true])
                     ->add('enabled', null, ['label' => 'Enabled'])
-                    ->add('price', null, ['label' => 'Price'])
+                    ->add('price', 'money', ['label' => 'Price', 'currency' => $this->getConfigurationPool()->getContainer()->getParameter('default_currency')])
                     ->add('categories', null, ['label' => 'Categories'])
                     ->add('createdAt', null, ['label' => 'Created at'])
                     ->add('updatedAt', null, ['label' => 'Updated at'])
@@ -147,7 +147,9 @@ class ProductAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $filter->add('id')
-            ->add('title', null, ['label' => 'Title']);
+            ->add('title', null, ['label' => 'Title'])
+            ->add('price', null, ['label' => 'Price'])
+        ;
     }
 
 

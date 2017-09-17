@@ -15,7 +15,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\HttpFoundation\Request;
-
+use AppBundle\Entity\Product;
 /**
  * ProductAttrValueAdmin
  */
@@ -37,7 +37,7 @@ class ProductAttrValueAdmin extends AbstractAdmin
         if($productAttrVale) {
             if (($productId = $request->get('objectId')) !== null) {
                 /* @var  ProductInterface $product */
-                $product = $this->getModelManager()->getEntityManger()->getRepository(Product::class)->find((int)$productId);
+                $product = $this->getModelManager()->getEntityManager(Product::class)->getRepository(Product::class)->find((int)$productId);
 
                 $productAttrVale->setProduct($product);
             }

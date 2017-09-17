@@ -18,11 +18,11 @@ use Sonata\AdminBundle\Exception\ModelManagerException;
 trait SortableControllerTrait
 {
     /**
-     * @param int $position
+     * @param int     $position
      * @param Request $request
      *
      * @return Response
-     * implements interface AppBundle\Controller\Admin\Interfaces\SortableControllerInterface
+     *
      * @throws ModelManagerException
      * @throws \LogicException
      */
