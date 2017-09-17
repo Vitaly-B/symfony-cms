@@ -116,7 +116,7 @@ interface NestedSetInterface
     /**
      * Get children
      *
-     * @return Collection
+     * @return Collection|NestedSetInterface[]
      */
     public function getChildren(): Collection;
 

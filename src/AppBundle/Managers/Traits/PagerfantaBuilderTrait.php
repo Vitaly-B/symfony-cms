@@ -6,7 +6,7 @@
  * Time: 18:17
  */
 
-namespace AppBundle\Handlers\Traits;
+namespace AppBundle\Managers\Traits;
 
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;

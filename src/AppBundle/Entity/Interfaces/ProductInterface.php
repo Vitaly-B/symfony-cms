@@ -30,14 +30,14 @@ interface ProductInterface extends PageInterface
     public function setPrice(?float $price): ProductInterface;
 
     /**
-     * @param Collection $categories
+     * @param Collection|ProductCategoryInterface[] $categories
      *
      * @return ProductInterface
      */
     public function setCategories(Collection $categories): ProductInterface;
 
     /**
-     * @return Collection
+     * @return Collection|ProductCategoryInterface[]
      */
     public function getCategories(): Collection;
 
@@ -56,14 +56,14 @@ interface ProductInterface extends PageInterface
     public function removeCategory(ProductCategoryInterface $category): bool;
 
     /**
-     * @param Collection $attrValues
+     * @param Collection|ProductAttrValueInterface[] $attrValues
      *
      * @return ProductInterface
      */
     public function setAttrValues(Collection $attrValues): ProductInterface;
 
     /**
-     * @return Collection
+     * @return Collection|ProductAttrValueInterface[]
      */
     public function getAttrValues(): Collection;
 

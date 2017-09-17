@@ -48,7 +48,7 @@ interface ProductAttrInterface extends SortableInterface
     public function setType(?int $type): ProductAttrInterface;
 
     /**
-     * @return Collection
+     * @return Collection|ProductCategoryInterface[]
      */
     public function getCategories(): Collection;
 
@@ -76,7 +76,7 @@ interface ProductAttrInterface extends SortableInterface
     /**
      * get values
      *
-     * @return Collection
+     * @return Collection|ProductAttrValueInterface[]
      */
     public function getValues(): Collection;
 

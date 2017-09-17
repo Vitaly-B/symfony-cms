@@ -6,9 +6,9 @@
  * Time: 17:32
  */
 
-namespace AppBundle\Handlers;
+namespace AppBundle\Managers;
 
-use AppBundle\Handlers\Traits\PagerfantaBuilderTrait;
+use AppBundle\Managers\Traits\PagerfantaBuilderTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Pagerfanta;
 

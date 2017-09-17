@@ -16,12 +16,12 @@ use Doctrine\Common\Collections\Collection;
 interface ProductCategoryInterface extends CategoryInterface
 {
     /**
-     * @return Collection;
+     * @return Collection|ProductInterface[];
      */
     public function getProducts(): Collection;
 
     /**
-     * @param Collection $products
+     * @param Collection|ProductInterface[] $products
      *
      * @return ProductCategoryInterface;
      */

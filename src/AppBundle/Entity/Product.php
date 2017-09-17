@@ -157,7 +157,7 @@ class Product implements ProductInterface,
     }
 
     /**
-     * @return Collection
+     * @return Collection|ProductCategoryInterface[]
      */
     public function getCategories(): Collection
     {
@@ -220,7 +220,7 @@ class Product implements ProductInterface,
     }
 
     /**
-     * @return Collection
+     * @return Collection|ProductAttrValueInterface[]
      */
     public function getAttrValues(): Collection
     {
