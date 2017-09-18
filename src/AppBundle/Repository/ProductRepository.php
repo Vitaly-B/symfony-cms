@@ -18,32 +18,43 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
 
     /**
-     * @param array|int[] $productCategoryIds
+     * @param int $id
+     * @param bool $enabled
+     *
      * @return QueryBuilder
      */
-    public function getQueryBuilderByCategories(array $productCategoryIds): QueryBuilder
+    public function getQueryBuilderById(int $id, $enabled = true): QueryBuilder
     {
         /* @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->createQueryBuilder('p');
-        $queryBuilder->select('p');
-
-        if(!empty($productCategoryIds)) {
-            $queryBuilder->join('p.categories', 'categories')
-                ->andWhere(
-                    $queryBuilder->expr()->in('categories.id', $productCategoryIds)
-                );
-        }
+        $queryBuilder->where($queryBuilder->expr()->andX(
+            $queryBuilder->expr()->eq('p.id', $id),
+            $queryBuilder->expr()->eq('p.enabled', $enabled)
+        ));
 
         return $queryBuilder;
     }
 
     /**
      * @param array|int[] $productCategoryIds
-     * @return Query
+     * @param bool $enabled
+     * @return QueryBuilder
      */
-    public function getQueryByCategories(array $productCategoryIds): Query
+    public function getQueryBuilderByCategories(array $productCategoryIds, bool $enabled = true): QueryBuilder
     {
-        return $this->getQueryBuilderByCategories($productCategoryIds)->getQuery();
+        /* @var QueryBuilder $queryBuilder */
+        $queryBuilder = $this->createQueryBuilder('p');
+        $queryBuilder->select('p')
+            ->andWhere($queryBuilder->expr()->eq('p.enabled', $enabled))
+        ;
+
+        if(!empty($productCategoryIds)) {
+            $queryBuilder->join('p.categories', 'categories')
+                ->andWhere($queryBuilder->expr()->in('categories.id', $productCategoryIds));
+        }
+
+        return $queryBuilder;
     }
+
 
 }

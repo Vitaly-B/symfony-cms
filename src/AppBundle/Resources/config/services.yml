@@ -8,13 +8,25 @@ services:
             - '@service_container'
         tags: [{ name: twig.extension }]
 
+     twig.extension.sortbyfield:
+        class: Snilius\Twig\SortByFieldExtension
+        tags:
+           - { name: twig.extension }
+
      app.product_manager:
-        class: 'AppBundle\Managers\ProductManager'
+        class: AppBundle\Managers\ProductManager
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - AppBundle\Entity\Product
-            - 10
+            - 20
+
+     app.product_category_manager:
+        class: AppBundle\Managers\ProductCategoryManager
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - AppBundle\Entity\ProductCategory
 
      app.pagerfanta.template_default:
         class: AppBundle\Pagerfanta\DefaultView

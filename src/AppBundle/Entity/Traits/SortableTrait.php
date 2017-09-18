@@ -15,6 +15,7 @@ trait SortableTrait
 {
     /* @var int */
     private $position;
+
     /**
      * @return int|null
      */

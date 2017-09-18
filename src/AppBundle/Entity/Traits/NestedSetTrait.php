@@ -32,12 +32,12 @@ trait NestedSetTrait
     private $rgt;
 
     /**
-     * @var NestedSetInterface
+     * @var NestedSetTrait
      */
     private $root;
 
     /**
-     * @var NestedSetInterface
+     * @var NestedSetTrait
      */
     private $parent;
 
@@ -61,9 +61,9 @@ trait NestedSetTrait
      *
      * @param integer $lft
      *
-     * @return NestedSetInterface
+     * @return NestedSetTrait
      */
-    public function setLft(int $lft): NestedSetInterface
+    public function setLft(int $lft)
     {
         $this->lft = $lft;
 
@@ -73,7 +73,7 @@ trait NestedSetTrait
     /**
      * Get lft
      *
-     * @return integer
+     * @return integer|null
      */
     public function getLft(): ?int
     {
@@ -85,9 +85,9 @@ trait NestedSetTrait
      *
      * @param integer $lvl
      *
-     * @return NestedSetInterface
+     * @return NestedSetTrait
      */
-    public function setLvl(int $lvl): NestedSetInterface
+    public function setLvl(int $lvl)
     {
         $this->lvl = $lvl;
 
@@ -109,9 +109,9 @@ trait NestedSetTrait
      *
      * @param integer $rgt
      *
-     * @return NestedSetInterface
+     * @return NestedSetTrait
      */
-    public function setRgt(int $rgt): NestedSetInterface
+    public function setRgt(int $rgt)
     {
         $this->rgt = $rgt;
 
@@ -131,11 +131,11 @@ trait NestedSetTrait
     /**
      * Set root
      *
-     * @param NestedSetInterface $root
+     * @param NestedSetTrait|null $root
      *
-     * @return NestedSetInterface
+     * @return NestedSetTrait
      */
-    public function setRoot(NestedSetInterface $root = null): NestedSetInterface
+    public function setRoot($root = null)
     {
         $this->root = $root;
 
@@ -145,9 +145,9 @@ trait NestedSetTrait
     /**
      * Get root
      *
-     * @return NestedSetInterface
+     * @return NestedSetTrait
      */
-    public function getRoot(): ?NestedSetInterface
+    public function getRoot()
     {
         return $this->root;
     }
@@ -155,11 +155,11 @@ trait NestedSetTrait
     /**
      * Set parent
      *
-     * @param NestedSetInterface $parent
+     * @param NestedSetTrait $parent
      *
-     * @return NestedSetInterface
+     * @return NestedSetTrait
      */
-    public function setParent(NestedSetInterface $parent = null): NestedSetInterface
+    public function setParent($parent = null)
     {
         $this->parent = $parent;
 
@@ -169,9 +169,9 @@ trait NestedSetTrait
     /**
      * Get parent
      *
-     * @return NestedSetInterface
+     * @return NestedSetTrait
      */
-    public function getParent(): ?NestedSetInterface
+    public function getParent()
     {
         return $this->parent;
     }
@@ -179,11 +179,11 @@ trait NestedSetTrait
     /**
      * Add child
      *
-     * @param NestedSetInterface $child
+     * @param NestedSetTrait $child
      *
-     * @return NestedSetInterface
+     * @return NestedSetTrait
      */
-    public function addChild(NestedSetInterface $child): NestedSetInterface
+    public function addChild($child)
     {
         $this->children[] = $child;
 
@@ -193,11 +193,12 @@ trait NestedSetTrait
     /**
      * Remove child
      *
-     * @param NestedSetInterface $child
+     * @param NestedSetTrait $child
+     * @return bool
      */
-    public function removeChild(NestedSetInterface $child): void
+    public function removeChild($child): bool
     {
-        $this->children->removeElement($child);
+        return $this->children->removeElement($child);
     }
 
     /**
@@ -213,11 +214,11 @@ trait NestedSetTrait
     /**
      * Set parentId
      *
-     * @param integer $parentId
+     * @param integer|null $parentId
      *
-     * @return NestedSetInterface
+     * @return NestedSetTrait
      */
-    public function setParentId(?int $parentId): NestedSetInterface
+    public function setParentId(?int $parentId)
     {
         $this->parentId = $parentId;
 
@@ -244,7 +245,12 @@ trait NestedSetTrait
        return $this->treeRoot;
     }
 
-    public function setTreeRoot(?int $treeRoot): NestedSetInterface
+    /**
+     * @param int|null $treeRoot
+     *
+     * @return NestedSetTrait
+     */
+    public function setTreeRoot(?int $treeRoot)
     {
         $this->treeRoot = $treeRoot;
 

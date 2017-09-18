@@ -9,6 +9,7 @@
 namespace AppBundle\Twig;
 
 
+use AppBundle\Entity\Interfaces\SortableInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sonata\MediaBundle\Model\MediaInterface;

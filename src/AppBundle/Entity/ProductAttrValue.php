@@ -82,7 +82,7 @@ class ProductAttrValue
      *
      * @return ProductAttr
      */
-    public function setNumberValue(?float $numberValue): ProductAttr
+    public function setNumberValue(?float $numberValue): ProductAttrValue
     {
         $this->numberValue = $numberValue;
 
@@ -194,7 +194,7 @@ class ProductAttrValue
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getId().':'.$this->getValue();
     }

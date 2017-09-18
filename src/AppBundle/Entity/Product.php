@@ -8,13 +8,14 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Interfaces\SortableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
  * Product
  */
-class Product
+class Product implements SortableInterface
 {
     use Traits\IdentifierTrait;
     use Traits\PageTrait;

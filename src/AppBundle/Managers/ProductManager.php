@@ -8,11 +8,13 @@
 
 namespace AppBundle\Managers;
 
+use AppBundle\Entity\Product;
+use AppBundle\Managers\Traits\EntityManagerTrait;
 use AppBundle\Managers\Traits\PagerfantaBuilderTrait;
 use AppBundle\Repository\ProductRepository;
-use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Pagerfanta\Pagerfanta;
 
 /**
@@ -21,24 +23,11 @@ use Pagerfanta\Pagerfanta;
 class ProductManager
 {
     use PagerfantaBuilderTrait;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
-     * @var string
-     */
-    private $class;
-
+    use EntityManagerTrait;
     /**
      * @var int
      */
     private $maxPerPage;
-
-    /* @var ProductRepository */
-    private $repository;
 
     /**
      * @param EntityManagerInterface $entityManager
@@ -50,14 +39,6 @@ class ProductManager
         $this->entityManager = $entityManager;
         $this->class         = $class;
         $this->maxPerPage    = $maxPerPage;
-    }
-
-    /**
-     * @return EntityManagerInterface
-     */
-    public function  getEntityManager(): EntityManagerInterface
-    {
-        return $this->entityManager;
     }
 
     /**
@@ -78,25 +59,6 @@ class ProductManager
 
         return $this;
     }
-    /**
-     * @return string
-     */
-    public function getClass(): string
-    {
-        return $this->class;
-    }
-
-    /**
-     * @return ObjectRepository
-     */
-    public function getRepository()
-    {
-        if($this->repository === null) {
-            $this->repository = $this->getEntityManager()->getRepository($this->getClass());
-        }
-
-        return $this->repository;
-    }
 
     /**
      * @param int $page
@@ -109,10 +71,20 @@ class ProductManager
         /* @var ProductRepository $repository */
         $repository = $this->getRepository();
 
-        /* @var Query */
-        $query = $repository->getQueryByCategories($productCategoryIds);
+        /* @var QueryBuilder $queryBuilder*/
+        $queryBuilder = $repository->getQueryBuilderByCategories($productCategoryIds);
 
-        return $this->getPaginator($query, $page, $this->getMaxPerPage());
+        return $this->getPaginator($queryBuilder->getQuery(), $page, $this->getMaxPerPage());
+    }
+
+    public function getById(int $id): ?Product
+    {
+        /* @var ProductRepository $repository */
+        $repository = $this->getRepository();
+        /* @var QueryBuilder $queryBuilder */
+        $queryBuilder = $repository->getQueryBuilderById($id);
+
+        return $queryBuilder->getQuery()->getOneOrNullResult();
     }
 
 

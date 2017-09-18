@@ -2,13 +2,14 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Interfaces\SortableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
  * CatalogAttr
  */
-class ProductAttr
+class ProductAttr implements SortableInterface
 {
     use Traits\SortableTrait;
 
@@ -199,7 +200,7 @@ class ProductAttr
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getId().':'.$this->getTitle();
     }

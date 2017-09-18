@@ -14,8 +14,8 @@
     </php>
 
     <testsuites>
-        <testsuite name="AppBundle Tests">
-            <directory>src/AppBundle/Tests</directory>
+        <testsuite name="Tests">
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 

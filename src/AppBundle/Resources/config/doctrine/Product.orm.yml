@@ -69,3 +69,5 @@ AppBundle\Entity\Product:
               mappedBy: product
               cascade: ["persist","remove"]
               orphanRemoval: true
+#              orderBy: TODO attribute.position: DESC not work,  attribute: DESC work
+#                  attribute: DESC

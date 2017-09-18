@@ -18,3 +18,4 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
     default_currency: USD
+    product_default_image: http://alhayat-altayba.com/images/empty.png

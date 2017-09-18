@@ -120,8 +120,8 @@ class ProductCategory
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->getTitle();
+        return $this->getId().':'.$this->getTitle();
     }
 }
