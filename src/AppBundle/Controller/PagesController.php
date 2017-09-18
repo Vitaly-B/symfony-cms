@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Page;
 
-class PageController extends Controller
+class PagesController extends Controller
 {
     public function indexAction($id)
     {

@@ -15,7 +15,7 @@
                         <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                             <div class="card card-product">
                                 {% if product.image %}
-                                    <img  src="{{ media(app.user.image) | imagine_filter('thumbnail_quality_100_128x128_outbound') }}" class="card-img-top" alt="{{ product.title }}">
+                                    <img  src="{{ media(product.image) | imagine_filter('thumbnail_quality_100_128x128_outbound') }}" class="card-img-top" alt="{{ product.title }}">
                                 {% else %}
                                     <img  src="http://alhayat-altayba.com/images/empty.png" class="card-img-top" alt="{{ product.title }}">
                                 {% endif %}

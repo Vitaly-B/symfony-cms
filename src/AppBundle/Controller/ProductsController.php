@@ -8,7 +8,7 @@ use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-class CatalogController extends Controller
+class ProductsController extends Controller
 {
     /**
      * @param int $page

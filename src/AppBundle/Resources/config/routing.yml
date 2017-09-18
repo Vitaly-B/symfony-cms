@@ -4,8 +4,8 @@ homepage:
 
 page:
     path:     /page/{id}
-    defaults: { _controller: AppBundle:Page:index }
+    defaults: { _controller: AppBundle:Pages:index }
 
 products_list:
     path:     /products/{page}/{categoryId}
-    defaults: { _controller: AppBundle:Catalog:index, page: 1, categoryId: null }
+    defaults: { _controller: AppBundle:Products:index, page: 1, categoryId: null }
