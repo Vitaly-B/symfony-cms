@@ -2,6 +2,9 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\ProductAttrValue;
+use Doctrine\ORM\QueryBuilder;
+
 /**
  * ProductAttrValueRepository
  *

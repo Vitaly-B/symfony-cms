@@ -25,10 +25,15 @@ AppBundle\Entity\ProductAttr:
         categories:
             targetEntity: AppBundle\Entity\ProductCategory
             inversedBy: products
+            fetch: EXTRA_LAZY
             orderBy:
                 lft: ASC
     oneToMany:
         values:
             targetEntity: AppBundle\Entity\ProductAttrValue
             mappedBy: attribute
+            orphanRemoval: true
+            fetch: EXTRA_LAZY
+            orderBy:
+                value: ASC
     lifecycleCallbacks: {  }

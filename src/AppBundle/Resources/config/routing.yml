@@ -8,8 +8,8 @@ page:
 
 products_list:
     path:     /products/{page}/{categoryId}
-    defaults: { _controller: AppBundle:Products:index, page: 1, categoryId: null }
+    defaults: { _controller: AppBundle:Product:index, page: 1, categoryId: null }
 
 product_view:
     path:     /product/{id}
-    defaults: { _controller: AppBundle:Products:view }
+    defaults: { _controller: AppBundle:Product:view }

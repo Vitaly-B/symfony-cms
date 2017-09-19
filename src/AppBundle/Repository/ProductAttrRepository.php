@@ -2,6 +2,9 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\ProductAttr;
+use Doctrine\ORM\QueryBuilder;
+
 /**
  * CatalogAttrRepository
  *

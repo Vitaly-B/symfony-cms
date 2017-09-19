@@ -13,6 +13,7 @@ AppBundle\Entity\User:
           image:
               targetEntity: Application\Sonata\MediaBundle\Entity\Media
               cascade: ["persist","remove"]
+              fetch: EXTRA_LAZY
       lifecycleCallbacks:
                 preFlush: []
                 preRemove: []

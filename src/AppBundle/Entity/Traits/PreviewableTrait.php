@@ -24,9 +24,9 @@ trait PreviewableTrait
     /**
      * @param MediaInterface|null $image
      *
-     * @return PreviewableInterface
+     * @return PreviewableTrait
      */
-    public function setImage(?MediaInterface $image): PreviewableInterface
+    public function setImage(?MediaInterface $image)
     {
         $this->image = $image;
 

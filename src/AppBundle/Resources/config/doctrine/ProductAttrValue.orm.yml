@@ -25,9 +25,15 @@ AppBundle\Entity\ProductAttrValue:
         attribute:
             targetEntity: AppBundle\Entity\ProductAttr
             inversedBy: values
+            fetch: EXTRA_LAZY
+            joinColumn:
+               nullable: false
         product:
             targetEntity: AppBundle\Entity\Product
             inversedBy: attrValues
+            fetch: EXTRA_LAZY
+            joinColumn:
+                nullable: false
     lifecycleCallbacks:
         preUpdate: [ 'updateValues' ]
         prePersist: [ 'updateValues' ]

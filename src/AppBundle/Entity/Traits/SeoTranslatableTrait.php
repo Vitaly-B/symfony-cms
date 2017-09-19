@@ -9,7 +9,7 @@
 namespace AppBundle\Entity\Traits;
 
 /**
- * EntitySeoTranslatableTrait
+ * SeoTranslatableTrait
  */
 trait SeoTranslatableTrait
 {

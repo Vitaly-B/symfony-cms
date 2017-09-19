@@ -54,19 +54,23 @@ AppBundle\Entity\Product:
           categories:
               targetEntity: AppBundle\Entity\ProductCategory
               inversedBy: products
+              fetch: EXTRA_LAZY
               orderBy:
                   lft: ASC
       oneToOne:
           image:
               targetEntity: Application\Sonata\MediaBundle\Entity\Media
+              fetch: EXTRA_LAZY
               cascade: ["persist","remove"]
           gallery:
               targetEntity: Application\Sonata\MediaBundle\Entity\Gallery
+              fetch: EXTRA_LAZY
               cascade: ["persist","remove"]
       oneToMany:
           attrValues:
               targetEntity: AppBundle\Entity\ProductAttrValue
               mappedBy: product
+              fetch: EXTRA_LAZY
               cascade: ["persist","remove"]
               orphanRemoval: true
 #              orderBy: TODO attribute.position: DESC not work,  attribute: DESC work

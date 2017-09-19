@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card-block">
+        <div class="card-body">
+
+            {% for attribute in attributes %}
+                <div><span class="badge badge-info">{{ attribute.title }}:</span></div>
+                {% for value in attribute.values %}
+                    <div>
+                        <label class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description"></span>
+                            {{ value.value }}
+                        </label>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary">{{ 'Filter' | trans }}</button>
+        </div>
+    </div>
+</div>
+<br />

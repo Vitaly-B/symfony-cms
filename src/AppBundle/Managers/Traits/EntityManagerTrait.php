@@ -25,7 +25,7 @@ trait EntityManagerTrait
     protected $class;
 
     /* @var ObjectRepository */
-    protected $repository;
+    protected $_repository;
 
     /**
      * @return EntityManagerInterface
@@ -48,10 +48,10 @@ trait EntityManagerTrait
      */
     public function getRepository()
     {
-        if($this->repository === null) {
-            $this->repository = $this->getEntityManager()->getRepository($this->getClass());
+        if($this->_repository === null) {
+            $this->_repository = $this->getEntityManager()->getRepository($this->getClass());
         }
 
-        return $this->repository;
+        return $this->_repository;
     }
 }

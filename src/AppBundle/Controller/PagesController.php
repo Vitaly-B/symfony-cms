@@ -6,10 +6,19 @@ use AppBundle\Managers\PageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Page;
+use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * PagesController
+ */
 class PagesController extends Controller
 {
-    public function indexAction($id)
+    /**
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function indexAction($id): Response
     {
         /* @var PageManager $em */
         $pageManager = $this->get('app.page_manager');

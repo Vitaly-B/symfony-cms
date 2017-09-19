@@ -30,7 +30,6 @@ class PageManager
         $this->class         = $class;
     }
 
-
     /**
      * @param int $id
      * @param bool $enabled
