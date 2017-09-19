@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Managers\PageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Page;
@@ -10,10 +11,10 @@ class PagesController extends Controller
 {
     public function indexAction($id)
     {
-        /* @var EntityManager $em */
-        $em = $this->get('doctrine.orm.default_entity_manager');
+        /* @var PageManager $em */
+        $pageManager = $this->get('app.page_manager');
         /* @var Page $page */
-        if(!$page = $em->getRepository(Page::class)->find($id)) {
+        if(!$page = $pageManager->getById($id)) {
             throw $this->createNotFoundException();
         }
 

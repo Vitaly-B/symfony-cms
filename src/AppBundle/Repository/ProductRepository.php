@@ -26,10 +26,10 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
     public function getQueryBuilderById(int $id, $enabled = true): QueryBuilder
     {
         /* @var QueryBuilder $queryBuilder */
-        $queryBuilder = $this->createQueryBuilder('p');
+        $queryBuilder = $this->createQueryBuilder('product');
         $queryBuilder->where($queryBuilder->expr()->andX(
-            $queryBuilder->expr()->eq('p.id', $id),
-            $queryBuilder->expr()->eq('p.enabled', $enabled)
+            $queryBuilder->expr()->eq('product.id', $id),
+            $queryBuilder->expr()->eq('product.enabled', $enabled)
         ));
 
         return $queryBuilder;
@@ -43,13 +43,13 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
     public function getQueryBuilderByCategories(array $productCategoryIds, bool $enabled = true): QueryBuilder
     {
         /* @var QueryBuilder $queryBuilder */
-        $queryBuilder = $this->createQueryBuilder('p');
-        $queryBuilder->select('p')
-            ->andWhere($queryBuilder->expr()->eq('p.enabled', $enabled))
+        $queryBuilder = $this->createQueryBuilder('product');
+        $queryBuilder->select('product')
+            ->andWhere($queryBuilder->expr()->eq('product.enabled', $enabled))
         ;
 
         if(!empty($productCategoryIds)) {
-            $queryBuilder->join('p.categories', 'categories')
+            $queryBuilder->join('product.categories', 'categories')
                 ->andWhere($queryBuilder->expr()->in('categories.id', $productCategoryIds));
         }
 

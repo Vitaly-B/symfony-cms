@@ -12,7 +12,6 @@ use AppBundle\Entity\ProductCategory;
 use AppBundle\Managers\ProductCategoryManager;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
