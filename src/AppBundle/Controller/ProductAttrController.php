@@ -2,12 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\ProductCategory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Model\FilterAttr;
 use AppBundle\Form\Filter\FilterType;
 use AppBundle\Managers\FilterManager;
 use AppBundle\Model\Filter\Filter;
 use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,27 +19,12 @@ use Symfony\Component\HttpFoundation\Response;
 class ProductAttrController extends Controller
 {
     /**
-     * @param Request $request
-     * @param int|null $categoryId
-     *
      * @return Response
      */
-    public function filterFormAction(Request $request, ?int $categoryId = null): Response
+    public function filterFormAction(): Response
     {
-        /* @var  FilterManager */
-        $filterManager = $this->get('app.managers.filter_manager');
-
-        if($categoryId) {
-            $productCategoryManager = $this->get('app.managers.product_category_manager');
-            $filterManager->setProductCategory($productCategoryManager->getById($categoryId));
-        }
-
-        /* @var  Filter */
-        $filter = $filterManager->filterFactory();
-
-        /* @var Form $filterForm */
-        $filterForm = $this->createForm(FilterType::class, $filter);
-        $filterForm->handleRequest($request);
+        /* @var FormInterface $filterForm */
+        $filterForm = $filterManager = $this->get('app.managers.filter_manager')->getFilterForm();
 
         return $this->render('AppBundle:ProductAttr:_filter_form.html.twig', ['filterForm' => $filterForm->createView()]);
     }

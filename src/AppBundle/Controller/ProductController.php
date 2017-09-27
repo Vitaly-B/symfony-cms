@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Product;
-use AppBundle\Entity\ProductCategory;
+use AppBundle\Managers\FilterManager;
 use AppBundle\Managers\ProductCategoryManager;
 use AppBundle\Managers\ProductManager;
 use Pagerfanta\Pagerfanta;
@@ -16,31 +16,36 @@ use Symfony\Component\HttpFoundation\Response;
 class ProductController extends Controller
 {
     /**
-     * @param int $page
+     * @param int      $page
      * @param int|null $categoryId
      *
      * @return Response
      */
     public function indexAction(int $page = 1, ?int $categoryId = null): Response
     {
+
         /* @var ProductManager $productManager */
          $productManager = $this->get('app.managers.product_manager');
+         /* @var FilterManager $filterManager*/
+         $filterManager = $this->get('app.managers.filter_manager');
 
-        /* @var ProductCategoryManager $productCategoryManager */
-        $productCategoryManager = $this->get('app.managers.product_category_manager');
-
-        $category = null;
+        $productCategory = null;
 
         if($categoryId) {
-            if(!$category = $productCategoryManager->getById($categoryId)) {
+            /* @var ProductCategoryManager $productCategoryManager */
+            $productCategoryManager = $this->get('app.managers.product_category_manager');
+            if(!$productCategory = $productCategoryManager->getById($categoryId)) {
                 throw $this->createNotFoundException();
             }
         }
 
-        /* @var Pagerfanta $products */
-        $products = $productManager->getProducts($page, $category);
+        $productManager->setProductCategory($productCategory);
+        $productManager->setFilter($this->get('app.managers.filter_manager')->getFilter());
 
-        return $this->render('AppBundle:Product:index.html.twig', ['products' => $products, 'category' => $category]);
+        /* @var Pagerfanta $products */
+        $products = $productManager->getProducts($page);
+
+        return $this->render('AppBundle:Product:index.html.twig', ['products' => $products]);
     }
 
     /**

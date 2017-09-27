@@ -13,6 +13,7 @@ use AppBundle\Entity\Interfaces\SortableInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sonata\MediaBundle\Model\MediaInterface;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class TwigExtension extends \Twig_Extension implements ContainerAwareInterface
 {
@@ -21,6 +22,39 @@ class TwigExtension extends \Twig_Extension implements ContainerAwareInterface
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    public function getFilters()
+    {
+        return [
+            new \Twig_SimpleFilter('sort_by_field', function ($data, $propertyPath = null, $direction = 'asc') {
+
+                $flip = ($direction === 'desc') ? -1 : 1;
+
+                usort($data, function($a, $b) use($propertyPath, $direction, $flip) {
+
+                    if($propertyPath) {
+                        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+
+                        $a_sort_value = $propertyAccessor->getValue($a, $propertyPath);
+                        $b_sort_value = $propertyAccessor->getValue($b, $propertyPath);
+                    } else {
+                        $a_sort_value = $a;
+                        $b_sort_value = $b;
+                    }
+
+                    if ($a_sort_value == $b_sort_value) {
+                        return 0;
+                    } else if ($a_sort_value > $b_sort_value) {
+                        return (1 * $flip);
+                    } else {
+                        return (-1 * $flip);
+                    }
+                });
+
+                return $data;
+            }),
+        ];
     }
 
     public function getFunctions()
@@ -38,7 +72,7 @@ class TwigExtension extends \Twig_Extension implements ContainerAwareInterface
                 $provider = $this->container->get($media->getProviderName());
 
                 return $provider->generatePublicUrl($media, $format);
-            })
+            }),
         ];
     }
 

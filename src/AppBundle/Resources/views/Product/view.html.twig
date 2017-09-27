@@ -31,7 +31,7 @@
             <div>
                 {% if product.attrValues is not empty %}
                     <ul class="list-group">
-                    {% for attrValues in product.attrValues | sortbyfield('attribute.position', 'desc') %}
+                    {% for attrValues in product.attrValues.toArray | sort_by_field('attribute.position', 'desc') %}
                         <li class="list-group-item">
                             <strong>{{ attrValues.attribute.title }}</strong>
                             {{ attrValues.value }}

@@ -8,26 +8,12 @@ services:
             - '@service_container'
         tags: [{ name: twig.extension }]
 
-     twig.extension.sortbyfield:
-        class: Snilius\Twig\SortByFieldExtension
-        tags:
-           - { name: twig.extension }
-
      app.managers.page_manager:
         class: AppBundle\Managers\PageManager
         public: true
         arguments:
            - '@doctrine.orm.entity_manager'
            - AppBundle\Entity\Page
-
-     app.managers.product_manager:
-        class: AppBundle\Managers\ProductManager
-        public: true
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - AppBundle\Entity\Product
-            - 20
-            - '@app.managers.product_category_manager'
 
      app.managers.product_category_manager:
         class: AppBundle\Managers\ProductCategoryManager
@@ -58,14 +44,23 @@ services:
             - AppBundle\Entity\ProductAttrValue
             - '@app.managers.product_category_manager'
 
+     app.managers.product_manager:
+        class: AppBundle\Managers\ProductManager
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - AppBundle\Entity\Product
+            - '@app.managers.product_category_manager'
+            - 20
+
      app.managers.filter_manager:
         class: AppBundle\Managers\FilterManager
         arguments:
+            -  AppBundle\Model\Filter\Filter
             - '@app.managers.product_attribute_value_manager'
-
-     app.model.filter.filter:
-        class: AppBundle\Model\Filter\Filter
-        factory: ['@app.managers.filter_manager', filterFactory]
+            - '@app.managers.product_manager'
+            - '@form.factory'
+            - '@request_stack'
 
      app.form_filter.filter_type:
         class: AppBundle\Form\Filter\FilterType

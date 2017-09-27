@@ -9,14 +9,16 @@
 namespace AppBundle\Managers;
 
 use AppBundle\Entity\ProductAttrValue;
-use AppBundle\Model\Filter\Filter;
-use AppBundle\Model\Filter\FilterAttrInterface;
 use AppBundle\Model\Filter\FilterAttrValue;
 use AppBundle\Model\Filter\FilterInterface;
 use AppBundle\Model\Filter\FilterAttr;
+use AppBundle\Model\Types\RangeInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use AppBundle\Entity\ProductCategory;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
+use AppBundle\Form\Filter\FilterType;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * FilterManager
@@ -26,51 +28,89 @@ final class FilterManager
     /* @var ProductAttrValueManager */
     private $productAttrValueManager;
 
-    /* @var ProductCategory */
-    private $productCategory;
+    /* @var ProductManager */
+    private $productManager;
 
-    public function __construct(ProductAttrValueManager $productAttrValueManager)
+    /* @var string */
+    private $class;
+
+    /* @var FormFactoryInterface*/
+    private $formFactory;
+
+    /* @var FormInterface*/
+    private $filterForm;
+
+    /* @var $requestStack */
+    private $requestStack;
+
+    /* @var  FilterInterface */
+    private $filter;
+
+    public function __construct(
+        string $class,
+        ProductAttrValueManager $productAttrValueManager,
+        ProductManager $productManager,
+        FormFactoryInterface $formFactory,
+        RequestStack $requestStack
+    )
     {
+        $this->class                    = $class;
         $this->productAttrValueManager = $productAttrValueManager;
+        $this->productManager          = $productManager;
+        $this->formFactory             = $formFactory;
+        $this->requestStack            = $requestStack;
+
+        $this->buildFilter();
     }
 
     /**
-     * @param ProductCategory|null $productCategory
+     * @return void
      */
-    public function setProductCategory(?ProductCategory $productCategory)
+    private function buildFilter()
     {
-        $this->productCategory = $productCategory;
-    }
+        $this->filter = new $this->class;
 
-    /**
-     * @return FilterInterface
-     */
-    public function filterFactory()
-    {
         /* @var ProductAttrValue[] $attrValueArr */
-        $attrValueArr = $this->productAttrValueManager->getUniqueValuesByCategory($this->productCategory ? $this->productCategory : null);
+        $attrValueArr = $this->productAttrValueManager->getUniqueValuesByCategory($this->productManager->getProductCategory());
 
-        $filter = new Filter();
+        array_walk($attrValueArr, function(ProductAttrValue $attrValue) {
 
-        array_walk($attrValueArr, function(ProductAttrValue $attrValue) use($filter) {
-
-            if(!$filter->hasAttribute($attrValue->getAttribute()->getId())) {
-                $attribute = new FilterAttr($attrValue->getAttribute()->getId(),$attrValue->getAttribute()->getTitle(), $filter, CheckboxType::class);
-                $filter->addAttribute($attribute);
+            if(!$this->filter->hasAttribute($attrValue->getAttribute()->getId())) {
+                $attribute = new FilterAttr($attrValue->getAttribute()->getId(),$attrValue->getAttribute()->getTitle(), $this->filter, CheckboxType::class);
+                $this->filter->addAttribute($attribute);
             } else {
-                $attribute = $filter->getAttribute($attrValue->getAttribute()->getId());
+                $attribute = $this->filter->getAttribute($attrValue->getAttribute()->getId());
             }
             $attribute->addValue(new FilterAttrValue($attrValue->getId(), $attrValue->getValue(), $attribute, $attrValue->getValue()));
         });
 
         //Add price filter
-        $attributePrice = new FilterAttr('price', 'Price', $filter,TextType::class);
-        $attributePrice->addValue(new FilterAttrValue('min', 0.22, $attributePrice, 'Min'));
-        $attributePrice->addValue(new FilterAttrValue('max', 9999.99, $attributePrice, 'Max'));
+        /* @var RangeInterface $priceRange */
+        $priceRange = $this->productManager->getMinAndMaxPrice();
 
-        $filter->addAttribute($attributePrice);
+        $attributePrice = new FilterAttr('price', 'Price', $this->filter,TextType::class);
+        $attributePrice->addValue(new FilterAttrValue('min', $priceRange->getMin(), $attributePrice, 'Min'));
+        $attributePrice->addValue(new FilterAttrValue('max', $priceRange->getMax(), $attributePrice, 'Max'));
 
-        return $filter;
+        $this->filter->addAttribute($attributePrice);
+
+        $this->filterForm = $this->formFactory->create(FilterType::class, $this->filter);
+        $this->filterForm->handleRequest($this->requestStack->getMasterRequest());
     }
 
+    /**
+     * @return FilterInterface
+     */
+    public function getFilter(): FilterInterface
+    {
+        return $this->filter;
+    }
+
+    /**
+     * @return FormInterface
+     */
+    public function getFilterForm(): FormInterface
+    {
+        return $this->filterForm;
+    }
 }
