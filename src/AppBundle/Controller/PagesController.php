@@ -21,7 +21,7 @@ class PagesController extends Controller
     public function indexAction($id): Response
     {
         /* @var PageManager $em */
-        $pageManager = $this->get('app.page_manager');
+        $pageManager = $this->get('app.managers.page_manager');
         /* @var Page $page */
         if(!$page = $pageManager->getById($id)) {
             throw $this->createNotFoundException();

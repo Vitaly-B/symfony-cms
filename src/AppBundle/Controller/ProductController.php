@@ -24,10 +24,10 @@ class ProductController extends Controller
     public function indexAction(int $page = 1, ?int $categoryId = null): Response
     {
         /* @var ProductManager $productManager */
-         $productManager = $this->get('app.product_manager');
+         $productManager = $this->get('app.managers.product_manager');
 
         /* @var ProductCategoryManager $productCategoryManager */
-        $productCategoryManager = $this->get('app.product_category_manager');
+        $productCategoryManager = $this->get('app.managers.product_category_manager');
 
         $category = null;
 
@@ -51,7 +51,7 @@ class ProductController extends Controller
     public function viewAction(int $id): Response
     {
         /* @var ProductManager $productManager */
-        $productManager = $this->get('app.product_manager');
+        $productManager = $this->get('app.managers.product_manager');
 
         /* @var Product $product */
         if(!$product = $productManager->getById($id)) {

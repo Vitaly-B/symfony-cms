@@ -16,7 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 /**
  * ProductCategoryManager
  */
-class ProductCategoryManager
+final class ProductCategoryManager
 {
     use EntityManagerTrait;
 

@@ -68,7 +68,7 @@ class MenuBuilder implements ContainerAwareInterface
         $menu->setChildrenAttribute('class', 'nav flex-column');
 
         /* @var ProductCategoryManager $productCategoryManager */
-        $productCategoryManager = $this->container->get('app.product_category_manager');
+        $productCategoryManager = $this->container->get('app.managers.product_category_manager');
 
         /* @var ProductCategory[] $productCategoryArr*/
         $productCategoryArr = $productCategoryManager->getCategoryHierarchy();

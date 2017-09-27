@@ -7,7 +7,7 @@
             {{ knp_menu_render('AppBundle:MenuBuilder:createProductCategoriesMenu', { currentClass: 'active' }) }}
 
             <br />
-            {{ render(controller('AppBundle:ProductAttr:filterForm',{ categoryId : (category ? category.id : null) })) }}
+            {{ render(controller('AppBundle:ProductAttr:filterForm',{ request: app.request, categoryId : (category ? category.id : null) })) }}
         </div>
 
         <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">

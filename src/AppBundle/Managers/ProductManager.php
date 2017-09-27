@@ -21,7 +21,7 @@ use Pagerfanta\Pagerfanta;
 /**
  * ProductManager
  */
-class ProductManager
+final class ProductManager
 {
     use PagerfantaBuilderTrait;
     use EntityManagerTrait;

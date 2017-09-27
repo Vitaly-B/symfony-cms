@@ -13,23 +13,23 @@ services:
         tags:
            - { name: twig.extension }
 
-     app.page_manager:
+     app.managers.page_manager:
         class: AppBundle\Managers\PageManager
         public: true
         arguments:
            - '@doctrine.orm.entity_manager'
            - AppBundle\Entity\Page
 
-     app.product_manager:
+     app.managers.product_manager:
         class: AppBundle\Managers\ProductManager
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - AppBundle\Entity\Product
             - 20
-            - '@app.product_category_manager'
+            - '@app.managers.product_category_manager'
 
-     app.product_category_manager:
+     app.managers.product_category_manager:
         class: AppBundle\Managers\ProductCategoryManager
         public: true
         arguments:
@@ -41,19 +41,34 @@ services:
         public: false
         tags: [{ name: 'pagerfanta.view', alias: 'app_pagerfanta_template_default'}]
 
-     app.product_attribute_manager:
+     app.managers.product_attribute_manager:
         class: AppBundle\Managers\ProductAttrManager
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - AppBundle\Entity\ProductAttr
-            - '@app.product_category_manager'
-            - '@app.product_attribute_value_manager'
+            - '@app.managers.product_category_manager'
+            - '@app.managers.product_attribute_value_manager'
 
-     app.product_attribute_value_manager:
+     app.managers.product_attribute_value_manager:
         class: AppBundle\Managers\ProductAttrValueManager
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - AppBundle\Entity\ProductAttrValue
-            - '@app.product_category_manager'
+            - '@app.managers.product_category_manager'
+
+     app.managers.filter_manager:
+        class: AppBundle\Managers\FilterManager
+        arguments:
+            - '@app.managers.product_attribute_value_manager'
+
+     app.model.filter.filter:
+        class: AppBundle\Model\Filter\Filter
+        factory: ['@app.managers.filter_manager', filterFactory]
+
+     app.form_filter.filter_type:
+        class: AppBundle\Form\Filter\FilterType
+#        arguments:
+        tags:
+           - { name: form.type }

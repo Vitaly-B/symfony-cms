@@ -16,7 +16,7 @@ use AppBundle\Repository\PageRepository;
 /**
  * PageManager
  */
-class PageManager
+final class PageManager
 {
     use EntityManagerTrait;
 

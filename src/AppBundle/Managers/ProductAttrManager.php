@@ -18,7 +18,7 @@ use Doctrine\ORM\QueryBuilder;
 /**
  * ProductAttrManager
  */
-class ProductAttrManager
+final class ProductAttrManager
 {
     use EntityManagerTrait;
 
