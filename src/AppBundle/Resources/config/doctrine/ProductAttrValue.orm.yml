@@ -21,6 +21,9 @@ AppBundle\Entity\ProductAttrValue:
         numberValue:
             type: float
             nullable: true
+        attributeId:
+            type: integer
+            nullable: false
     manyToOne:
         attribute:
             targetEntity: AppBundle\Entity\ProductAttr

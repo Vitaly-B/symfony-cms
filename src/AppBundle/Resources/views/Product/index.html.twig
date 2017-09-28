@@ -84,7 +84,7 @@
             {% if products.haveToPaginate %}
                 <br/>
                 <div class="navigation text-center">
-                    {{ pagerfanta(products, 'app_pagerfanta_template_default', {routeName: 'products_list', 'routeParams': { categoryId: categoryId }} ) }}
+                    {{ pagerfanta(products, 'app_pagerfanta_template_default', {routeName: 'products_list', 'routeParams': { categoryId: categoryId, filter: app.request.get('filter') }} ) }}
                 </div>
             {% endif %}
 

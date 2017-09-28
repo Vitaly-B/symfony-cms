@@ -36,6 +36,9 @@ class ProductAttrValue
      */
     private $product;
 
+    /* @var int */
+    private $attributeId;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -80,7 +83,7 @@ class ProductAttrValue
      *
      * @param float|null $numberValue
      *
-     * @return ProductAttr
+     * @return ProductAttrValue
      */
     public function setNumberValue(?float $numberValue): ProductAttrValue
     {
@@ -189,6 +192,25 @@ class ProductAttrValue
             }
 
         }
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getAttributeId(): ?int
+    {
+        return $this->attributeId;
+    }
+
+    /**
+     * @param int|null $attributeId
+     * @return ProductAttrValue
+     */
+    public function setAttributeId(?int $attributeId): ProductAttrValue
+    {
+        $this->attributeId = $attributeId;
+
+        return $this;
     }
 
     /**

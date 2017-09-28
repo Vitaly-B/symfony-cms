@@ -13,6 +13,7 @@ use AppBundle\Entity\ProductCategory;
 use AppBundle\Managers\Traits\EntityManagerTrait;
 use AppBundle\Managers\Traits\PagerfantaBuilderTrait;
 use AppBundle\Model\Filter\FilterAttr;
+use AppBundle\Model\Filter\FilterAttrValue;
 use AppBundle\Model\Filter\FilterInterface;
 use AppBundle\Model\Types\Range;
 use AppBundle\Model\Types\RangeInterface;
@@ -206,20 +207,44 @@ final class ProductManager
      */
     private function applyFilter(QueryBuilder $queryBuilder)
     {
+
         if($this->filter && $this->filter->isActive()) {
-            foreach ($this->filter->getAttributes() as $key => $filterAttr) {
+
+            $attrIdsArr    = [];
+            $attrValuesArr = [];
+
+            foreach ($this->filter->getAttributes() as $filterAttr) {
                 if($filterAttr->isActive()) {
                     /* @var FilterAttr $filterAttr */
-                    if ($key == 'price') {
+                    if ($filterAttr->getKey() == 'price') {
                         ['min' => $filterAttrValueMin, 'max' => $filterAttrValueMax] = $filterAttr->getValues()->toArray();
                         $queryBuilder->andWhere($queryBuilder->expr()->between(
                             'product.price',
-                            floatval(str_replace(',', '.',$filterAttrValueMin->getValue())),
-                            floatval(str_replace(',', '.',$filterAttrValueMax->getValue()))
+                            floatval(str_replace(',', '.', $filterAttrValueMin->getValue())),
+                            floatval(str_replace(',', '.', $filterAttrValueMax->getValue()))
                         ));
+                    } else {
+                        //filter by attributes
+                        if(!$filterAttr->getValues()->isEmpty()) {
+                            $attrIdsArr[] = (int) $filterAttr->getKey();
+                            foreach ($filterAttr->getValues() as $attrValue) {
+                                /* @var FilterAttrValue $attrValue */
+                                if($attrValue->isActive()) {
+                                    $attrValuesArr[] = $attrValue->getValue();
+                                }
+                            }
+                        }
                     }
                 }
             }
+            if(!empty($attrIdsArr)) {
+                $queryBuilder->leftJoin('product.attrValues', 'attrValues');
+                $queryBuilder->andWhere($queryBuilder->expr()->andX($queryBuilder->expr()->in('attrValues.attributeId', $attrIdsArr),
+                        $queryBuilder->expr()->in('attrValues.value', $attrValuesArr)
+                    )
+                );
+            }
+
         }
     }
 

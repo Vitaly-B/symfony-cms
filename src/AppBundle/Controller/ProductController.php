@@ -45,7 +45,7 @@ class ProductController extends Controller
         /* @var Pagerfanta $products */
         $products = $productManager->getProducts($page);
 
-        return $this->render('AppBundle:Product:index.html.twig', ['products' => $products]);
+        return $this->render('AppBundle:Product:index.html.twig', ['products' => $products, 'categoryId' => $categoryId]);
     }
 
     /**
