@@ -237,6 +237,7 @@ final class ProductManager
                     }
                 }
             }
+
             if(!empty($attrIdsArr)) {
                 $queryBuilder->leftJoin('product.attrValues', 'attrValues');
                 $queryBuilder->andWhere($queryBuilder->expr()->andX($queryBuilder->expr()->in('attrValues.attributeId', $attrIdsArr),
