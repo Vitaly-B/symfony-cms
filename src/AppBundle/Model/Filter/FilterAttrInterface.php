@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\Collection;
 /**
  * FilterAttrInterface
  */
-interface FilterAttrInterface
+interface FilterAttrInterface extends \ArrayAccess
 {
     /**
      * @return string|int

@@ -61,4 +61,5 @@ interface FilterInterface
      * @return bool
      */
     public function isActive(): bool;
+
 }

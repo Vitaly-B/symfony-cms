@@ -9,27 +9,13 @@
 namespace AppBundle\Managers;
 
 use AppBundle\Entity\ProductCategory;
-use AppBundle\Managers\Traits\EntityManagerTrait;
 use AppBundle\Repository\ProductCategoryRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * ProductCategoryManager
  */
-final class ProductCategoryManager
+final class ProductCategoryManager extends EntityManager
 {
-    use EntityManagerTrait;
-
-    /**
-     * @param EntityManagerInterface $entityManager
-     * @param string $class
-     */
-    public function __construct(EntityManagerInterface $entityManager, string $class)
-    {
-        $this->entityManager = $entityManager;
-        $this->class         = $class;
-    }
-
     /**
      * @param int $id
      * @return ProductCategory|null

@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * FilterAttr
  */
-class FilterAttr implements FilterAttrInterface, \ArrayAccess
+class FilterAttr implements FilterAttrInterface
 {
     /* @var string|int */
     private $key;

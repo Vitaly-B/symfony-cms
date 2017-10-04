@@ -9,27 +9,14 @@
 namespace AppBundle\Managers;
 
 use AppBundle\Entity\Page;
-use AppBundle\Managers\Traits\EntityManagerTrait;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\EntityManagerInterface;
 use AppBundle\Repository\PageRepository;
+
 /**
  * PageManager
  */
-final class PageManager
+final class PageManager extends EntityManager
 {
-    use EntityManagerTrait;
-
-    /**
-     * @param EntityManagerInterface $entityManager
-     * @param string                 $class
-     */
-    public function __construct(EntityManagerInterface $entityManager, string $class)
-    {
-        $this->entityManager = $entityManager;
-        $this->class         = $class;
-    }
-
     /**
      * @param int $id
      * @param bool $enabled

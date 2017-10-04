@@ -8,8 +8,10 @@
 
 namespace AppBundle\Model\Filter;
 
-
-interface FilterValueInterface
+/**
+ * FilterValueInterface
+ */
+interface FilterValueInterface extends \ArrayAccess
 {
     /**
      * @return string|int

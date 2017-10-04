@@ -8,6 +8,7 @@ use AppBundle\Managers\ProductCategoryManager;
 use AppBundle\Managers\ProductManager;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -16,18 +17,17 @@ use Symfony\Component\HttpFoundation\Response;
 class ProductController extends Controller
 {
     /**
+     * @param Request  $request
      * @param int      $page
      * @param int|null $categoryId
      *
      * @return Response
      */
-    public function indexAction(int $page = 1, ?int $categoryId = null): Response
+    public function indexAction(Request $request, int $page = 1, ?int $categoryId = null): Response
     {
 
         /* @var ProductManager $productManager */
-         $productManager = $this->get('app.managers.product_manager');
-         /* @var FilterManager $filterManager*/
-         $filterManager = $this->get('app.managers.filter_manager');
+        $productManager = $this->get('app.managers.product_manager');
 
         $productCategory = null;
 
@@ -40,7 +40,7 @@ class ProductController extends Controller
         }
 
         $productManager->setProductCategory($productCategory);
-        $productManager->setFilter($this->get('app.managers.filter_manager')->getFilter());
+        $productManager->getFilterForm()->handleRequest($request);
 
         /* @var Pagerfanta $products */
         $products = $productManager->getProducts($page);

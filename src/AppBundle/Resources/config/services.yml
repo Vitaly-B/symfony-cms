@@ -12,14 +12,14 @@ services:
         class: AppBundle\Managers\PageManager
         public: true
         arguments:
-           - '@doctrine.orm.entity_manager'
+           - '@service_container'
            - AppBundle\Entity\Page
 
      app.managers.product_category_manager:
         class: AppBundle\Managers\ProductCategoryManager
         public: true
         arguments:
-            - '@doctrine.orm.entity_manager'
+            - '@service_container'
             - AppBundle\Entity\ProductCategory
 
      app.pagerfanta.template_default:
@@ -31,7 +31,7 @@ services:
         class: AppBundle\Managers\ProductAttrManager
         public: true
         arguments:
-            - '@doctrine.orm.entity_manager'
+            - '@service_container'
             - AppBundle\Entity\ProductAttr
             - '@app.managers.product_category_manager'
             - '@app.managers.product_attribute_value_manager'
@@ -40,27 +40,25 @@ services:
         class: AppBundle\Managers\ProductAttrValueManager
         public: true
         arguments:
-            - '@doctrine.orm.entity_manager'
+            - '@service_container'
             - AppBundle\Entity\ProductAttrValue
             - '@app.managers.product_category_manager'
+
+     app.model.filter.filter:
+        class: AppBundle\Model\Filter\Filter
+        public: false
 
      app.managers.product_manager:
         class: AppBundle\Managers\ProductManager
         public: true
         arguments:
-            - '@doctrine.orm.entity_manager'
+            - '@service_container'
             - AppBundle\Entity\Product
             - '@app.managers.product_category_manager'
-            - 20
-
-     app.managers.filter_manager:
-        class: AppBundle\Managers\FilterManager
-        arguments:
-            -  AppBundle\Model\Filter\Filter
             - '@app.managers.product_attribute_value_manager'
-            - '@app.managers.product_manager'
+            - '@app.model.filter.filter'
             - '@form.factory'
-            - '@request_stack'
+            - 20
 
      app.form_filter.filter_type:
         class: AppBundle\Form\Filter\FilterType

@@ -10,7 +10,6 @@ namespace AppBundle\Managers;
 
 use AppBundle\Entity\Product;
 use AppBundle\Entity\ProductCategory;
-use AppBundle\Managers\Traits\EntityManagerTrait;
 use AppBundle\Managers\Traits\PagerfantaBuilderTrait;
 use AppBundle\Model\Filter\FilterAttr;
 use AppBundle\Model\Filter\FilterAttrValue;
@@ -18,18 +17,24 @@ use AppBundle\Model\Filter\FilterInterface;
 use AppBundle\Model\Types\Range;
 use AppBundle\Model\Types\RangeInterface;
 use AppBundle\Repository\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Pagerfanta\Pagerfanta;
+use Psr\Container\ContainerInterface;
+use AppBundle\Entity\ProductAttrValue;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
+use AppBundle\Form\Filter\FilterType;
 
 /**
  * ProductManager
  */
-final class ProductManager
+final class ProductManager extends EntityManager
 {
     use PagerfantaBuilderTrait;
-    use EntityManagerTrait;
+
     /**
      * @var int
      */
@@ -38,41 +43,49 @@ final class ProductManager
     /* @var ProductCategoryManager */
     private $productCategoryManager;
 
+    /* @var ProductAttrValueManager */
+    private $productAttrValueManager;
+
     /* @var ProductCategory */
     private $productCategory;
 
-    /* @var Filter */
+    /* @var FilterInterface */
     private $filter;
 
+    /* @var bool */
+    private $isInitializeFilter = false;
+
+    /* @var FormFactoryInterface*/
+    private $formFactory;
+
+    /* @var FormInterface*/
+    private $filterForm;
 
     /**
-     * @param EntityManagerInterface $entityManager
-     * @param string                 $class
-     * @param ProductCategoryManager $productCategoryManager
-     * @param int                    $maxPerPage
+     * @param ContainerInterface      $container
+     * @param string                  $class
+     * @param ProductCategoryManager  $productCategoryManager
+     * @param ProductAttrValueManager $productAttrValueManager
+     * @param FilterInterface         $filter
+     * @param FormFactoryInterface    $formFactory
+     * @param int                     $maxPerPage
      */
     public function __construct(
-        EntityManagerInterface $entityManager,
+        ContainerInterface $container,
         string $class,
         ProductCategoryManager $productCategoryManager,
+        ProductAttrValueManager $productAttrValueManager,
+        FilterInterface $filter,
+        FormFactoryInterface $formFactory,
         int $maxPerPage = 10
     )
     {
-        $this->entityManager          = $entityManager;
-        $this->class                  = $class;
-        $this->productCategoryManager = $productCategoryManager;
-        $this->maxPerPage             = $maxPerPage;
-    }
-
-    /**
-     * @param FilterInterface $filter
-     * @return ProductManager
-     */
-    public function setFilter(FilterInterface $filter): ProductManager
-    {
-        $this->filter = $filter;
-
-        return $this;
+        parent::__construct($container, $class);
+        $this->productCategoryManager  = $productCategoryManager;
+        $this->productAttrValueManager = $productAttrValueManager;
+        $this->filter                  = $filter;
+        $this->formFactory             = $formFactory;
+        $this->maxPerPage              = $maxPerPage;
     }
 
     /**
@@ -249,4 +262,54 @@ final class ProductManager
         }
     }
 
+    /**
+     * @return ProductManager
+     */
+    public function initializeFilter(): ProductManager
+    {
+        /* @var ProductAttrValue[] $attrValueArr */
+        $attrValueArr = $this->productAttrValueManager->getUniqueValuesByCategory($this->getProductCategory());
+
+        array_walk($attrValueArr, function(ProductAttrValue $attrValue) {
+
+            if(!$this->filter->hasAttribute($attrValue->getAttribute()->getId())) {
+                $attribute = new FilterAttr($attrValue->getAttribute()->getId(),$attrValue->getAttribute()->getTitle(), $this->filter, CheckboxType::class);
+                $this->filter->addAttribute($attribute);
+            } else {
+                $attribute = $this->filter->getAttribute($attrValue->getAttribute()->getId());
+            }
+            $attribute->addValue(new FilterAttrValue($attrValue->getId(), $attrValue->getValue(), $attribute, $attrValue->getValue()));
+        });
+
+        //Add price filter
+        /* @var RangeInterface $priceRange */
+        $priceRange = $this->getMinAndMaxPrice();
+
+        $attributePrice = new FilterAttr('price', 'Price', $this->filter,TextType::class);
+        $attributePrice->addValue(new FilterAttrValue('min', $priceRange->getMin(), $attributePrice, 'Min'));
+        $attributePrice->addValue(new FilterAttrValue('max', $priceRange->getMax(), $attributePrice, 'Max'));
+
+        $this->filter->addAttribute($attributePrice);
+
+        $this->isInitializeFilter = true;
+
+        return $this;
+    }
+
+
+    /**
+     * @return FormInterface
+     */
+    public function getFilterForm(): FormInterface
+    {
+        if(!$this->isInitializeFilter) {
+            $this->initializeFilter();
+        }
+
+        if($this->filterForm === null) {
+            $this->filterForm = $this->formFactory->create(FilterType::class, $this->filter);
+        }
+
+        return $this->filterForm;
+    }
 }

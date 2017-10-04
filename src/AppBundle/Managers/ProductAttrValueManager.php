@@ -10,30 +10,26 @@ namespace AppBundle\Managers;
 
 use AppBundle\Entity\ProductAttrValue;
 use AppBundle\Entity\ProductCategory;
-use AppBundle\Managers\Traits\EntityManagerTrait;
 use AppBundle\Repository\ProductAttrValueRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * ProductAttrValueManager
  */
-final class ProductAttrValueManager
+final class ProductAttrValueManager extends EntityManager
 {
-    use EntityManagerTrait;
-
     /* @var ProductCategoryManager */
     private $productCategoryManager;
 
     /**
-     * @param EntityManagerInterface $entityManager
-     * @param string $class
+     * @param ContainerInterface     $container
+     * @param string                 $class
      * @param ProductCategoryManager $productCategoryManager
      */
-    public function __construct(EntityManagerInterface $entityManager, string $class, ProductCategoryManager $productCategoryManager)
+    public function __construct(ContainerInterface $container, string $class, ProductCategoryManager $productCategoryManager)
     {
-        $this->entityManager          = $entityManager;
-        $this->class                  = $class;
+        parent::__construct($container, $class);
         $this->productCategoryManager = $productCategoryManager;
     }
 

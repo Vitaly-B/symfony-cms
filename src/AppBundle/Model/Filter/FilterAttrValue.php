@@ -13,7 +13,7 @@ use AppBundle\Model\Filter\Exception\Exception;
 /**
  * FilterAttrValue
  */
-class FilterAttrValue implements FilterValueInterface, \ArrayAccess
+class FilterAttrValue implements FilterValueInterface
 {
 
     /* @var bool */
