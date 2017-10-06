@@ -154,9 +154,9 @@ final class ProductManager extends EntityManager
             /* @var ProductCategory[] $productCategoryArr*/
             $productCategoryArr = $this->productCategoryManager->getCategoryHierarchy($this->productCategory);
 
-            array_walk($productCategoryArr, function(ProductCategory $productCategory) use(&$categoryIds) {
-                $categoryIds[] = $productCategory->getId();
-            });
+            $categoryIds = array_map(function(ProductCategory $productCategory) {
+                return $productCategory->getId();
+            }, $productCategoryArr);
         }
 
         /* @var QueryBuilder $queryBuilder */
@@ -166,6 +166,7 @@ final class ProductManager extends EntityManager
         ;
 
         if(!empty($categoryIds)) {
+            $queryBuilder->addSelect('categories');
             $queryBuilder->join('product.categories', 'categories')
                 ->andWhere($queryBuilder->expr()->in('categories.id', $categoryIds));
         }
@@ -271,7 +272,6 @@ final class ProductManager extends EntityManager
         $attrValueArr = $this->productAttrValueManager->getUniqueValuesByCategory($this->getProductCategory());
 
         array_walk($attrValueArr, function(ProductAttrValue $attrValue) {
-
             if(!$this->filter->hasAttribute($attrValue->getAttribute()->getId())) {
                 $attribute = new FilterAttr($attrValue->getAttribute()->getId(),$attrValue->getAttribute()->getTitle(), $this->filter, CheckboxType::class);
                 $this->filter->addAttribute($attribute);

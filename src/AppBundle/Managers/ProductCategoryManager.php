@@ -51,15 +51,9 @@ final class ProductCategoryManager extends EntityManager
         /* @var ProductCategory[] $productCategoryArr */
         $productCategoryArr = $repository->getNodesHierarchyQuery($category)->getResult();
 
-        $ids = [];
-
-        array_walk($productCategoryArr,
-            function (ProductCategory $productCategory) use(&$ids){
-                $ids[] = $productCategory->getId();
-            }
-        );
-
-        return $ids;
+        return array_map(function(ProductCategory $productCategory) {
+            return $productCategory->getId();
+        }, $productCategoryArr);
     }
 
 }
