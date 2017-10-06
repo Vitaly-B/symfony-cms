@@ -8,7 +8,6 @@
 
 namespace AppBundle\Managers;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -22,25 +21,25 @@ class EntityManager
      */
     protected $class;
 
-    /* @var ContainerInterface */
-    protected $container;
+    /* @var EntityManagerInterface */
+    protected $entityManager;
 
     /**
-     * @param ContainerInterface $container
-     * @param string class
+     * @param EntityManagerInterface $entityManager
+     * @param                        string class
      */
-    public function __construct(ContainerInterface $container, $class)
+    public function __construct(EntityManagerInterface $entityManager, string $class)
     {
-        $this->container = $container;
-        $this->class     = $class;
+        $this->entityManager = $entityManager;
+        $this->class         = $class;
     }
 
     /**
      * @return EntityManagerInterface
      */
-    public function  getEntityManager(): EntityManagerInterface
+    public function getEntityManager(): EntityManagerInterface
     {
-        return $this->container->get('doctrine')->getManagerForClass($this->getClass());
+        return $this->entityManager;
     }
 
     /**

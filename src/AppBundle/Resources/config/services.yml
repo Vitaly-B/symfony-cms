@@ -12,14 +12,14 @@ services:
         class: AppBundle\Managers\PageManager
         public: true
         arguments:
-           - '@service_container'
+           - '@doctrine.orm.page_entity_manager'
            - AppBundle\Entity\Page
 
      app.managers.product_category_manager:
         class: AppBundle\Managers\ProductCategoryManager
         public: true
         arguments:
-            - '@service_container'
+            - '@doctrine.orm.default_entity_manager'
             - AppBundle\Entity\ProductCategory
 
      app.pagerfanta.template_default:
@@ -31,7 +31,7 @@ services:
         class: AppBundle\Managers\ProductAttrManager
         public: true
         arguments:
-            - '@service_container'
+            - '@doctrine.orm.default_entity_manager'
             - AppBundle\Entity\ProductAttr
             - '@app.managers.product_category_manager'
             - '@app.managers.product_attribute_value_manager'
@@ -40,7 +40,7 @@ services:
         class: AppBundle\Managers\ProductAttrValueManager
         public: true
         arguments:
-            - '@service_container'
+            - '@doctrine.orm.default_entity_manager'
             - AppBundle\Entity\ProductAttrValue
             - '@app.managers.product_category_manager'
 
@@ -52,7 +52,7 @@ services:
         class: AppBundle\Managers\ProductManager
         public: true
         arguments:
-            - '@service_container'
+            - '@doctrine.orm.default_entity_manager'
             - AppBundle\Entity\Product
             - '@app.managers.product_category_manager'
             - '@app.managers.product_attribute_value_manager'

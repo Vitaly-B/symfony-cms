@@ -17,6 +17,7 @@ use AppBundle\Model\Filter\FilterInterface;
 use AppBundle\Model\Types\Range;
 use AppBundle\Model\Types\RangeInterface;
 use AppBundle\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Pagerfanta\Pagerfanta;
@@ -62,7 +63,7 @@ final class ProductManager extends EntityManager
     private $filterForm;
 
     /**
-     * @param ContainerInterface      $container
+     * @param EntityManagerInterface  $entityManager
      * @param string                  $class
      * @param ProductCategoryManager  $productCategoryManager
      * @param ProductAttrValueManager $productAttrValueManager
@@ -71,7 +72,7 @@ final class ProductManager extends EntityManager
      * @param int                     $maxPerPage
      */
     public function __construct(
-        ContainerInterface $container,
+        EntityManagerInterface $entityManager,
         string $class,
         ProductCategoryManager $productCategoryManager,
         ProductAttrValueManager $productAttrValueManager,
@@ -80,7 +81,7 @@ final class ProductManager extends EntityManager
         int $maxPerPage = 10
     )
     {
-        parent::__construct($container, $class);
+        parent::__construct($entityManager, $class);
         $this->productCategoryManager  = $productCategoryManager;
         $this->productAttrValueManager = $productAttrValueManager;
         $this->filter                  = $filter;
@@ -295,7 +296,6 @@ final class ProductManager extends EntityManager
 
         return $this;
     }
-
 
     /**
      * @return FormInterface
