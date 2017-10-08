@@ -43,10 +43,10 @@
                             <div class="card card-product">
                                 <a href="{{ path('product_view', { id: product.id }) }}">
                                     {% if product.image %}
-                                        <img src="{{ media(product.image) | imagine_filter('thumbnail_quality_100_128x128_outbound') }}"
+                                        <img src="{{ sonata_media_provider_image.generatePublicUrl(product.image, 'reference') | imagine_filter('thumbnail_quality_100_128x128_outbound') }}"
                                              class="card-img-top" alt="{{ product.title }}">
                                     {% else %}
-                                        <img src="{{ parameter('product_default_image') }}" class="card-img-top"
+                                        <img src="{{ product_default_image }}" class="card-img-top"
                                              alt="{{ product.title }}">
                                     {% endif %}
                                 </a>

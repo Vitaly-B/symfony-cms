@@ -10,14 +10,14 @@
 
             <h1>{{ product.title }}</h1>
             {% if product.image %}
-                <img  src="{{ media(product.image) | imagine_filter('relative_resize_quality_100_400') }}" class="card-img-top" alt="{{ product.title }}">
+                <img  src="{{ sonata_media_provider_image.generatePublicUrl(product.image, 'reference') | imagine_filter('relative_resize_quality_100_400') }}" class="card-img-top" alt="{{ product.title }}">
             {% else %}
-                <img  src="{{ parameter('product_default_image') }}" class="card-img-top" alt="{{ product.title }}">
+                <img  src="{{ product_default_image }}" class="card-img-top" alt="{{ product.title }}">
             {% endif %}
 
             {% if product.gallery %}
                 {% for galeryItem in product.gallery.galleryHasMedias %}
-                    <img src="{{ media(galeryItem.media) | imagine_filter('thumbnail_quality_100_90x90_outbound') }}"
+                    <img src="{{ sonata_media_provider_image.generatePublicUrl(galeryItem.media, 'reference') | imagine_filter('thumbnail_quality_100_90x90_outbound') }}"
                          alt="{{ product.title }}">
                 {% endfor %}
             {% endif %}

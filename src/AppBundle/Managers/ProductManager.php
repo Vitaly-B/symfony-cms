@@ -14,8 +14,8 @@ use AppBundle\Managers\Traits\PagerfantaBuilderTrait;
 use AppBundle\Model\Filter\FilterAttr;
 use AppBundle\Model\Filter\FilterAttrValue;
 use AppBundle\Model\Filter\FilterInterface;
-use AppBundle\Model\Types\Range;
-use AppBundle\Model\Types\RangeInterface;
+use AppBundle\Model\Types\Range\FloatRange;
+use AppBundle\Model\Types\Range\RangeInterface;
 use AppBundle\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
@@ -212,7 +212,7 @@ final class ProductManager extends EntityManager
         /* @var array $resultArr */
         $resultArr = $queryBuilder->getQuery()->getSingleResult(Query::HYDRATE_SCALAR);
 
-        return new Range($resultArr['min_price'], $resultArr['max_price']);
+        return new FloatRange($resultArr['min_price'] ?: 0.00, $resultArr['max_price'] ?: 0.00);
     }
 
     /**

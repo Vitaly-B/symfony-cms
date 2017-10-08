@@ -23,7 +23,6 @@
 {% endblock %}
 
 {% block body %}
-
     {% block navbar %}
         <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
             <a class="navbar-brand" href="{{ path('homepage') }}">{{ 'Hello user!' | trans }}</a>
@@ -44,7 +43,7 @@
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {% if app.user.image %}
                                     <img class="app-top-naw-user-avatar"
-                                         src="{{ media(app.user.image) | imagine_filter('thumbnail_quality_100_22x22_outbound') }}"
+                                         src="{{ sonata_media_provider_image.generatePublicUrl(app.user.image, 'reference') | imagine_filter('thumbnail_quality_100_22x22_outbound') }}"
                                          alt="{{ app.user.username }}">
                                 {% endif %}
                                 {{ app.user.username }}
@@ -74,7 +73,7 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ app.request.getlocale() | capitalize }}</a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                            {% for locale in parameter('locales') %}
+                            {% for locale in locales %}
                                 <a class="dropdown-item" href="{{ path('homepage', {_locale: locale}) }}">{{ locale | capitalize }}</a>
                             {% endfor %}
                         </div>

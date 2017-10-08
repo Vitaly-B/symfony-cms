@@ -50,6 +50,11 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        locales: '%locales%'
+        product_default_image: '%product_default_image%'
+        sonata_media_provider_image: '@sonata.media.provider.image'
+
     form_themes:
         - 'SonataFormatterBundle:Form:formatter.html.twig'
         - 'SonataMediaBundle:Form:media_widgets.html.twig'
@@ -67,14 +72,14 @@ doctrine:
                 user: '%database_user%'
                 password: '%database_password%'
                 charset: UTF8
-            page:
-                driver: pdo_mysql
-                host: '%database_pages_host%'
-                port: '%database_pages_port%'
-                dbname: '%database_pages_name%'
-                user: '%database_pages_user%'
-                password: '%database_pages_password%'
-                charset: UTF8
+#            page:
+#                driver: pdo_mysql
+#                host: '%database_pages_host%'
+#                port: '%database_pages_port%'
+#                dbname: '%database_pages_name%'
+#                user: '%database_pages_user%'
+#                password: '%database_pages_password%'
+#                charset: UTF8
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
@@ -96,15 +101,16 @@ doctrine:
                     AppBundle: ~
                     ApplicationSonataMediaBundle: ~
                     SonataMediaBundle: ~
-            page:
-                connection: page
-                naming_strategy: doctrine.orm.naming_strategy.underscore
-                mappings:
-                    AppBundle:
-                      type: yml
-                      dir: '%kernel.project_dir%/src/AppBundle/Resources/config/doctrine/Page'
-                      is_bundle: false
-                      prefix: AppBundle\Entity
+#
+#            page:
+#                connection: page
+#                naming_strategy: doctrine.orm.naming_strategy.underscore
+#                mappings:
+#                    AppBundle:
+#                      type: yml
+#                      dir: '%kernel.project_dir%/src/AppBundle/Resources/config/doctrine/Page'
+#                      is_bundle: false
+#                      prefix: AppBundle\Entity
 
 
 # Swiftmailer Configuration

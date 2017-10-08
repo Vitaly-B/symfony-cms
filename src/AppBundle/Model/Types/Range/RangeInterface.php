@@ -6,7 +6,7 @@
  * Time: 19:17
  */
 
-namespace AppBundle\Model\Types;
+namespace AppBundle\Model\Types\Range;
 
 /**
  *
@@ -15,12 +15,12 @@ namespace AppBundle\Model\Types;
 interface RangeInterface
 {
     /**
-     * @return float
+     * @return int|float
      */
-    public function getMin(): float;
+    public function getMin();
 
     /**
-     * @return float
+     * @return int|float
      */
-    public function getMax(): float;
+    public function getMax();
 }

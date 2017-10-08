@@ -97,33 +97,42 @@ class MenuBuilder implements ContainerAwareInterface
     {
         $parentId = $parentProductCategory ? $parentProductCategory->getId() : 0;
 
-        foreach ($productCategoryArrIndexedByParentId[$parentId] as $productCategory) {
+        if(isset($productCategoryArrIndexedByParentId[$parentId])) {
+            foreach ($productCategoryArrIndexedByParentId[$parentId] as
+                $productCategory) {
 
-            /* @var ProductCategory $productCategory */
-            $menu->addChild(
-                $productCategory->getTitle(),
-                [
-                    'route' => 'products_list',
-                    'routeParameters' => [
-                        'page'       => 1,
-                        'categoryId' => $productCategory->getId(),
-                    ],
-                ]
-            );
-
-            $menu->getChild($productCategory->getTitle())
-                ->setAttribute('class', 'nav-item')
-                ->setLinkAttribute('class', 'nav-link')
-            ;
-
-            if (isset($productCategoryArrIndexedByParentId[$productCategory->getId()])
-                && ! empty($productCategoryArrIndexedByParentId[$productCategory->getId()])) {
-
-                $this->createProductCategoriesMenuRecursive(
-                    $productCategoryArrIndexedByParentId,
-                    $menu->getChild($productCategory->getTitle()),
-                    $productCategory
+                /* @var ProductCategory $productCategory */
+                $menu->addChild(
+                    $productCategory->getTitle(),
+                    [
+                        'route'           => 'products_list',
+                        'routeParameters' => [
+                            'page'       => 1,
+                            'categoryId' => $productCategory->getId(),
+                        ],
+                    ]
                 );
+
+                $menu->getChild($productCategory->getTitle())
+                    ->setAttribute('class', 'nav-item')
+                    ->setLinkAttribute('class', 'nav-link');
+
+                if (isset(
+                        $productCategoryArrIndexedByParentId[$productCategory->getId(
+                        )]
+                    )
+                    && ! empty(
+                    $productCategoryArrIndexedByParentId[$productCategory->getId(
+                    )]
+                    )
+                ) {
+
+                    $this->createProductCategoriesMenuRecursive(
+                        $productCategoryArrIndexedByParentId,
+                        $menu->getChild($productCategory->getTitle()),
+                        $productCategory
+                    );
+                }
             }
         }
     }

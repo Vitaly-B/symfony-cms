@@ -5,6 +5,8 @@ AppBundle\Entity\Product:
       indexes:
           title:
               columns: [ title ]
+          enabled:
+              columns: [ enabled ]
       id:
           id:
               type: integer

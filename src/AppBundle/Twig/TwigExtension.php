@@ -8,21 +8,15 @@
 
 namespace AppBundle\Twig;
 
-
-use AppBundle\Entity\Interfaces\SortableInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sonata\MediaBundle\Model\MediaInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class TwigExtension extends \Twig_Extension implements ContainerAwareInterface
+/**
+ * TwigExtension
+ */
+class TwigExtension extends \Twig_Extension
 {
     public $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
 
     public function getFilters()
     {
@@ -60,18 +54,8 @@ class TwigExtension extends \Twig_Extension implements ContainerAwareInterface
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('parameter', function (string $name) {
-                return $this->container->getParameter($name);
-            }),
             new \Twig_SimpleFunction('str_repeat', function (string $input, int $multiplier) {
                 return str_repeat($input, $multiplier);
-            }),
-            new \Twig_SimpleFunction('media', function (MediaInterface $media, $format = 'reference') {
-
-                /* @var \Sonata\MediaBundle\Provider\ImageProvider $provider*/
-                $provider = $this->container->get($media->getProviderName());
-
-                return $provider->generatePublicUrl($media, $format);
             }),
         ];
     }
@@ -84,10 +68,5 @@ class TwigExtension extends \Twig_Extension implements ContainerAwareInterface
     public function getName()
     {
         return static::class;
-    }
-
-    public function setContainer(ContainerInterface $container = null)
-    {
-       $this->container = $container;
     }
 }

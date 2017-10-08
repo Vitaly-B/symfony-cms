@@ -6,12 +6,12 @@
  * Time: 19:18
  */
 
-namespace AppBundle\Model\Types;
+namespace AppBundle\Model\Types\Range;
 
 /**
  * Range
  */
-class Range implements RangeInterface
+class FloatRange implements RangeInterface
 {
     /**
      * @var float
