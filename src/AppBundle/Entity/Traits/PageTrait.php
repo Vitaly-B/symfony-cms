@@ -8,7 +8,11 @@
 
 namespace AppBundle\Entity\Traits;
 
+use AppBundle\Entity\Interfaces\PageInterface;
 
+/**
+ * PageTrait
+ */
 trait PageTrait
 {
     use PagePropertiesTrait;
@@ -18,9 +22,9 @@ trait PageTrait
      *
      * @param string|null $title
      *
-     * @return PageTrait
+     * @return PageInterface
      */
-    public function setTitle(?string $title)
+    public function setTitle(?string $title): PageInterface
     {
         $this->title = $title;
 
@@ -42,9 +46,9 @@ trait PageTrait
      *
      * @param string|null $description
      *
-     * @return PageTrait
+     * @return PageInterface
      */
-    public function setDescription(?string $description)
+    public function setDescription(?string $description): PageInterface
     {
         $this->description = $description;
 
@@ -66,9 +70,9 @@ trait PageTrait
      *
      * @param string|null $content
      *
-     * @return PageTrait
+     * @return PageInterface
      */
-    public function setContent(?string $content)
+    public function setContent(?string $content): PageInterface
     {
         $this->content = $content;
 

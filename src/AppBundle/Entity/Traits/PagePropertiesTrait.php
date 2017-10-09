@@ -12,12 +12,12 @@ namespace AppBundle\Entity\Traits;
 trait PagePropertiesTrait
 {
     /* @var string */
-    private $title;
+    protected $title;
 
     /* @var string */
-    private $description;
+    protected $description;
 
     /* @var string */
-    private $content;
+    protected $content;
 
 }

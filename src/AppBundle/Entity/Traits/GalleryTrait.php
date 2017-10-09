@@ -9,6 +9,7 @@
 namespace AppBundle\Entity\Traits;
 
 use Sonata\MediaBundle\Model\GalleryInterface as SonataGalleryInterface;
+use AppBundle\Entity\Interfaces\GalleryInterface;
 
 /**
  * GalleryTrait
@@ -16,7 +17,7 @@ use Sonata\MediaBundle\Model\GalleryInterface as SonataGalleryInterface;
 trait GalleryTrait
 {
     /* @var Collection */
-    private $gallery;
+    protected $gallery;
 
     /**
      * Get gallery
@@ -35,7 +36,7 @@ trait GalleryTrait
      *
      * @return GalleryTrait
      */
-    public function setGallery(?SonataGalleryInterface $gallery)
+    public function setGallery(?SonataGalleryInterface $gallery): GalleryInterface
     {
         $this->gallery = $gallery;
 

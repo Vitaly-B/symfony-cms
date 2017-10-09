@@ -8,6 +8,8 @@
 
 namespace AppBundle\Entity\Traits;
 
+use AppBundle\Entity\Interfaces\EnabledInterface;
+
 /**
  * EnabledTrait
  */
@@ -16,16 +18,16 @@ trait EnabledTrait
     /**
      * @var bool
      */
-    private $enabled = true;
+    protected $enabled = true;
 
     /**
      * Set enabled
      *
      * @param boolean $enabled
      *
-     * @return EnabledTrait
+     * @return EnabledInterface
      */
-    public function setEnabled(bool $enabled)
+    public function setEnabled(bool $enabled): EnabledInterface
     {
         $this->enabled = $enabled;
 

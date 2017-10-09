@@ -2,12 +2,13 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Interfaces\PageInterface;
 use AppBundle\Entity\Interfaces\TranslatableInterface;
 
 /**
  * Page
  */
-class Page implements TranslatableInterface
+class Page implements TranslatableInterface, PageInterface
 {
     use Traits\IdentifierTrait;
     use Traits\SeoTranslatableTrait;

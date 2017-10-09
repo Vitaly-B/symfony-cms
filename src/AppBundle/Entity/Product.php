@@ -8,6 +8,10 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Interfaces\PreviewableInterface;
+use AppBundle\Entity\Interfaces\ProductAttrValueInterface;
+use AppBundle\Entity\Interfaces\ProductCategoryInterface;
+use AppBundle\Entity\Interfaces\ProductInterface;
 use AppBundle\Entity\Interfaces\SortableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,7 +19,7 @@ use Doctrine\Common\Collections\Collection;
 /**
  * Product
  */
-class Product implements SortableInterface
+class Product implements SortableInterface, ProductInterface, PreviewableInterface
 {
     use Traits\IdentifierTrait;
     use Traits\PageTrait;
@@ -42,11 +46,11 @@ class Product implements SortableInterface
     }
 
     /**
-     * @param Collection|ProductCategory[] $categories
+     * @param Collection|ProductCategoryInterface[] $categories
      *
-     * @return Product
+     * @return ProductInterface
      */
-    public function setCategories(Collection $categories): Product
+    public function setCategories(Collection $categories): ProductInterface
     {
         $this->categories = $categories;
 
@@ -54,7 +58,7 @@ class Product implements SortableInterface
     }
 
     /**
-     * @return Collection|ProductCategory[]
+     * @return Collection|ProductCategoryInterface[]
      */
     public function getCategories(): Collection
     {
@@ -62,11 +66,11 @@ class Product implements SortableInterface
     }
 
     /**
-     * @param ProductCategory $category
+     * @param ProductCategoryInterface $category
      *
      * @return bool
      */
-    public function addCategory(ProductCategory $category): bool
+    public function addCategory(ProductCategoryInterface $category): bool
     {
         if(!$this->categories->contains($category)) {
             return $this->categories->add($category);
@@ -76,11 +80,11 @@ class Product implements SortableInterface
     }
 
     /**
-     * @param ProductCategory $category
+     * @param ProductCategoryInterface $category
      *
      * @return bool
      */
-    public function removeCategory(ProductCategory $category): bool
+    public function removeCategory(ProductCategoryInterface $category): bool
     {
         return $this->categories->removeElement($category);
     }
@@ -96,9 +100,9 @@ class Product implements SortableInterface
     /**
      * @param float|null $price
      *
-     * @return Product
+     * @return ProductInterface
      */
-    public function setPrice(?float $price): Product
+    public function setPrice(?float $price): ProductInterface
     {
         $this->price = $price;
 
@@ -106,18 +110,18 @@ class Product implements SortableInterface
     }
 
     /**
-     * @param Collection|ProductAttrValue[] $attrValues
+     * @param Collection|ProductAttrValueInterface[] $attrValues
      *
-     * @return Product
+     * @return ProductInterface
      */
-    public function setAttrValues(Collection $attrValues): Product
+    public function setAttrValues(Collection $attrValues): ProductInterface
     {
         $this->attrValues = $attrValues;
         return $this;
     }
 
     /**
-     * @return Collection|ProductAttrValue[]
+     * @return Collection|ProductAttrValueInterface[]
      */
     public function getAttrValues(): Collection
     {
@@ -125,11 +129,11 @@ class Product implements SortableInterface
     }
 
     /**
-     * @param ProductAttrValue $attrValue
+     * @param ProductAttrValueInterface $attrValue
      *
      * @return bool
      */
-    public function addAttrValue(ProductAttrValue $attrValue): bool
+    public function addAttrValue(ProductAttrValueInterface $attrValue): bool
     {
         if (!$this->attrValues->contains($attrValue)) {
             return $this->attrValues->add($attrValue);
@@ -138,11 +142,11 @@ class Product implements SortableInterface
     }
 
     /**
-     * @param ProductAttrValue $attrValue
+     * @param ProductAttrValueInterface $attrValue
      *
      * @return bool
      */
-    public function removeAttrValue(ProductAttrValue $attrValue): bool
+    public function removeAttrValue(ProductAttrValueInterface $attrValue): bool
     {
         return $this->attrValues->removeElement($attrValue);
     }

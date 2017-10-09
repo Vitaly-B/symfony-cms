@@ -15,29 +15,16 @@ use AppBundle\Entity\Interfaces\SeoInterface;
  */
 trait SeoTrait
 {
-    /**
-     * @var string
-     */
-    private $seoTitle;
-
-    /**
-     * @var string
-     */
-    private $seoKeywords;
-
-    /**
-     * @var string
-     */
-    private $seoDescription;
+    use SeoPropertiesTrait;
 
     /**
      * Set seoTitle
      *
      * @param string $seoTitle
      *
-     * @return SeoTrait
+     * @return SeoInterface
      */
-    public function setSeoTitle(?string $seoTitle)
+    public function setSeoTitle(?string $seoTitle): SeoInterface
     {
         $this->seoTitle = $seoTitle;
 
@@ -59,9 +46,9 @@ trait SeoTrait
      *
      * @param string $seoKeywords
      *
-     * @return SeoTrait
+     * @return SeoInterface
      */
-    public function setSeoKeywords(?string $seoKeywords)
+    public function setSeoKeywords(?string $seoKeywords): SeoInterface
     {
         $this->seoKeywords = $seoKeywords;
 
@@ -83,9 +70,9 @@ trait SeoTrait
      *
      * @param string $seoDescription
      *
-     * @return SeoTrait
+     * @return SeoInterface
      */
-    public function setSeoDescription(?string $seoDescription)
+    public function setSeoDescription(?string $seoDescription): SeoInterface
     {
         $this->seoDescription = $seoDescription;
 

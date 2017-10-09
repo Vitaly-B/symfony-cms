@@ -2,18 +2,18 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Interfaces\ProductCategoryInterface;
+use AppBundle\Entity\Interfaces\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
  * ProductCategory
  */
-class ProductCategory
+class ProductCategory implements ProductCategoryInterface
 {
+    use Traits\IdentifierTrait;
     use Traits\NestedSetTrait;
-
-    /* @var int */
-    private $id;
 
     /* @var string */
     private $title;
@@ -30,23 +30,13 @@ class ProductCategory
     }
 
     /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
      * Set title
      *
      * @param string $title
      *
-     * @return ProductCategory
+     * @return ProductCategoryInterface
      */
-    public function setTitle(?string $title): ProductCategory
+    public function setTitle(?string $title): ProductCategoryInterface
     {
         $this->title = $title;
 
@@ -82,11 +72,11 @@ class ProductCategory
     }
 
     /**
-     * @param Collection|Product[] $products
+     * @param Collection|ProductInterface[] $products
      *
-     * @return ProductCategory
+     * @return ProductCategoryInterface
      */
-    public function setProducts(Collection $products): ProductCategory
+    public function setProducts(Collection $products): ProductCategoryInterface
     {
         $this->products = $products;
 
@@ -94,11 +84,11 @@ class ProductCategory
     }
 
     /**
-     * @param Product $product
+     * @param ProductInterface $product
      *
      * @return bool
      */
-    public function addProduct(Product $product): bool
+    public function addProduct(ProductInterface $product): bool
     {
         if(!$this->products->contains($product)) {
             return $this->products->add($product);
@@ -108,11 +98,11 @@ class ProductCategory
     }
 
     /**
-     * @param Product $product
+     * @param ProductInterface $product
      *
      * @return bool
      */
-    public function removeProduct(Product $product): bool
+    public function removeProduct(ProductInterface $product): bool
     {
         return $this->products->removeElement($product);
     }

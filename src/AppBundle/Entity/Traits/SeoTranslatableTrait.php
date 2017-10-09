@@ -8,21 +8,23 @@
 
 namespace AppBundle\Entity\Traits;
 
+use AppBundle\Entity\Interfaces\SeoInterface;
+
 /**
  * SeoTranslatableTrait
  */
 trait SeoTranslatableTrait
 {
-    use SeoTrait;
+    use SeoPropertiesTrait;
 
     /**
      * Set seoTitle
      *
      * @param string $seoTitle
      *
-     * @return SeoTranslatableTrait
+     * @return SeoInterface
      */
-    public function setSeoTitle(?string $seoTitle)
+    public function setSeoTitle(?string $seoTitle): SeoInterface
     {
         if($this->getCurrentLocale() !== $this->getDefaultLocale()) {
             $this->translate($this->getCurrentLocale())->setSeoTitle($seoTitle);
@@ -51,9 +53,9 @@ trait SeoTranslatableTrait
      *
      * @param string $seoKeywords
      *
-     * @return SeoTranslatableTrait
+     * @return SeoInterface
      */
-    public function setSeoKeywords(?string $seoKeywords)
+    public function setSeoKeywords(?string $seoKeywords): SeoInterface
     {
         if($this->getCurrentLocale() !== $this->getDefaultLocale()) {
             $this->translate($this->getCurrentLocale())->setSeoKeywords($seoKeywords);
@@ -81,9 +83,9 @@ trait SeoTranslatableTrait
      *
      * @param string $seoDescription
      *
-     * @return SeoTranslatableTrait
+     * @return SeoInterface
      */
-    public function setSeoDescription(?string $seoDescription)
+    public function setSeoDescription(?string $seoDescription): SeoInterface
     {
         if($this->getCurrentLocale() !== $this->getDefaultLocale()) {
             $this->translate($this->getCurrentLocale())->setSeoDescription($seoDescription);

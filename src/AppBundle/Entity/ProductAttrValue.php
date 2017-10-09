@@ -2,6 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Interfaces\ProductAttrInterface;
+use AppBundle\Entity\Interfaces\ProductAttrValueInterface;
+use AppBundle\Entity\Interfaces\ProductInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -9,12 +12,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 /**
  * ProductAttrValue
  */
-class ProductAttrValue
+class ProductAttrValue implements ProductAttrValueInterface
 {
-    /**
-     * @var int
-     */
-    private $id;
+    use Traits\IdentifierTrait;
 
     /**
      * @var string|int|float
@@ -59,9 +59,9 @@ class ProductAttrValue
      *
      * @param string|null $value
      *
-     * @return ProductAttrValue
+     * @return ProductAttrValueInterface
      */
-    public function setValue(?string $value): ProductAttrValue
+    public function setValue(?string $value): ProductAttrValueInterface
     {
         $this->value = $value;
 
@@ -83,9 +83,9 @@ class ProductAttrValue
      *
      * @param float|null $numberValue
      *
-     * @return ProductAttrValue
+     * @return ProductAttrValueInterface
      */
-    public function setNumberValue(?float $numberValue): ProductAttrValue
+    public function setNumberValue(?float $numberValue): ProductAttrValueInterface
     {
         $this->numberValue = $numberValue;
 
@@ -106,9 +106,9 @@ class ProductAttrValue
     /**
      * get attribute
      *
-     * @return ProductAttr
+     * @return ProductAttrInterface
      */
-    public function getAttribute(): ?ProductAttr
+    public function getAttribute(): ?ProductAttrInterface
     {
         return $this->attribute;
     }
@@ -116,11 +116,11 @@ class ProductAttrValue
     /**
      * get attribute
      *
-     * @param ProductAttr|null $attribute
+     * @param ProductAttrInterface|null $attribute
      *
-     * @return ProductAttrValue
+     * @return ProductAttrValueInterface
      */
-    public function setAttribute(?ProductAttr $attribute): ProductAttrValue
+    public function setAttribute(?ProductAttrInterface $attribute): ProductAttrValueInterface
     {
         $this->attribute = $attribute;
 
@@ -130,11 +130,11 @@ class ProductAttrValue
     /**
      * set product
      *
-     * @param Product|null $product
+     * @param ProductInterface|null $product
      *
-     * @return ProductAttrValue
+     * @return ProductAttrValueInterface
      */
-    public function setProduct(?Product $product): ProductAttrValue
+    public function setProduct(?ProductInterface $product): ProductAttrValueInterface
     {
         $this->product = $product;
 
@@ -144,19 +144,22 @@ class ProductAttrValue
     /**
      * get product
      *
-     * @return Product|null
+     * @return ProductInterface|null
      */
-    public function getProduct(): ?Product
+    public function getProduct(): ?ProductInterface
     {
         return $this->product;
     }
 
     /**
      * validate value
+     *
      * @param ExecutionContextInterface $context
-     * @param mixed $payload
+     * @param mixed                     $payload
+     *
+     * @return void
      */
-    public function validateValue(ExecutionContextInterface $context, $payload)
+    public function validateValue(ExecutionContextInterface $context, $payload): void
     {
         if($this->getAttribute() && $this->getAttribute()->getType() !== $this->getAttribute()::TYPE_STRING) {
             if(!is_numeric(str_replace(',','.',$this->getValue()))) {
@@ -177,8 +180,10 @@ class ProductAttrValue
 
     /**
      *  preUpdate adn prePersists updateValues
+     *
+     * @return void
      */
-    public function updateValues()
+    public function updateValues(): void
     {
         if ($this->getAttribute()) {
 
@@ -204,9 +209,9 @@ class ProductAttrValue
 
     /**
      * @param int|null $attributeId
-     * @return ProductAttrValue
+     * @return ProductAttrValueInterface
      */
-    public function setAttributeId(?int $attributeId): ProductAttrValue
+    public function setAttributeId(?int $attributeId): ProductAttrValueInterface
     {
         $this->attributeId = $attributeId;
 

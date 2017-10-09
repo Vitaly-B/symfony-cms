@@ -12,7 +12,7 @@ namespace AppBundle\Entity\Traits;
 trait IdentifierTrait
 {
     /* @var int */
-    private $id;
+    protected $id;
 
     /**
      * Get id

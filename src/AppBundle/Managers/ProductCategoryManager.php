@@ -9,6 +9,7 @@
 namespace AppBundle\Managers;
 
 use AppBundle\Entity\ProductCategory;
+use AppBundle\Entity\Interfaces\ProductCategoryInterface;
 use AppBundle\Repository\ProductCategoryRepository;
 
 /**
@@ -18,19 +19,19 @@ final class ProductCategoryManager extends EntityManager
 {
     /**
      * @param int $id
-     * @return ProductCategory|null
+     * @return ProductCategoryInterface|null
      */
-    public function getById(int $id)
+    public function getById(int $id): ProductCategoryInterface
     {
         return $this->getRepository()->find($id);
     }
 
     /**
-     * @param ProductCategory|null $currentCategory
+     * @param ProductCategoryInterface|null $currentCategory
      *
-     * @return ProductCategory[]
+     * @return ProductCategoryInterface[]
      */
-    public function getCategoryHierarchy(?ProductCategory $currentCategory = null): array
+    public function getCategoryHierarchy(?ProductCategoryInterface $currentCategory = null): array
     {
         /* @var ProductCategoryRepository $repository */
         $repository = $this->getRepository();
@@ -39,11 +40,11 @@ final class ProductCategoryManager extends EntityManager
     }
 
     /**
-     * @param ProductCategory|null $category
+     * @param ProductCategoryInterface|null $category
      *
      * @return int[]
      */
-    public function getChildrenIds(?ProductCategory $category = null): array
+    public function getChildrenIds(?ProductCategoryInterface $category = null): array
     {
         /* @var ProductCategoryRepository $repository */
         $repository = $this->getRepository();

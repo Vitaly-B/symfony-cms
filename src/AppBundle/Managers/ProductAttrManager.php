@@ -8,12 +8,11 @@
 
 namespace AppBundle\Managers;
 
-use AppBundle\Entity\ProductAttr;
-use AppBundle\Entity\ProductCategory;
+use AppBundle\Entity\Interfaces\ProductAttrInterface;
+use AppBundle\Entity\Interfaces\ProductCategoryInterface;
 use AppBundle\Repository\ProductAttrRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * ProductAttrManager
@@ -45,11 +44,11 @@ final class ProductAttrManager extends EntityManager
     }
 
     /**
-     * @param ProductCategory|null $category if null return all
+     * @param ProductCategoryInterface|null $category if null return all
      *
-     * @return ProductAttr[]
+     * @return ProductAttrInterface[]
      */
-    public function getAttributes(?ProductCategory $category): array
+    public function getAttributes(?ProductCategoryInterface $category): array
     {
         /* @var ProductAttrRepository $repository */
         $repository = $this->getRepository();

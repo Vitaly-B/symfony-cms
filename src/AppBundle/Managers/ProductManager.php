@@ -8,10 +8,14 @@
 
 namespace AppBundle\Managers;
 
+use AppBundle\Entity\Interfaces\ProductAttrValueInterface;
+use AppBundle\Entity\Interfaces\ProductCategoryInterface;
+use AppBundle\Entity\Interfaces\ProductInterface;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\ProductCategory;
 use AppBundle\Managers\Traits\PagerfantaBuilderTrait;
 use AppBundle\Model\Filter\FilterAttr;
+use AppBundle\Model\Filter\FilterAttrInterface;
 use AppBundle\Model\Filter\FilterAttrValue;
 use AppBundle\Model\Filter\FilterInterface;
 use AppBundle\Model\Types\Range\FloatRange;
@@ -21,7 +25,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Pagerfanta\Pagerfanta;
-use Psr\Container\ContainerInterface;
 use AppBundle\Entity\ProductAttrValue;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -47,7 +50,7 @@ final class ProductManager extends EntityManager
     /* @var ProductAttrValueManager */
     private $productAttrValueManager;
 
-    /* @var ProductCategory */
+    /* @var ProductCategoryInterface */
     private $productCategory;
 
     /* @var FilterInterface */
@@ -98,10 +101,10 @@ final class ProductManager extends EntityManager
     }
 
     /**
-     * @param ProductCategory|null $productCategory
+     * @param ProductCategoryInterface|null $productCategory
      * @return ProductManager
      */
-    public function setProductCategory(?ProductCategory $productCategory): ProductManager
+    public function setProductCategory(?ProductCategoryInterface $productCategory): ProductManager
     {
         $this->productCategory = $productCategory;
 
@@ -109,9 +112,9 @@ final class ProductManager extends EntityManager
     }
 
     /**
-     * @return ProductCategory|null
+     * @return ProductCategoryInterface|null
      */
-    public function getProductCategory(): ?ProductCategory
+    public function getProductCategory(): ?ProductCategoryInterface
     {
         return $this->productCategory;
     }
@@ -152,7 +155,7 @@ final class ProductManager extends EntityManager
 
             $categoryIds[] = $this->productCategory->getId();
 
-            /* @var ProductCategory[] $productCategoryArr*/
+            /* @var ProductCategoryInterface[] $productCategoryArr*/
             $productCategoryArr = $this->productCategoryManager->getCategoryHierarchy($this->productCategory);
 
             $categoryIds = array_map(function(ProductCategory $productCategory) {
@@ -181,9 +184,9 @@ final class ProductManager extends EntityManager
 
     /**
      * @param int $id
-     * @return Product|null
+     * @return ProductInterface|null
      */
-    public function getById(int $id): ?Product
+    public function getById(int $id): ?ProductInterface
     {
         /* @var ProductRepository $repository */
         $repository = $this->getRepository();
@@ -230,7 +233,7 @@ final class ProductManager extends EntityManager
 
             foreach ($this->filter->getAttributes() as $filterAttr) {
                 if($filterAttr->isActive()) {
-                    /* @var FilterAttr $filterAttr */
+                    /* @var FilterAttrInterface $filterAttr */
                     if ($filterAttr->getKey() == 'price') {
                         ['min' => $filterAttrValueMin, 'max' => $filterAttrValueMax] = $filterAttr->getValues()->toArray();
                         $queryBuilder->andWhere($queryBuilder->expr()->between(
@@ -269,7 +272,7 @@ final class ProductManager extends EntityManager
      */
     public function initializeFilter(): ProductManager
     {
-        /* @var ProductAttrValue[] $attrValueArr */
+        /* @var ProductAttrValueInterface[] $attrValueArr */
         $attrValueArr = $this->productAttrValueManager->getUniqueValuesByCategory($this->getProductCategory());
 
         array_walk($attrValueArr, function(ProductAttrValue $attrValue) {

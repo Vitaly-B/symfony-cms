@@ -8,7 +8,11 @@
 
 namespace AppBundle\Entity\Traits;
 
+use AppBundle\Entity\Interfaces\PageInterface;
 
+/**
+ * PageTranslatableTrait
+ */
 trait PageTranslatableTrait
 {
     use PagePropertiesTrait;
@@ -18,9 +22,9 @@ trait PageTranslatableTrait
      *
      * @param string|null $title
      *
-     * @return PageTranslatableTrait
+     * @return PageInterface
      */
-    public function setTitle(?string $title)
+    public function setTitle(?string $title): PageInterface
     {
         if($this->getCurrentLocale() !== $this->getDefaultLocale()) {
             $this->translate($this->getCurrentLocale())->setTitle($title);
@@ -50,9 +54,9 @@ trait PageTranslatableTrait
      *
      * @param string|null $description
      *
-     * @return PageTranslatableTrait
+     * @return PageInterface
      */
-    public function setDescription(?string $description)
+    public function setDescription(?string $description): PageInterface
     {
         if($this->getCurrentLocale() !== $this->getDefaultLocale()) {
             $this->translate($this->getCurrentLocale())->setDescription($description);
@@ -83,9 +87,9 @@ trait PageTranslatableTrait
      *
      * @param string|null $content
      *
-     * @return PageTranslatableTrait
+     * @return PageInterface
      */
-    public function setContent(?string $content)
+    public function setContent(?string $content): PageInterface
     {
         if($this->getCurrentLocale() !== $this->getDefaultLocale()) {
             $this->translate($this->getCurrentLocale())->setContent($content);

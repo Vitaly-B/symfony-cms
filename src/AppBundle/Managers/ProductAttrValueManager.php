@@ -8,12 +8,12 @@
 
 namespace AppBundle\Managers;
 
-use AppBundle\Entity\ProductAttrValue;
-use AppBundle\Entity\ProductCategory;
+use AppBundle\Entity\Interfaces\ProductAttrValueInterface;
+use AppBundle\Entity\Interfaces\ProductCategoryInterface;
 use AppBundle\Repository\ProductAttrValueRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+
 
 /**
  * ProductAttrValueManager
@@ -35,11 +35,11 @@ final class ProductAttrValueManager extends EntityManager
     }
 
     /**
-     * @param ProductCategory|null $category if null return all
+     * @param ProductCategoryInterface|null $category if null return all
      *
-     * @return ProductAttrValue[]
+     * @return ProductAttrValueInterface[]
      */
-    public function getUniqueValuesByCategory(?ProductCategory $category): array
+    public function getUniqueValuesByCategory(?ProductCategoryInterface $category): array
     {
         /* @var ProductAttrValueRepository $repository */
         $repository = $this->getRepository();

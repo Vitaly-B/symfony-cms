@@ -8,7 +8,7 @@
 
 namespace AppBundle\Managers;
 
-use AppBundle\Entity\Page;
+use AppBundle\Entity\Interfaces\PageInterface;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Repository\PageRepository;
 
@@ -18,12 +18,12 @@ use AppBundle\Repository\PageRepository;
 final class PageManager extends EntityManager
 {
     /**
-     * @param int $id
+     * @param int  $id
      * @param bool $enabled
      *
-     * @return Page|null
+     * @return PageInterface|null
      */
-    public function getById(int $id, bool $enabled = true): ?Page
+    public function getById(int $id, bool $enabled = true): ?PageInterface
     {
         /* @var PageRepository $repository */
         $repository = $this->getRepository();
@@ -42,7 +42,8 @@ final class PageManager extends EntityManager
 
     /**
      * @param bool $enabled
-     * @return array|Page[]
+     *
+     * @return array|PageInterface[]
      */
     public function getPages($enabled = true): array
     {
@@ -59,10 +60,20 @@ final class PageManager extends EntityManager
     }
 
     /**
-     * @param Page $page
-     * @param bool $andFlush
+     * @return PageInterface
      */
-    public function updatePage(Page $page, $andFlush = true): void
+    public function createPage(): PageInterface
+    {
+        $class = $this->getClass();
+
+        return new $class;
+    }
+
+    /**
+     * @param PageInterface $page
+     * @param bool          $andFlush
+     */
+    public function updatePage(PageInterface $page, $andFlush = true): void
     {
         if($page->getId()) {
             $this->getEntityManager()->merge($page);
