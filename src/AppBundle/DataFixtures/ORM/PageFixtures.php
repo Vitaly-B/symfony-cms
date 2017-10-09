@@ -8,6 +8,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Entity\Interfaces\PageInterface;
 use AppBundle\Entity\Page;
 use AppBundle\Managers\PageManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -32,14 +33,30 @@ class PageFixtures extends Fixture
         $validator = $this->container->get('validator');
 
         /* @var array $fixtures */
-        //$fixtures = json_decode(file_get_contents(__DIR__.'/Fixtures/pages.json'), true);
+        $fixtures = json_decode(file_get_contents(__DIR__.'/Fixtures/pages.json'), true);
 
         /* @var PropertyAccessor $propertyAccessor */
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
-//        foreach ($fixtures as $fixture) {
-//
-//        }
+        foreach ($fixtures as $fixture) {
+
+            /* @var PageInterface $page*/
+            $page = $pageManager->createPage();
+
+            $page->setEnabled(true);
+            $page->setTitle($propertyAccessor->getValue($fixture, '[title]'));
+            $page->setSeoTitle($propertyAccessor->getValue($fixture, '[seo_title]'));
+            $page->setDescription($propertyAccessor->getValue($fixture, '[description]'));
+            $page->setContent($propertyAccessor->getValue($fixture, '[content]'));
+
+            $errors = $validator->validate($validator);
+
+            if ($errors->count() == 0) {
+                $pageManager->updatePage($page);
+            } else {
+                throw new \Exception((string)$errors);
+            }
+        }
     }
 
 }
