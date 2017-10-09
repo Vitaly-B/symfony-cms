@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
 
-            {{ knp_menu_render('AppBundle:MenuBuilder:createProductCategoriesMenu', { currentClass: 'active' }) }}
+            {{ knp_menu_render('product_categories_menu', { currentClass: 'active' }) }}
 
             <br />
             {{ render(controller('AppBundle:ProductAttr:filterForm')) }}

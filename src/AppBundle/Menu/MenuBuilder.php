@@ -8,34 +8,57 @@
 
 namespace AppBundle\Menu;
 
+use AppBundle\Entity\Page;
 use AppBundle\Entity\ProductCategory;
+use AppBundle\Managers\PageManager;
 use AppBundle\Managers\ProductCategoryManager;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class MenuBuilder implements ContainerAwareInterface
+
+class MenuBuilder
 {
-    use ContainerAwareTrait;
+    /* @var FactoryInterface*/
+    private $factory;
+
+    /* @var ProductCategoryManager */
+    private $productCategoryManager;
+
+    /* @var PageManager */
+    private $pageManager;
 
     /**
-     * @param FactoryInterface $factory
+     * @param FactoryInterface       $factory
+     * @param ProductCategoryManager $productCategoryManager
+     * @param PageManager            $pageManager
      *
+     */
+    public function __construct(FactoryInterface $factory, ProductCategoryManager $productCategoryManager, PageManager $pageManager)
+    {
+        $this->factory                = $factory;
+        $this->productCategoryManager = $productCategoryManager;
+        $this->pageManager            = $pageManager;
+    }
+
+
+    /**
      * @return ItemInterface
      */
-    public function createTopLeftMenu(FactoryInterface $factory): ItemInterface
+    public function createTopLeftMenu(): ItemInterface
     {
-        $menu = $factory->createItem('top_left_menu');
+        $menu = $this->factory->createItem('top_left_menu');
         $menu->setChildrenAttribute('class', 'navbar-nav mr-auto');
 
-        $menu->addChild('About', [
-            'route'           => 'page',
-            'routeParameters' => ['id' => 1 ],
-        ])
-             ->setAttribute('class', 'nav-item')
-            ->setLinkAttribute('class', 'nav-link')
-        ;
+        foreach ($this->pageManager->getPages() as $page) {
+            /* @var Page $page */
+            $menu->addChild($page->getTitle(), [
+                'route'           => 'page',
+                'routeParameters' => ['id' => $page->getId() ],
+            ])
+                ->setAttribute('class', 'nav-item')
+                ->setLinkAttribute('class', 'nav-link')
+            ;
+        }
 
         $menu->addChild('Shop', [
             'route'           => 'products_list'
@@ -44,34 +67,19 @@ class MenuBuilder implements ContainerAwareInterface
             ->setLinkAttribute('class', 'nav-link')
         ;
 
-        $menu->addChild('Contact', [
-            'route'           => 'page',
-            'routeParameters' => ['id' => 3 ],
-        ])
-             ->setAttribute('class', 'nav-item')
-             ->setLinkAttribute('class', 'nav-link')
-        ;
-
-
-
         return $menu;
     }
 
     /**
-     * @param FactoryInterface $factory
-     *
      * @return ItemInterface
      */
-    public function createProductCategoriesMenu(FactoryInterface $factory): ItemInterface
+    public function createProductCategoriesMenu(): ItemInterface
     {
-        $menu = $factory->createItem('products_category_menu');
+        $menu =  $this->factory->createItem('products_category_menu');
         $menu->setChildrenAttribute('class', 'nav flex-column');
 
-        /* @var ProductCategoryManager $productCategoryManager */
-        $productCategoryManager = $this->container->get('app.managers.product_category_manager');
-
         /* @var ProductCategory[] $productCategoryArr*/
-        $productCategoryArr = $productCategoryManager->getCategoryHierarchy();
+        $productCategoryArr = $this->productCategoryManager->getCategoryHierarchy();
 
         /* @var ProductCategory[] $productCategoryArrIndexedByParentId */
         $productCategoryArrIndexedByParentId = [];
@@ -117,15 +125,8 @@ class MenuBuilder implements ContainerAwareInterface
                     ->setAttribute('class', 'nav-item')
                     ->setLinkAttribute('class', 'nav-link');
 
-                if (isset(
-                        $productCategoryArrIndexedByParentId[$productCategory->getId(
-                        )]
-                    )
-                    && ! empty(
-                    $productCategoryArrIndexedByParentId[$productCategory->getId(
-                    )]
-                    )
-                ) {
+                if (isset($productCategoryArrIndexedByParentId[$productCategory->getId()])
+                    && ! empty($productCategoryArrIndexedByParentId[$productCategory->getId()])) {
 
                     $this->createProductCategoriesMenuRecursive(
                         $productCategoryArrIndexedByParentId,

@@ -1,6 +1,25 @@
 parameters:
 
 services:
+     app.menu_builder:
+        class: AppBundle\Menu\MenuBuilder
+        arguments:
+            - '@knp_menu.factory'
+            - '@app.managers.product_category_manager'
+            - '@app.managers.page_manager'
+
+     app.top_left_menu:
+        class: Knp\Menu\MenuItem
+        factory: ['@app.menu_builder', createTopLeftMenu]
+        tags:
+            - { name: knp_menu.menu, alias: top_left_menu }
+
+     app.product_categories_menu:
+        class: Knp\Menu\MenuItem
+        factory: ['@app.menu_builder', createProductCategoriesMenu]
+        tags:
+            - { name: knp_menu.menu, alias: product_categories_menu }
+
      fos_user.user_manager:
         class: AppBundle\Managers\UserManager
         public: true

@@ -36,7 +36,7 @@ class UserFixtures extends Fixture
         $validator = $this->container->get('validator');
 
         /* @var array $fixtures */
-        $fixtures = $this->loadFixtures();
+        $fixtures = json_decode(file_get_contents(__DIR__.'/Fixtures/users.json'), true);
 
         /* @var PropertyAccessor $propertyAccessor */
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
@@ -55,6 +55,7 @@ class UserFixtures extends Fixture
                     $propertyAccessor->getValue($fixture, '[password]')
                 )
             );
+            $user->setEnabled(true);
 
             $errors = $validator->validate($validator);
 
@@ -66,13 +67,4 @@ class UserFixtures extends Fixture
         }
 
     }
-
-    /**
-     * @return array
-     */
-    private function loadFixtures()
-    {
-        return json_decode(file_get_contents(__DIR__.'Fixtures/users.json'), true);
-    }
-
 }

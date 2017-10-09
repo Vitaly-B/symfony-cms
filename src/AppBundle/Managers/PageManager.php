@@ -39,4 +39,39 @@ final class PageManager extends EntityManager
 
         return $queryBuilder->getQuery()->getOneOrNullResult();
     }
+
+    /**
+     * @param bool $enabled
+     * @return array|Page[]
+     */
+    public function getPages($enabled = true): array
+    {
+        /* @var PageRepository $repository */
+        $repository = $this->getRepository();
+
+        /* @var  QueryBuilder $queryBuilder*/
+        $queryBuilder = $repository->createQueryBuilder('page');
+        $queryBuilder->select('page')->where(
+                $queryBuilder->expr()->eq('page.enabled', $enabled)
+        );
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    /**
+     * @param Page $page
+     * @param bool $andFlush
+     */
+    public function updatePage(Page $page, $andFlush = true): void
+    {
+        if($page->getId()) {
+            $this->getEntityManager()->merge($page);
+        } else {
+            $this->getEntityManager()->persist($page);
+        }
+
+        if($andFlush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

@@ -12,7 +12,6 @@
     "email": "admin@m.com",
     "password": "123",
     "roles": [
-      "ROLE_ADMIN",
       "ROLE_SUPER_ADMIN"
     ]
   }
