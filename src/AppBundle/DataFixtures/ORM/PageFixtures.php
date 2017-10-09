@@ -14,6 +14,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * PageFixtures
@@ -29,6 +30,7 @@ class PageFixtures extends Fixture
         /* @var PageManager $pageManager */
         $pageManager = $this->container->get('app.managers.page_manager');
 
+        /* @var ValidatorInterface $validator */
         $validator = $this->container->get('validator');
 
         /* @var array $fixtures */
@@ -51,7 +53,7 @@ class PageFixtures extends Fixture
             $errors = $validator->validate($validator);
 
             if ($errors->count() == 0) {
-                $pageManager->updatePage($page);
+                $pageManager->save($page);
             } else {
                 throw new \Exception((string)$errors);
             }

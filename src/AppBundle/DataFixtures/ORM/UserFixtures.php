@@ -15,6 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * UserFixtures
@@ -33,6 +34,7 @@ class UserFixtures extends Fixture
         /* @var UserPasswordEncoderInterface $passwordEncoder */
         $passwordEncoder = $this->container->get('security.password_encoder');
 
+        /* @var ValidatorInterface $validator*/
         $validator = $this->container->get('validator');
 
         /* @var array $fixtures */

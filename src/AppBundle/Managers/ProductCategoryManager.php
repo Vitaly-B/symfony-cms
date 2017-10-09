@@ -87,4 +87,14 @@ class ProductCategoryManager extends EntityManager
     {
         $this->getEntityManager()->flush();
     }
+
+    /**
+     * @return ProductCategoryInterface
+     */
+    public function createProductCategory(): ProductCategoryInterface
+    {
+        $class = $this->getClass();
+
+        return new $class;
+    }
 }
