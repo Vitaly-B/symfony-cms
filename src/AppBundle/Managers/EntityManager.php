@@ -57,4 +57,5 @@ class EntityManager
     {
         return $this->getEntityManager()->getRepository($this->getClass());
     }
+
 }

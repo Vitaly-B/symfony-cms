@@ -15,7 +15,7 @@ use AppBundle\Repository\ProductCategoryRepository;
 /**
  * ProductCategoryManager
  */
-final class ProductCategoryManager extends EntityManager
+class ProductCategoryManager extends EntityManager
 {
     /**
      * @param int $id
@@ -52,9 +52,39 @@ final class ProductCategoryManager extends EntityManager
         /* @var ProductCategory[] $productCategoryArr */
         $productCategoryArr = $repository->getNodesHierarchyQuery($category)->getResult();
 
-        return array_map(function(ProductCategory $productCategory) {
+        return array_map(function(ProductCategoryInterface $productCategory) {
             return $productCategory->getId();
         }, $productCategoryArr);
     }
 
+    /**
+     * insert or update
+     *
+     * @param ProductCategoryInterface $productCategory
+     * @param bool                     $andFlush
+     *
+     * @throws OptimisticLockException If a version check on an entity that
+     *         makes use of optimistic locking fails.
+     * @throws ORMInvalidArgumentException
+     */
+    public function save(ProductCategoryInterface $productCategory, $andFlush = true): void
+    {
+        if($productCategory->getId()) {
+            $this->getEntityManager()->merge($productCategory);
+        } else {
+            $this->getEntityManager()->persist($productCategory);
+        }
+
+        if($andFlush) {
+            $this->flush();
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function flush(): void
+    {
+        $this->getEntityManager()->flush();
+    }
 }

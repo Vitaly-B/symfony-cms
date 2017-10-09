@@ -9,7 +9,6 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Interfaces\PageInterface;
-use AppBundle\Entity\Page;
 use AppBundle\Managers\PageManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;

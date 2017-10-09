@@ -11,7 +11,6 @@ namespace AppBundle\Managers;
 use AppBundle\Entity\Interfaces\ProductAttrValueInterface;
 use AppBundle\Entity\Interfaces\ProductCategoryInterface;
 use AppBundle\Entity\Interfaces\ProductInterface;
-use AppBundle\Entity\Product;
 use AppBundle\Entity\ProductCategory;
 use AppBundle\Managers\Traits\PagerfantaBuilderTrait;
 use AppBundle\Model\Filter\FilterAttr;
@@ -35,7 +34,7 @@ use AppBundle\Form\Filter\FilterType;
 /**
  * ProductManager
  */
-final class ProductManager extends EntityManager
+class ProductManager extends EntityManager
 {
     use PagerfantaBuilderTrait;
 
@@ -314,5 +313,36 @@ final class ProductManager extends EntityManager
         }
 
         return $this->filterForm;
+    }
+
+    /**
+     * insert or update
+     *
+     * @param ProductInterface $product
+     * @param bool             $andFlush
+     *
+     * @throws OptimisticLockException If a version check on an entity that
+     *         makes use of optimistic locking fails.
+     * @throws ORMInvalidArgumentException
+     */
+    public function save(ProductInterface $product, $andFlush = true): void
+    {
+        if($product->getId()) {
+            $this->getEntityManager()->merge($product);
+        } else {
+            $this->getEntityManager()->persist($product);
+        }
+
+        if($andFlush) {
+            $this->flush();
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function flush(): void
+    {
+        $this->getEntityManager()->flush();
     }
 }

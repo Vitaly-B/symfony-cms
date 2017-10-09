@@ -9,13 +9,15 @@
 namespace AppBundle\Managers;
 
 use AppBundle\Entity\Interfaces\PageInterface;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMInvalidArgumentException;
 use Doctrine\ORM\QueryBuilder;
 use AppBundle\Repository\PageRepository;
 
 /**
  * PageManager
  */
-final class PageManager extends EntityManager
+class PageManager extends EntityManager
 {
     /**
      * @param int  $id
@@ -70,10 +72,16 @@ final class PageManager extends EntityManager
     }
 
     /**
+     * insert or update
+     *
      * @param PageInterface $page
      * @param bool          $andFlush
+     *
+     * @throws OptimisticLockException If a version check on an entity that
+     *         makes use of optimistic locking fails.
+     * @throws ORMInvalidArgumentException
      */
-    public function updatePage(PageInterface $page, $andFlush = true): void
+    public function save(PageInterface $page, $andFlush = true): void
     {
         if($page->getId()) {
             $this->getEntityManager()->merge($page);
@@ -82,7 +90,15 @@ final class PageManager extends EntityManager
         }
 
         if($andFlush) {
-            $this->getEntityManager()->flush();
+            $this->flush();
         }
+    }
+
+    /**
+     * @return void
+     */
+    public function flush(): void
+    {
+        $this->getEntityManager()->flush();
     }
 }

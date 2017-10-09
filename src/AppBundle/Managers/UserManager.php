@@ -23,5 +23,4 @@ class UserManager extends BaseUserManager
     {
         $this->objectManager->flush();
     }
-
 }

@@ -17,7 +17,7 @@ use Doctrine\ORM\QueryBuilder;
 /**
  * ProductAttrManager
  */
-final class ProductAttrManager extends EntityManager
+class ProductAttrManager extends EntityManager
 {
     /* @var ProductCategoryManager */
     private $productCategoryManager;
@@ -72,5 +72,35 @@ final class ProductAttrManager extends EntityManager
         return $queryBuilder->getQuery()->getResult();
     }
 
+    /**
+     * insert or update
+     *
+     * @param ProductAttrInterface $productAttr
+     * @param bool                 $andFlush
+     *
+     * @throws OptimisticLockException If a version check on an entity that
+     *         makes use of optimistic locking fails.
+     * @throws ORMInvalidArgumentException
+     */
+    public function save(ProductAttrInterface $productAttr, $andFlush = true): void
+    {
+        if($productAttr->getId()) {
+            $this->getEntityManager()->merge($productAttr);
+        } else {
+            $this->getEntityManager()->persist($productAttr);
+        }
+
+        if($andFlush) {
+            $this->flush();
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function flush(): void
+    {
+        $this->getEntityManager()->flush();
+    }
 
 }
