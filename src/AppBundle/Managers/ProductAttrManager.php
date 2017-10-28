@@ -73,6 +73,16 @@ class ProductAttrManager extends EntityManager
     }
 
     /**
+     * @return ProductAttrInterface
+     */
+    public function createAttribute(): ProductAttrInterface
+    {
+        $class = $this->getClass();
+
+        return new $class;
+    }
+
+    /**
      * insert or update
      *
      * @param ProductAttrInterface $productAttr
@@ -82,7 +92,7 @@ class ProductAttrManager extends EntityManager
      *         makes use of optimistic locking fails.
      * @throws ORMInvalidArgumentException
      */
-    public function save(ProductAttrInterface $productAttr, $andFlush = true): void
+    public function save(ProductAttrInterface $productAttr, bool $andFlush = true): void
     {
         if($productAttr->getId()) {
             $this->getEntityManager()->merge($productAttr);

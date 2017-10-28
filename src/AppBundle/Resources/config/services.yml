@@ -93,3 +93,6 @@ services:
 #        arguments:
         tags:
            - { name: form.type }
+
+     app.utils.id_setter:
+        class: AppBundle\Utils\IdSetter

@@ -13,7 +13,8 @@ use Doctrine\Common\Collections\Collection;
 /**
  * ProductInterface
  */
-interface ProductInterface extends PageInterface
+interface ProductInterface extends PageInterface, PreviewableInterface,
+    GalleryInterface
 {
     /**
      * @param Collection|ProductCategoryInterface[] $categories

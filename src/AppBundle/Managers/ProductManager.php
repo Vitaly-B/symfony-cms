@@ -325,7 +325,7 @@ class ProductManager extends EntityManager
      *         makes use of optimistic locking fails.
      * @throws ORMInvalidArgumentException
      */
-    public function save(ProductInterface $product, $andFlush = true): void
+    public function save(ProductInterface $product, bool $andFlush = true): void
     {
         if($product->getId()) {
             $this->getEntityManager()->merge($product);
@@ -344,5 +344,15 @@ class ProductManager extends EntityManager
     public function flush(): void
     {
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @return ProductInterface
+     */
+    public function createProduct(): ProductInterface
+    {
+        $class = $this->getClass();
+
+        return new $class;
     }
 }

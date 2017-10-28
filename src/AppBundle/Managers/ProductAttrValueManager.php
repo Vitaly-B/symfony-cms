@@ -14,7 +14,6 @@ use AppBundle\Repository\ProductAttrValueRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 
-
 /**
  * ProductAttrValueManager
  */
@@ -78,7 +77,7 @@ class ProductAttrValueManager extends EntityManager
      *         makes use of optimistic locking fails.
      * @throws ORMInvalidArgumentException
      */
-    public function save(ProductAttrValueInterface $productAttrValue, $andFlush = true): void
+    public function save(ProductAttrValueInterface $productAttrValue, bool $andFlush = true): void
     {
         if($productAttrValue->getId()) {
             $this->getEntityManager()->merge($productAttrValue);

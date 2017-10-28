@@ -171,7 +171,7 @@ trait NestedSetTrait
      *
      * @return NestedSetInterface
      */
-    public function getParent(): NestedSetInterface
+    public function getParent(): ?NestedSetInterface
     {
         return $this->parent;
     }

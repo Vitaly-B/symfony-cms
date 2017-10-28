@@ -110,7 +110,7 @@ class ProductAttr implements SortableInterface, ProductAttrInterface
      */
     public function addCategory(ProductCategoryInterface $category): bool
     {
-        if ($this->categories->contains($category)) {
+        if (!$this->categories->contains($category)) {
             return $this->categories->add($category);
         }
 

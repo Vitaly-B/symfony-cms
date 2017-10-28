@@ -21,7 +21,7 @@ class ProductCategoryManager extends EntityManager
      * @param int $id
      * @return ProductCategoryInterface|null
      */
-    public function getById(int $id): ProductCategoryInterface
+    public function getById(int $id): ?ProductCategoryInterface
     {
         return $this->getRepository()->find($id);
     }
@@ -67,7 +67,7 @@ class ProductCategoryManager extends EntityManager
      *         makes use of optimistic locking fails.
      * @throws ORMInvalidArgumentException
      */
-    public function save(ProductCategoryInterface $productCategory, $andFlush = true): void
+    public function save(ProductCategoryInterface $productCategory, bool $andFlush = true): void
     {
         if($productCategory->getId()) {
             $this->getEntityManager()->merge($productCategory);

@@ -8,18 +8,18 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Interfaces\PreviewableInterface;
 use AppBundle\Entity\Interfaces\ProductAttrValueInterface;
 use AppBundle\Entity\Interfaces\ProductCategoryInterface;
 use AppBundle\Entity\Interfaces\ProductInterface;
 use AppBundle\Entity\Interfaces\SortableInterface;
+use AppBundle\Entity\Interfaces\TimestampableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
  * Product
  */
-class Product implements SortableInterface, ProductInterface, PreviewableInterface
+class Product implements SortableInterface, ProductInterface, TimestampableInterface
 {
     use Traits\IdentifierTrait;
     use Traits\PageTrait;

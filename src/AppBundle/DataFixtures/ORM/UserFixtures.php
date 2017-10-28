@@ -22,6 +22,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class UserFixtures extends Fixture
 {
+    use Traits\ConfigTrait;
+
     /**
      * @param ObjectManager $manager
      * @throws \Exception
@@ -38,7 +40,7 @@ class UserFixtures extends Fixture
         $validator = $this->container->get('validator');
 
         /* @var array $fixtures */
-        $fixtures = json_decode(file_get_contents(__DIR__.'/Fixtures/users.json'), true);
+        $fixtures = json_decode(file_get_contents($this->getFixturesPath() . '/users.json'), true);
 
         /* @var PropertyAccessor $propertyAccessor */
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
@@ -59,7 +61,7 @@ class UserFixtures extends Fixture
             );
             $user->setEnabled(true);
 
-            $errors = $validator->validate($validator);
+            $errors = $validator->validate($user);
 
             if ($errors->count() == 0) {
                 $userManager->updateUser($user);

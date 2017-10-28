@@ -8,12 +8,13 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Interfaces\TimestampableInterface;
 use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * User
  */
-class User extends BaseUser
+class User extends BaseUser implements TimestampableInterface
 {
     use Traits\PreviewableTrait;
     use Traits\TimestampableTrait;

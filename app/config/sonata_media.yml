@@ -1,3 +1,6 @@
+parameters:
+    sonata.media.provider.image.class: AppBundle\Sonata\MediaBundle\Provider\ImageProvider
+
 sonata_media:
     # if you don't use default namespace configuration
     #class:
@@ -55,5 +58,5 @@ sonata_media:
 
     filesystem:
         local:
-            directory:  "%kernel.root_dir%/../web/uploads/media"
+            directory:  '%kernel.root_dir%/../web/uploads/media'
             create:     false

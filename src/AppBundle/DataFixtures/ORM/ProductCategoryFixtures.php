@@ -21,6 +21,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ProductCategoryFixtures extends Fixture
 {
+    use Traits\ConfigTrait;
+
     /**
      * @param ObjectManager $manager
      * @throws \Exception
@@ -34,7 +36,7 @@ class ProductCategoryFixtures extends Fixture
         $validator = $this->container->get('validator');
 
         /* @var array $fixtures */
-        $fixtures = json_decode(file_get_contents(__DIR__.'/Fixtures/product_categories.json'), true);
+        $fixtures = json_decode(file_get_contents($this->getFixturesPath() . '/product_categories.json'), true);
 
         /* @var PropertyAccessor $propertyAccessor */
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
@@ -79,8 +81,14 @@ class ProductCategoryFixtures extends Fixture
 
             $children = $propertyAccessor->getValue($fixture, '[children]');
 
-            $productCategoryManager->save($productCategory, false);
-            $needFlush = true;
+            $errors = $validator->validate($productCategory);
+
+            if ($errors->count() == 0) {
+                $productCategoryManager->save($productCategory, false);
+                $needFlush = true;
+            } else {
+                throw new \Exception((string)$errors);
+            }
 
             if($children && is_array($children)) {
                 $this->loadRecursive($children, $propertyAccessor, $productCategoryManager, $validator, $productCategory);

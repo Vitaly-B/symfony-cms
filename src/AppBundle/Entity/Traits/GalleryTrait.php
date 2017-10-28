@@ -34,7 +34,7 @@ trait GalleryTrait
      *
      * @param SonataGalleryInterface|null $gallery
      *
-     * @return GalleryTrait
+     * @return GalleryInterface
      */
     public function setGallery(?SonataGalleryInterface $gallery): GalleryInterface
     {

@@ -8,6 +8,11 @@ AppBundle\Entity\ProductAttr:
             id: true
             generator:
                 strategy: AUTO
+    indexes:
+        title:
+            columns: [ title ]
+        type:
+            columns: [ type ]
     fields:
         title:
             type: string

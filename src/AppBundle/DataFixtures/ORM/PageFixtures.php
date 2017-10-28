@@ -10,6 +10,7 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Interfaces\PageInterface;
 use AppBundle\Managers\PageManager;
+use AppBundle\Utils\IdSetter;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -21,6 +22,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class PageFixtures extends Fixture
 {
+    use Traits\ConfigTrait;
+
     /**
      * @param ObjectManager $manager
      * @throws \Exception
@@ -34,7 +37,7 @@ class PageFixtures extends Fixture
         $validator = $this->container->get('validator');
 
         /* @var array $fixtures */
-        $fixtures = json_decode(file_get_contents(__DIR__.'/Fixtures/pages.json'), true);
+        $fixtures = json_decode(file_get_contents($this->getFixturesPath() . '/pages.json'), true);
 
         /* @var PropertyAccessor $propertyAccessor */
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
@@ -44,13 +47,19 @@ class PageFixtures extends Fixture
             /* @var PageInterface $page*/
             $page = $pageManager->createPage();
 
+            if($propertyAccessor->getValue($fixture, '[id]')) {
+                /* @var IdSetter $idSetter */
+                $idSetter = $this->container->get('app.utils.id_setter');
+                $idSetter->setId($propertyAccessor->getValue($fixture, '[id]'), $page, $pageManager->getEntityManager());
+            }
+
             $page->setEnabled(true);
             $page->setTitle($propertyAccessor->getValue($fixture, '[title]'));
             $page->setSeoTitle($propertyAccessor->getValue($fixture, '[seo_title]'));
             $page->setDescription($propertyAccessor->getValue($fixture, '[description]'));
             $page->setContent($propertyAccessor->getValue($fixture, '[content]'));
 
-            $errors = $validator->validate($validator);
+            $errors = $validator->validate($page);
 
             if ($errors->count() == 0) {
                 $pageManager->save($page);

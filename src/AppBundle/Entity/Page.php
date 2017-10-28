@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Interfaces\PageInterface;
+use AppBundle\Entity\Interfaces\TimestampableInterface;
 use AppBundle\Entity\Interfaces\TranslatableInterface;
 
 /**
  * Page
  */
-class Page implements TranslatableInterface, PageInterface
+class Page implements TranslatableInterface, PageInterface,
+    TimestampableInterface
 {
     use Traits\IdentifierTrait;
     use Traits\SeoTranslatableTrait;

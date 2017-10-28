@@ -81,7 +81,7 @@ class PageManager extends EntityManager
      *         makes use of optimistic locking fails.
      * @throws ORMInvalidArgumentException
      */
-    public function save(PageInterface $page, $andFlush = true): void
+    public function save(PageInterface $page, bool $andFlush = true): void
     {
         if($page->getId()) {
             $this->getEntityManager()->merge($page);
