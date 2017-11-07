@@ -43,7 +43,7 @@ class ProductController extends Controller
         $productManager->getFilterForm()->handleRequest($request);
 
         /* @var Pagerfanta $products */
-        $products = $productManager->getProducts($page);
+        $products = $productManager->getPager($page);
 
         return $this->render('AppBundle:Product:index.html.twig', ['products' => $products, 'categoryId' => $categoryId]);
     }

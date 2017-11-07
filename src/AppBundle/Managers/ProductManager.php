@@ -142,7 +142,7 @@ class ProductManager extends EntityManager
      *
      * @return Pagerfanta
      */
-    public function getProducts(int $page = 1): Pagerfanta
+    public function getPager(int $page = 1): Pagerfanta
     {
         /* @var ProductRepository $repository */
         $repository = $this->getRepository();
