@@ -1,0 +1,70 @@
+App\AppBundle\Entity\ProductCategory:
+      type: entity
+      repositoryClass: App\AppBundle\Repository\ProductCategoryRepository
+      table: product_category
+      gedmo:
+          tree:
+            type: nested
+      indexes:
+          title:
+              columns: [ title ]
+      id:
+          id:
+              type: integer
+              id: true
+              generator:
+                  strategy: AUTO
+      fields:
+          title:
+              type: string
+              length: 255
+          lft:
+              type: integer
+              gedmo:
+                - treeLeft
+          rgt:
+              type: integer
+              gedmo:
+                - treeRight
+          lvl:
+              type: integer
+              gedmo:
+                - treeLevel
+          parentId:
+              type: integer
+              nullable: true
+          treeRoot:
+              type: integer
+              nullable: true
+      manyToOne:
+          root:
+            targetEntity: App\AppBundle\Entity\ProductCategory
+            fetch: EXTRA_LAZY
+            joinColumn:
+                name: tree_root
+                referencedColumnName: id
+                onDelete: CASCADE
+            gedmo:
+              - treeRoot
+          parent:
+            targetEntity: App\AppBundle\Entity\ProductCategory
+            inversedBy: children
+            fetch: EXTRA_LAZY
+            joinColumn:
+                name: parent_id
+                referencedColumnName: id
+                onDelete: CASCADE
+            gedmo:
+              - treeParent
+      oneToMany:
+          children:
+              targetEntity: App\AppBundle\Entity\ProductCategory
+              mappedBy: parent
+              fetch: EXTRA_LAZY
+              orderBy:
+                  lft: ASC
+      manyToMany:
+          products:
+              targetEntity: App\AppBundle\Entity\Product
+              mappedBy: categories
+              fetch: EXTRA_LAZY

@@ -1,0 +1,3 @@
+redcode_tree:
+    resource: "@RedCodeTreeBundle/Resources/config/routing.yml"
+    prefix:   /admin

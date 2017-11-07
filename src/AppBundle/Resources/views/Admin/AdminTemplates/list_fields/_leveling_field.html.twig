@@ -1,0 +1,5 @@
+{% extends 'SonataAdminBundle:CRUDbase_list_field.html.twig' %}
+
+{% block field %}
+    {{ str_repeat('&nbsp;', object.lvl*8) | raw }} {{ value }}
+{% endblock %}

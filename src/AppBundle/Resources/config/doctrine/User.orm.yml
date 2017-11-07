@@ -1,0 +1,19 @@
+App\AppBundle\Entity\User:
+      type: entity
+      repositoryClass: App\AppBundle\Repository\UserRepository
+      table: user
+      id:
+          id:
+              type: integer
+              id: true
+              generator:
+                  strategy: AUTO
+      fields:
+      oneToOne:
+          image:
+              targetEntity: App\ExtendedSonataMediaBundle\Entity\Media
+              cascade: ["persist","remove"]
+              fetch: EXTRA_LAZY
+      lifecycleCallbacks:
+                preFlush: []
+                preRemove: []

@@ -1,0 +1,42 @@
+parameters:
+    locale: en
+    locales: [en, ru]
+    security_access_control_locales: '(en|ru)'
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: symfony_cms
+    database_user: root
+    database_password: 123
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    default_currency: USD
+    product_default_image: 'http://alhayat-altayba.com/images/empty.png'
+
+framework:
+    secret: '%env(APP_SECRET)%'
+    default_locale: en
+    php_errors:
+        log: true
+    #esi: ~
+    translator: { fallbacks: ['%locale%'] }
+    form: ~
+    csrf_protection: ~
+    validation:
+          enabled: true
+          enable_annotations: false
+    #serializer: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true

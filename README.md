@@ -1,3 +1,3 @@
-Template Symfony Cms 
+Template Symfony eСommerce Cms 
 ===========
 ....

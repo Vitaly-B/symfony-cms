@@ -1,0 +1,6 @@
+AppBundle\Entity\ProductCategory:
+    properties:
+        title:
+           - NotBlank:
+           - Length:
+               max: 255

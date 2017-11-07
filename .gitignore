@@ -1,0 +1,14 @@
+
+###> symfony/framework-bundle ###
+.env
+/public/bundles/
+/public/js/
+/public/css/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+/.idea

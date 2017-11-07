@@ -1,0 +1,9 @@
+{% if admin.hasAccess('edit', object) and admin.hasRoute('edit') %}
+    <a href="{{ admin.generateObjectUrl('move', object, { position: object.position+1 }) }}" class="btn btn-sm btn-default edit_link" title="{{ 'Move up'|trans({}, 'SonataAdminBundle') }}">
+        <i class="fa fa-long-arrow-up" aria-hidden="true"></i>
+    </a>
+
+    <a href="{{ admin.generateObjectUrl('move', object, { position: object.position-1 }) }}" class="btn btn-sm btn-default edit_link" title="{{ 'Move down'|trans({}, 'SonataAdminBundle') }}">
+        <i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+    </a>
+{% endif %}

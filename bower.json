@@ -1,0 +1,13 @@
+{
+  "name": "symfony-cms",
+  "authors": [
+    "Vitalij Belikov <Vitaly.Belikov@digitalarrowtech.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "dependencies": {
+    "bootstrap": "v4.0.0-beta"
+  }
+}

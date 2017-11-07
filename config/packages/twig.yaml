@@ -1,0 +1,11 @@
+twig:
+    paths: ['%kernel.project_dir%/templates']
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    globals:
+        locales: '%locales%'
+        product_default_image: '%product_default_image%'
+        sonata_media_provider_image: '@sonata.media.provider.image'
+    form_themes:
+        - 'SonataFormatterBundle:Form:formatter.html.twig'
+        - 'SonataMediaBundle:Form:media_widgets.html.twig'

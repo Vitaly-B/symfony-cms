@@ -1,0 +1,14 @@
+AppBundle\Entity\ProductAttr:
+    properties:
+        title:
+            - NotBlank:
+            - Length:
+                max: 255
+        type:
+            - NotNull:
+            - Type:
+                type: integer
+            - Length:
+                max: 1
+            - Choice:
+                callback: getTypes

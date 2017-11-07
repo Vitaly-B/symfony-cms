@@ -1,0 +1,16 @@
+imports:
+    - { resource: ../../vendor/knplabs/doctrine-behaviors/config/orm-services.yml }
+
+parameters:
+     knp.doctrine_behaviors.translatable_subscriber.translatable_trait: App\AppBundle\Entity\Traits\TranslatableTrait
+     knp.doctrine_behaviors.translatable_subscriber.translation_trait: App\AppBundle\Entity\Traits\TranslationTrait
+     knp.doctrine_behaviors.timestampable_subscriber.timestampable_trait:  App\AppBundle\Entity\Traits\TimestampableTrait
+
+knp_doctrine_behaviors:
+#    blameable:      false
+#    geocodable:     ~     # Here null is converted to false
+#    loggable:       ~
+    sluggable:      true
+#    soft_deletable: true
+    translatable: true
+    # All others behaviors are disabled

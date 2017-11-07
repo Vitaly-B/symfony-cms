@@ -1,0 +1,20 @@
+# first, run composer req annotations
+#controllers:
+#    resource: ../src/Controller/
+#    type: annotation
+
+homepage:
+    path: /
+    defaults: { _controller: App\AppBundle\Controller\DefaultController::indexAction }
+
+page:
+    path:     /page/{id}
+    defaults: { _controller: App\AppBundle\Controller\PageController:indexAction }
+
+products_list:
+    path:     /products/{page}/{categoryId}
+    defaults: { _controller: App\AppBundle\Controller\ProductController::indexAction, page: 1, categoryId: null }
+
+product_view:
+    path:     /product/{id}
+    defaults: { _controller: App\AppBundle\Controller\ProductController::viewAction }

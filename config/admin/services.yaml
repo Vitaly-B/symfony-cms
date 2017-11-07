@@ -1,0 +1,61 @@
+parameters:
+   sonata.media.admin.groupname: Content
+
+services:
+
+#    gedmo.listener.tree:
+#        class: Gedmo\Tree\TreeListener
+#        tags:
+#            - { name: doctrine.event_subscriber }
+#        calls:
+#            - [ setAnnotationReader, [ '@annotation_reader' ] ]
+#
+#    gedmo.listener.sortable:
+#        class: Gedmo\Sortable\SortableListener
+#        tags:
+#            - { name: doctrine.event_subscriber }
+#        calls:
+#            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    sonata.admin.user:
+        class: App\AppBundle\Admin\UserAdmin
+        arguments: [~, App\AppBundle\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: 'Administration', label: 'Users', icon: '<i class="fa fa-cogs"></i>'}
+        public: true
+
+    sonata.admin.page:
+        class: App\AppBundle\Admin\PageAdmin
+        arguments: [~, App\AppBundle\Entity\Page, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Content, label: Pages, icon: '<i class="fa fa-th"></i>'}
+        public: true
+
+
+    sonata.admin.product:
+        class: App\AppBundle\Admin\ProductAdmin
+        arguments: [~, App\AppBundle\Entity\Product, App\AppBundle\Controller\Admin\ProductCRUDController]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: Products, icon: '<i class="fa fa-dollar"></i>'}
+        public: true
+
+    sonata.admin.product_category:
+        class: App\AppBundle\Admin\ProductCategoryAdmin
+        arguments: [~, App\AppBundle\Entity\ProductCategory, App\AppBundle\Controller\Admin\ProductCategoryCRUDController, 'title']
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: Category, icon: '<i class="fa fa-dollar"></i>'}
+        public: true
+
+    sonata.admin.product_attr:
+        class: App\AppBundle\Admin\ProductAttrAdmin
+        arguments: [~, App\AppBundle\Entity\ProductAttr, App\AppBundle\Controller\Admin\ProductAttrCRUDController]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: 'Product Attributes', icon: '<i class="fa fa-dollar"></i>'}
+        public: true
+
+    sonata.admin.product_attr_value:
+        class: App\AppBundle\Admin\ProductAttrValueAdmin
+        arguments: [~, App\AppBundle\Entity\ProductAttrValue, ~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: E-Commerce, label: 'Product Attribute Values', icon: '<i class="fa fa-dollar"></i>'}
+        public: true

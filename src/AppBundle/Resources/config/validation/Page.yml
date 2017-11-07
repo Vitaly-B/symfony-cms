@@ -1,0 +1,18 @@
+AppBundle\Entity\Page:
+    properties:
+        title:
+            - NotBlank:
+            - Length:
+                max: 255
+        seoTitle:
+            - Length:
+                max: 255
+        seoKeywords:
+            - Length:
+                max: 255
+        seoDescription:
+            - Length:
+                max: 512
+        description:
+            - Length:
+                max: 1024

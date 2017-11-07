@@ -1,0 +1,7 @@
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: false
+    read_from: '%kernel.project_dir%/public'
+    write_to: '%kernel.project_dir%/public'
+    filters:
+        cssrewrite: ~

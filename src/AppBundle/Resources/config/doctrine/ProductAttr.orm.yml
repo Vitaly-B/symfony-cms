@@ -1,0 +1,44 @@
+App\AppBundle\Entity\ProductAttr:
+    type: entity
+    table: null
+    repositoryClass: App\AppBundle\Repository\ProductAttrRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    indexes:
+        title:
+            columns: [ title ]
+        type:
+            columns: [ type ]
+    fields:
+        title:
+            type: string
+            length: 255
+        type:
+            type: smallint
+            options:
+                default: 1
+        position:
+            type: integer
+            nullable: false;
+            gedmo:
+                - sortablePosition
+    manyToMany:
+        categories:
+            targetEntity: App\AppBundle\Entity\ProductCategory
+            inversedBy: products
+            fetch: EXTRA_LAZY
+            orderBy:
+                lft: ASC
+    oneToMany:
+        values:
+            targetEntity: App\AppBundle\Entity\ProductAttrValue
+            mappedBy: attribute
+            orphanRemoval: true
+            fetch: EXTRA_LAZY
+            orderBy:
+                value: ASC
+    lifecycleCallbacks: {  }

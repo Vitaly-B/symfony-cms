@@ -1,0 +1,52 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block title %}{% if product.seoTitle != '' %}{{ product.seoTitle }}{% else %}{{ parent() }}{% endif %}{% endblock %}
+{% block seo_description %}{% if product.seoDescription != '' %}{{ product.seoDescription }}{% else %}{{ parent() }}{% endif %}{% endblock %}
+{% block seo_keywords %}{% if product.seoKeywords != '' %}{{ product.seoKeywords }}{% else %}{{ parent() }}{% endif %}{% endblock %}
+
+{% block page %}
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+
+            <h1>{{ product.title }}</h1>
+            {% if product.image %}
+                <img  src="{{ sonata_media_provider_image.generatePublicUrl(product.image, 'reference') | imagine_filter('relative_resize_quality_100_400') }}" class="card-img-top" alt="{{ product.title }}">
+            {% else %}
+                <img  src="{{ product_default_image }}" class="card-img-top" alt="{{ product.title }}">
+            {% endif %}
+
+            {% if product.gallery %}
+                {% for galeryItem in product.gallery.galleryHasMedias %}
+                    <img src="{{ sonata_media_provider_image.generatePublicUrl(galeryItem.media, 'reference') | imagine_filter('thumbnail_quality_100_90x90_outbound') }}"
+                         alt="{{ product.title }}">
+                {% endfor %}
+            {% endif %}
+
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+
+            {{ product.content | raw }}
+
+            <div>
+                {% if product.attrValues is not empty %}
+                    <ul class="list-group">
+                    {% for attrValues in product.attrValues.toArray | sort_by_field('attribute.position', 'desc') %}
+                        <li class="list-group-item">
+                            <strong>{{ attrValues.attribute.title }}</strong>
+                            {{ attrValues.value }}
+                        </li>
+                        {%  endfor %}
+                    </ul>
+
+                {% endif %}
+
+                    <br/>
+                <label>{{ 'Price' | trans }}:</label> <strong>{{ product.price | number_format(2, ',', ',') }}</strong>
+                <button type="button" class="btn btn-primary">{{ 'Add to cart' | trans }}</button>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,128 @@
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+imports:
+    - { resource: 'admin/services.yaml' }
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        # automatically injects dependencies in your services
+        autowire: true
+        # automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+        # this means you cannot fetch services directly from the container via $container->get()
+        # if you need to do this, you can override this setting on individual services
+        public: false
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+
+#    App\AppBundle\:
+#        resource: '../src/*'
+#        # you can exclude directories or files
+#        # but if a service is unused, it's removed anyway
+#        exclude: '../src/{Entity,Migrations,Repository,Tests}'
+
+    # controllers are imported separately to make sure they
+    # have the tag that allows actions to type-hint services
+    App\AppBundle\Controller\:
+        resource: '../src/AppBundle/Controller'
+        tags: ['controller.service_arguments']
+
+    app.menu_builder:
+        class: App\AppBundle\Menu\MenuBuilder
+        public: false
+        arguments:
+            - '@knp_menu.factory'
+            - '@app.managers.product_category_manager'
+            - '@app.managers.page_manager'
+
+    app.top_left_menu:
+        class: Knp\Menu\MenuItem
+        public: true
+        factory: ['@app.menu_builder', createTopLeftMenu]
+        tags:
+            - { name: knp_menu.menu, alias: top_left_menu }
+
+    app.product_categories_menu:
+        class: Knp\Menu\MenuItem
+        public: true
+        factory: ['@app.menu_builder', createProductCategoriesMenu]
+        tags:
+            - { name: knp_menu.menu, alias: product_categories_menu }
+
+    fos_user.user_manager:
+        class: App\AppBundle\Managers\UserManager
+        public: true
+        arguments:
+            - '@fos_user.util.password_updater'
+            - '@fos_user.util.canonical_fields_updater'
+            - '@fos_user.object_manager'
+            - App\AppBundle\Entity\User
+
+    app.twig_extension:
+        class: App\AppBundle\Twig\TwigExtension
+        public: false
+        arguments:
+            - '@service_container'
+        tags: [{ name: twig.extension }]
+
+    app.managers.page_manager:
+        class: App\AppBundle\Managers\PageManager
+        public: true
+        arguments:
+           - '@doctrine.orm.default_entity_manager'
+           - App\AppBundle\Entity\Page
+
+    app.managers.product_category_manager:
+        class: App\AppBundle\Managers\ProductCategoryManager
+        public: true
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - App\AppBundle\Entity\ProductCategory
+
+    app.pagerfanta.template_default:
+        class: App\AppBundle\Pagerfanta\DefaultView
+        public: false
+        tags: [{ name: 'pagerfanta.view', alias: 'app_pagerfanta_template_default'}]
+
+    app.managers.product_attribute_manager:
+        class: App\AppBundle\Managers\ProductAttrManager
+        public: true
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - App\AppBundle\Entity\ProductAttr
+            - '@app.managers.product_category_manager'
+            - '@app.managers.product_attribute_value_manager'
+
+    app.managers.product_attribute_value_manager:
+        class: App\AppBundle\Managers\ProductAttrValueManager
+        public: true
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - App\AppBundle\Entity\ProductAttrValue
+            - '@app.managers.product_category_manager'
+
+    app.model.filter.filter:
+        class: App\AppBundle\Model\Filter\Filter
+        public: false
+
+    app.managers.product_manager:
+        class: App\AppBundle\Managers\ProductManager
+        public: true
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - App\AppBundle\Entity\Product
+            - '@app.managers.product_category_manager'
+            - '@app.managers.product_attribute_value_manager'
+            - '@app.model.filter.filter'
+            - '@form.factory'
+            - 20
+
+    app.form_filter.filter_type:
+        class: App\AppBundle\Form\Filter\FilterType
+        tags:
+           - { name: form.type }
+
+    app.utils.id_setter:
+        class: App\AppBundle\Utils\IdSetter
