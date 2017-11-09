@@ -1,8 +1,17 @@
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: symfony_cms
+    database_user: root
+    database_password: 123
+    database_server_version: 10
+
 doctrine:
     dbal:
         default_connection: default
         connections:
             default:
+                server_version: '%database_server_version%'
                 driver: pdo_mysql
                 host: '%database_host%'
                 port: '%database_port%'
