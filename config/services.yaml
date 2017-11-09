@@ -125,4 +125,5 @@ services:
            - { name: form.type }
 
     app.utils.id_setter:
+        public: true
         class: App\AppBundle\Utils\IdSetter
